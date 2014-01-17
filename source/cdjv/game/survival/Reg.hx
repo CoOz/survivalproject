@@ -1,4 +1,4 @@
-package;
+package cdjv.game.survival;
 
 import flixel.util.FlxSave;
 

@@ -1,4 +1,4 @@
-package;
+package cdjv.game.survival;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,21 +8,35 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
 /**
- * A FlxState which can be used for the game's menu.
+ * A FlxState which can be used for the actual gameplay.
  */
-class MenuState extends FlxState
+class PlayState extends FlxState
 {
-	/**
-	 * Function that is called up when to state is created to set it up. 
-	 */
+	public var surface:MapWorld;
+
 	override public function create():Void
 	{
 		// Set a background color
-		FlxG.cameras.bgColor = 0xff131c1b;
+		FlxG.cameras.bgColor = 0xff000000;
 		// Show the mouse (in case it hasn't been disabled)
 		#if !FLX_NO_MOUSE
 		FlxG.mouse.show();
 		#end
+
+        //on crée un monde
+        surface=new MapWorld(this);
+        surface.setPosition(0,0);
+        this.add(surface);
+
+        //on crée un perso
+        var perso:Character=new Character(this);
+        perso.setPosition(50,50);
+        this.add(perso);
+
+        surface.loadForCoords(perso.x,perso.y);
+
+        FlxG.camera.target=perso;
+
 		
 		super.create();
 	}

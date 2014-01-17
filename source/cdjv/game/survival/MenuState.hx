@@ -1,4 +1,4 @@
-package;
+package cdjv.game.survival;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,9 +8,9 @@ import flixel.ui.FlxButton;
 import flixel.util.FlxMath;
 
 /**
- * A FlxState which can be used for the actual gameplay.
+ * A FlxState which can be used for the game's menu.
  */
-class PlayState extends FlxState
+class MenuState extends FlxState
 {
 	/**
 	 * Function that is called up when to state is created to set it up. 
@@ -18,7 +18,7 @@ class PlayState extends FlxState
 	override public function create():Void
 	{
 		// Set a background color
-		FlxG.cameras.bgColor = 0xff131c1b;
+		FlxG.cameras.bgColor = 0xff000000;
 		// Show the mouse (in case it hasn't been disabled)
 		#if !FLX_NO_MOUSE
 		FlxG.mouse.show();
