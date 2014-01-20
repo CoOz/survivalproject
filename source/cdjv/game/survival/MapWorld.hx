@@ -19,6 +19,8 @@ class MapWorld extends FlxSprite{
         for(nbTM in 0...9)
             tileMapPool.put(new FlxTilemap());
 
+        this.loadGraphic("assets/images/desert.jpg");
+
     }
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
