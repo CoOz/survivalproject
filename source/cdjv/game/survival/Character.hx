@@ -7,6 +7,8 @@ import flixel.FlxSprite;
 import flixel.FlxCamera;
 
 class Character extends FlxSprite{
+    public var prevX:Int;
+    public var prevY:Int;
     public var sceneJeu:PlayState;
     public var Control:Array<Bool>;
     public var cam:FlxCamera;
@@ -15,10 +17,17 @@ class Character extends FlxSprite{
         Control=[false,false,false,false];  // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         this.sceneJeu=scene;
         loadGraphic("assets/images/char.png",true,false,32,48,false,null);
+        /* Animation : */
         animation.add("walk_Front",[0,1,2,3],4,true);
         animation.add("walk_Left",[4,5,6,7],4,true);
         animation.add("walk_Right",[8,9,10,11],4,true);
         animation.add("walk_Back",[12,13,14,15],4,true);
+        animation.add("walk_Front_Left",[16,17,18,19],4,true);
+        animation.add("walk_Back_Left",[20,21,22,23],4,true);
+        animation.add("walk_Front_Right",[24,25,26,27],4,true);
+        animation.add("walk_Back_Right",[28,29,30,31],4,true);
+        prevX=Std.int(x);
+        prevY=Std.int(y);
         this.registerEvents();
     }
 
@@ -77,25 +86,25 @@ class Character extends FlxSprite{
         {
             velocity.x =  100;
             velocity.y = -100;
-            //animation.play("walk_Back_Right")
+            animation.play("walk_Back_Right");
         }
         else if(Control[0] && !Control[1] && !Control[2] && Control[3])             // aller en haut a gauche
         {
             velocity.x = -100;
             velocity.y = -100;
-            //animation.play("walk_Back_Left")
+            animation.play("walk_Back_Left");
         }
         else if(!Control[0] && Control[1] && Control[2] && !Control[3])             // aller en bas a droite
         {
             velocity.x =  100;
             velocity.y =  100;
-            //animation.play("walk_Front_Right")
+            animation.play("walk_Front_Right");
         }
         else if(!Control[0] && !Control[1] && Control[2] && Control[3])             // aller en bas a gauche
         {
             velocity.x = -100;
             velocity.y =  100;
-            //animation.play("walk_Front_Right")
+            animation.play("walk_Front_Left");
         }
         else
         {
@@ -104,9 +113,17 @@ class Character extends FlxSprite{
             animation.pause();
         }
     }
-
+    public function checkPos():Void{
+        if(Std.int(x)!=prevX || Std.int(y)!=prevY)
+        {
+            prevX=Std.int(x);
+            prevY=Std.int(y);
+            trace("\nPosition sur x : "+prevX+"\n"+"Position sur y : "+prevY+"\n");
+        }
+    }
     override public function update():Void{
         direction();
+        checkPos();
         super.update();
     }
 /*
