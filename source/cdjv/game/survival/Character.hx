@@ -5,16 +5,22 @@ import flash.events.Event;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
+import flixel.FlxObject;
+import flixel.text.FlxText;
 
 class Character extends FlxSprite{
     public var prevX:Int;
     public var prevY:Int;
-    public var sceneJeu:PlayState;
     public var Control:Array<Bool>;
-    public var cam:FlxCamera;
+    public var displayCoord:FlxText;
+    public var sceneJeu:PlayState;
+
     public function new(scene:PlayState){
         super();
         Control=[false,false,false,false];  // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        displayCoord=new FlxText(Std.int(FlxG.width/4),0,Std.int(FlxG.width/2),12);
+        displayCoord.alignment="left";
+        displayCoord.color=0xFFFFFF;
         this.sceneJeu=scene;
         loadGraphic("assets/images/char.png",true,false,32,48,false,null);
         /* Animation : */
@@ -118,7 +124,8 @@ class Character extends FlxSprite{
         {
             prevX=Std.int(x);
             prevY=Std.int(y);
-            trace("\nPosition sur x : "+prevX+"\n"+"Position sur y : "+prevY+"\n");
+            displayCoord.text="coordonnées sur x:"+prevX+"\n";
+            displayCoord.text="coordonnées sur y:"+prevY+"\n";
         }
     }
     override public function update():Void{
