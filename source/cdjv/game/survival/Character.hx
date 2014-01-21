@@ -18,9 +18,11 @@ class Character extends FlxSprite{
     public function new(scene:PlayState){
         super();
         Control=[false,false,false,false];  // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+
         displayCoord=new FlxText(Std.int(FlxG.width/4),0,Std.int(FlxG.width/2),12);
         displayCoord.alignment="left";
         displayCoord.color=0xFFFFFF;
+
         this.sceneJeu=scene;
         loadGraphic("assets/images/char.png",true,false,32,48,false,null);
         /* Animation : */
@@ -34,6 +36,7 @@ class Character extends FlxSprite{
         animation.add("walk_Back_Right",[28,29,30,31],4,true);
         prevX=Std.int(x);
         prevY=Std.int(y);
+
         this.registerEvents();
     }
 
@@ -125,6 +128,7 @@ class Character extends FlxSprite{
             prevX=Std.int(x);
             prevY=Std.int(y);
             displayCoord.text="coordonnées sur x:"+prevX+"\n";
+            displayCoord.draw();
             displayCoord.text="coordonnées sur y:"+prevY+"\n";
         }
     }
