@@ -9,21 +9,25 @@ import flixel.FlxObject;
 import flixel.text.FlxText;
 
 class Character extends FlxSprite{
+    public var duringDigging:Bool;
     public var prevX:Int;
     public var prevY:Int;
-    public var Control:Array<Bool>;
+    public var control:Array<Bool>;
+    public var direction:Array<Bool>;
     public var displayCoord:FlxText;
     public var sceneJeu:PlayState;
 
     public function new(scene:PlayState){
         super();
-        Control=[false,false,false,false];  // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        direction=[true,false,false,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";
         displayCoord.color=0xFFFFFFFF;
         this.sceneJeu=scene;
         this.sceneJeu.add(displayCoord);
         loadGraphic("assets/images/char.png",true,false,32,48,false,null);
+
         /* Animation : */
         animation.add("walk_Front",[0,1,2,3],4,true);
         animation.add("walk_Left",[4,5,6,7],4,true);
@@ -33,6 +37,11 @@ class Character extends FlxSprite{
         animation.add("walk_Back_Left",[20,21,22,23],4,true);
         animation.add("walk_Front_Right",[24,25,26,27],4,true);
         animation.add("walk_Back_Right",[28,29,30,31],4,true);
+        animation.add("dig_Front",[32,33,34,35],4,true);
+        animation.add("dig_Left",[36,37,38,39],4,true);
+        animation.add("dig_Right",[40,41,42,43],4,true);
+        animation.add("dig_Back",[44,45,46,47],4,true);
+
         prevX=Std.int(x);
         prevY=Std.int(y);
 
@@ -42,76 +51,100 @@ class Character extends FlxSprite{
     public function registerEvents():Void{
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_UP,onKeyUp);
-
+        FlxG.game.stage.addEventListener(flash.events.MouseEvent.MOUSE_DOWN,onMousseDown);
+        FlxG.game.stage.addEventListener(flash.events.MouseEvent.MOUSE_UP,onMousseUP);
     }
 
      public function onKeyDown(evt:KeyboardEvent):Void{
         if(evt.keyCode == flash.ui.Keyboard.Z)
-            Control[0]=true;
+            control[0]=true;
         if(evt.keyCode == flash.ui.Keyboard.D)
-            Control[1]=true;
+            control[1]=true;
         if(evt.keyCode == flash.ui.Keyboard.S)
-            Control[2]=true;
+            control[2]=true;
         if(evt.keyCode == flash.ui.Keyboard.Q)
-            Control[3]=true;
+            control[3]=true;
     }
     public function onKeyUp(evt:KeyboardEvent):Void{
         if(evt.keyCode == flash.ui.Keyboard.Z)
-            Control[0]=false;
+            control[0]=false;
         if(evt.keyCode == flash.ui.Keyboard.D)
-            Control[1]=false;
+            control[1]=false;
         if(evt.keyCode == flash.ui.Keyboard.S)
-            Control[2]=false;
+            control[2]=false;
         if(evt.keyCode == flash.ui.Keyboard.Q)
-            Control[3]=false;
+            control[3]=false;
     }
-    public function direction ():Void{
-        if(Control[0] && !Control[1] && !Control[2] && !Control[3])         // aller vers le haut
+    public function onMousseDown(evt:flash.events.MouseEvent):Void{
+        duringDigging=true;
+        if(direction[0] && !direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Back");
+        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Right");
+        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])
+            animation.play("dig_Front");
+        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])
+            animation.play("dig_Left");
+        else trace("error");
+    }
+    public function onMousseUP(evt:flash.events.MouseEvent):Void{
+        duringDigging=false;
+    }
+    public function move ():Void{
+        if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging)         // aller vers le haut
         {
             velocity.x = 0;
             velocity.y = -100;
+            direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=false;
             animation.play("walk_Back");
         }
-        else if(!Control[0] && !Control[1] && Control[2] && !Control[3])         // aller vers le bas
+        else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging)         // aller vers le bas
         {
             velocity.x = 0;
             velocity.y = 100;
+            direction[0]=false; direction[1]=false; direction[2]=true; direction[3]=false;
             animation.play("walk_Front");
         }
-        else if(!Control[0] && Control[1] && !Control[2] && !Control[3])         // aller vers la droite
+        else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)         // aller vers la droite
         {
             velocity.x = 100;
             velocity.y = 0;
+            direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             animation.play("walk_Right");
         }
-        else if(!Control[0] && !Control[1] && !Control[2] && Control[3])         // aller vers la gauche
+        else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)         // aller vers la gauche
         {
             velocity.x = -100;
             velocity.y = 0;
+            direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             animation.play("walk_Left");
         }
-        else if(Control[0] && Control[1] && !Control[2] && !Control[3])            // aller en haut a droite
+        else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)            // aller en haut a droite
         {
             velocity.x =  100;
             velocity.y = -100;
+            direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             animation.play("walk_Back_Right");
         }
-        else if(Control[0] && !Control[1] && !Control[2] && Control[3])             // aller en haut a gauche
+        else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)             // aller en haut a gauche
         {
             velocity.x = -100;
             velocity.y = -100;
+            direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             animation.play("walk_Back_Left");
         }
-        else if(!Control[0] && Control[1] && Control[2] && !Control[3])             // aller en bas a droite
+        else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging)             // aller en bas a droite
         {
             velocity.x =  100;
             velocity.y =  100;
+            direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             animation.play("walk_Front_Right");
         }
-        else if(!Control[0] && !Control[1] && Control[2] && Control[3])             // aller en bas a gauche
+        else if(!control[0] && !control[1] && control[2] && control[3] &&  !duringDigging)             // aller en bas a gauche
         {
             velocity.x = -100;
             velocity.y =  100;
+            direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             animation.play("walk_Front_Left");
         }
         else
@@ -131,8 +164,9 @@ class Character extends FlxSprite{
             displayCoord.setPosition(this.x+this.width,this.y);
         }
     }
+
     override public function update():Void{
-        direction();
+        move();
         checkPos();
         super.update();
     }
