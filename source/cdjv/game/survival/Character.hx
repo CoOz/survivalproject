@@ -7,13 +7,19 @@ import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.text.FlxText;
-//Asqdsddz
+
 class Character extends FlxSprite{
+
     public var duringDigging:Bool;
+    public var diggingFinish:Bool;
+    public var inMoving:Bool;
+
     public var prevX:Int;
     public var prevY:Int;
+
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
+
     public var displayCoord:FlxText;
     public var sceneJeu:PlayState;
 
@@ -77,15 +83,11 @@ class Character extends FlxSprite{
     }
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
         duringDigging=true;
-        if(direction[0] && !direction[1] && !direction[2] && !direction[3])
-            animation.play("dig_Back");
-        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])
-            animation.play("dig_Right");
-        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])
-            animation.play("dig_Front");
-        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])
-            animation.play("dig_Left");
-        else trace("error");
+        diggingAnimation();
+        while((animation.frames!=35 || animation.frames!=39 || animation.frames!=43 || animation.frames!=47) && duringDigging==true){}
+        diggingFinish=true;
+        duringDigging=false;
+
     }
     public function onMousseUP(evt:flash.events.MouseEvent):Void{
         duringDigging=false;
@@ -164,6 +166,18 @@ class Character extends FlxSprite{
             displayCoord.setPosition(this.x+this.width,this.y);
         }
     }
+
+    public function diggingAnimation():Void{
+        if(direction[0] && !direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Back");
+        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Right");
+        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])
+            animation.play("dig_Front");
+        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])
+            animation.play("dig_Left");
+        else trace("error");
+    }   
 
     override public function update():Void{
         move();
