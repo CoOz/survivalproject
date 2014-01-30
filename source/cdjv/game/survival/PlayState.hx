@@ -25,8 +25,8 @@ class PlayState extends FlxState
 
         //on crée un monde
         surface=new MapWorld(this);
-        surface.setPosition(0,0);
-        this.add(surface);
+       //surface.setPosition(0,0);
+        //this.add(surface);*/
 
         //on crée un perso
         var perso:Character=new Character(this);
