@@ -7,7 +7,7 @@ import flixel.FlxSprite;
 import flixel.FlxCamera;
 import flixel.FlxObject;
 import flixel.text.FlxText;
-
+//Asqdsddz
 class Character extends FlxSprite{
     public var duringDigging:Bool;
     public var prevX:Int;
