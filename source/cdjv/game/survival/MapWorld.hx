@@ -17,35 +17,43 @@ class MapWorld extends FlxSprite{
     public var map:FlxTilemap;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
+    //private var tabMapAdjacent:Array<Int>;
 
 
     public function new(scene:PlayState){
         super();
         this.scene = scene;
-        tabMap =    [0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0
-                     0,0,1,1,1,1,0,1,1,0,1,0,1,0,1,0,1,0,1,0];
+       // tabMapAdjacent = []
+        tabMap =    [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
+    //tileToFlxSprite();
+    // setCustomTileMappings()
+
     map = new FlxTilemap();
-    map.widthInTiles = 40;
-    map.heightInTiles = 40;
+    //number of tiles by line
+    map.widthInTiles = 20; 
+    //number of tiles by column
+    map.heightInTiles = 15;
     // Setting up the map.
     
-    //map.startingIndex = 0;
-    //map.drawIndex = 0;
+    //map.startingIndex = 2;
+    //map.drawIndex = 2;
     map.loadMap(tabMap, "assets/images/tile.png", 40, 40);
     map.updateFrameData();
+    //map.setTile(prevX+1,prevY,2,true);
 
     this.scene.add(map);
 //add(map);
@@ -53,7 +61,7 @@ class MapWorld extends FlxSprite{
 
         /*this.scene=scene;
         tileMapPool=new FlxPool<FlxTilemap>();
-        for(nbTM in 0...9)
+        for(nbTM in 2...9)
             tileMapPool.put(new FlxTilemap());
 
         this.loadGraphic("assets/images/desert.jpg");
