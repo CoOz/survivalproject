@@ -9,6 +9,7 @@ import flixel.FlxObject;
 import flixel.text.FlxText;
 
 class Character extends FlxSprite{
+
     public var duringDigging:Bool;
     public var diggingfinish:Bool;
     public var action:Bool;
@@ -211,6 +212,18 @@ class Character extends FlxSprite{
             displayCoord.setPosition(this.x+this.width,this.y);
         }
     }
+
+    public function diggingAnimation():Void{
+        if(direction[0] && !direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Back");
+        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])
+            animation.play("dig_Right");
+        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])
+            animation.play("dig_Front");
+        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])
+            animation.play("dig_Left");
+        else trace("error");
+    }   
 
     override public function update():Void{
         move();
