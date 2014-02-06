@@ -32,6 +32,7 @@ class PlayState extends FlxState
         var perso:Character=new Character(this);
         perso.setPosition(50,50);
         this.add(perso);
+		
 
         surface.loadForCoords(perso.x,perso.y);
 		
@@ -41,10 +42,12 @@ class PlayState extends FlxState
 		super.create();
 	}
 	
+	
 	/**
 	 * Function that is called when this state is destroyed - you might want to 
 	 * consider setting all objects this state uses to null to help garbage collection.
 	 */
+
 	override public function destroy():Void
 	{
 		super.destroy();
@@ -55,6 +58,7 @@ class PlayState extends FlxState
 	 */
 	override public function update():Void
 	{
+		
 		super.update();
 	}	
 }

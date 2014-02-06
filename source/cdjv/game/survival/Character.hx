@@ -14,8 +14,10 @@ class Character extends FlxSprite{
     public var control:Array<Bool>;
     public var cam:FlxCamera;
     public var displayCoord:FlxText;
+    public var zone:Array<Int>;
     public function new(scene:PlayState){
         super();
+        zone = [0,0];
         displayCoord = new FlxText(0,0,12,"coordonnée personnage",12);
         displayCoord.alignment = "left";
         displayCoord.color = 0xffffff;
@@ -35,6 +37,24 @@ class Character extends FlxSprite{
         prevX=Std.int(x);
         prevY=Std.int(y);
         this.registerEvents();
+
+    }
+
+    /* look for position of hero in the map.*/
+    public function checkZone():Array<Int>
+    {
+        trace(zone);
+        trace(x,y);
+        /*if(x<0)
+        {
+            if(y<0)
+                return([-1,-1]);
+            return([-1,1]);
+        }
+        else if(y<0) 
+                return([1,-1]);
+            else return([1,1]); */
+            return([0,0]);      
     }
 
     public function registerEvents():Void{
@@ -132,6 +152,7 @@ class Character extends FlxSprite{
     override public function update():Void{
         direction();
         checkPos();
+        zone = checkZone();
         super.update();
     }
 /*
