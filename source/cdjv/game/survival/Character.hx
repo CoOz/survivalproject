@@ -43,8 +43,8 @@ class Character extends FlxSprite{
     /* look for position of hero in the map.*/
     public function checkZone():Array<Int>
     {
-        trace(zone);
-        trace(x,y);
+        //trace(zone);
+        //trace(x,y);
         /*if(x<0)
         {
             if(y<0)
