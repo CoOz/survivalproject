@@ -6,9 +6,13 @@ import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import flixel.FlxObject;
 >>>>>>> c45f03cc7a65ca2e0e4b4049ef976173d66a5531
+=======
+import flixel.FlxObject;
+>>>>>>> f76dcf706d9183dc52cc0eca9521a0854e63bb7d
 import flixel.text.FlxText;
 
 class Character extends FlxSprite{
@@ -26,7 +30,7 @@ class Character extends FlxSprite{
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
     public var sceneJeu:PlayState;
-   
+
 
     public function new(scene:PlayState){
         super();
@@ -41,6 +45,7 @@ class Character extends FlxSprite{
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";
         displayCoord.color=0xFFFFFFFF;
+
         this.sceneJeu=scene;
         this.sceneJeu.add(displayCoord);
         /*Character*/
