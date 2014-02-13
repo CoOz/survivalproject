@@ -13,7 +13,10 @@ import flixel.util.FlxMath;
 class PlayState extends FlxState
 {
 	public var surface:MapWorld;
-
+	public var zoneN:Array<Int>;
+	public var zoneP:String;
+	private var perso:Character;
+	
 	override public function create():Void
 	{
 		// Set a background color
@@ -29,10 +32,12 @@ class PlayState extends FlxState
         //this.add(surface);*/
 
         //on crée un perso
-        var perso:Character=new Character(this);
+        perso = new Character(this);
+        
         perso.setPosition(50,50);
         this.add(perso);
-		
+        zoneP = perso.checkZone().toString();
+		trace(zoneP);
 
         surface.loadForCoords(perso.x,perso.y);
 		
@@ -58,7 +63,11 @@ class PlayState extends FlxState
 	 */
 	override public function update():Void
 	{
-		
+		zoneN = perso.checkZone();
+		if((zoneN.toString()) != zoneP){
+			//appele generateMap avec zoneN
+			surface.generateMap(zoneN);
+		} 
 		super.update();
 	}	
 }

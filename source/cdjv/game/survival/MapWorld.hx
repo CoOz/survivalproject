@@ -42,10 +42,11 @@ class MapWorld extends FlxSprite{
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
-    
+    //dans une fonction qui prend la zone en param
+                     
     groupMap = new FlxTypedGroup(9);
-    for(j in -1...1)
-        for(i in -1...1)
+    for(j in -1...2)
+        for(i in -1...2)
         {
             map2 = new FlxTilemap();
             map2.widthInTiles = 20; 
@@ -64,6 +65,25 @@ class MapWorld extends FlxSprite{
 
        
 
+    }
+    public function generateMap(zoneN:Array<Int> ){
+        groupMap.clear();
+        groupMap = new FlxTypedGroup(9);
+        for(j in -(zoneN[0]-1)...(zoneN[0]+1))
+            for(i in -(zoneN[1]-1)...(zoneN[1]+1))
+            {
+                map2 = new FlxTilemap();
+                map2.widthInTiles = 20; 
+                //number of tiles by column
+                map2.heightInTiles = 15;
+                map2.x = j * 800;
+                map2.y = i * 600;
+                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
+                map2.updateFrameData();
+                groupMap.add(map2);
+            }
+        this.scene.add(groupMap);
+               
     }
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!

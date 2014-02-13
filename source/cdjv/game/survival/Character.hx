@@ -5,14 +5,10 @@ import flash.events.Event;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
+
 import flixel.FlxObject;
->>>>>>> c45f03cc7a65ca2e0e4b4049ef976173d66a5531
-=======
+
 import flixel.FlxObject;
->>>>>>> f76dcf706d9183dc52cc0eca9521a0854e63bb7d
 import flixel.text.FlxText;
 
 class Character extends FlxSprite{
@@ -30,7 +26,6 @@ class Character extends FlxSprite{
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
     public var sceneJeu:PlayState;
-
 
     public function new(scene:PlayState){
         super();
@@ -88,18 +83,7 @@ class Character extends FlxSprite{
     /* look for position of hero in the map.*/
     public function checkZone():Array<Int>
     {
-        //trace(zone);
-        //trace(x,y);
-        /*if(x<0)
-        {
-            if(y<0)
-                return([-1,-1]);
-            return([-1,1]);
-        }
-        else if(y<0) 
-                return([1,-1]);
-            else return([1,1]); */
-            return([0,0]);      
+        return([Std.int(x/800),Std.int(y/600)]); 
     }
 
     public function registerEvents():Void{
@@ -249,7 +233,6 @@ class Character extends FlxSprite{
         {
             prevX=Std.int(x);
             prevY=Std.int(y);
-
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
             displayCoord.setPosition(this.x+this.width,this.y);
