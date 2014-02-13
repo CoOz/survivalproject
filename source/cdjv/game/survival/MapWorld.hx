@@ -66,6 +66,7 @@ class MapWorld extends FlxSprite{
 
         this.loadGraphic("assets/images/desert.jpg");
 */
+        digMap=new DigMap(scene);
     }
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
