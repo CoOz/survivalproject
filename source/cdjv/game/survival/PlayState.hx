@@ -16,7 +16,7 @@ class PlayState extends FlxState
 	public var zoneN:Array<Int>;
 	public var zoneP:String;
 	private var perso:Character;
-	
+
 	override public function create():Void
 	{
 		// Set a background color
@@ -67,6 +67,7 @@ class PlayState extends FlxState
 		if((zoneN.toString()) != zoneP){
 			//appele generateMap avec zoneN
 			surface.generateMap(zoneN);
+			zoneP = zoneN.toString();
 		} 
 		super.update();
 	}	

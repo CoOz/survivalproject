@@ -68,9 +68,10 @@ class MapWorld extends FlxSprite{
     }
     public function generateMap(zoneN:Array<Int> ){
         groupMap.clear();
-        groupMap = new FlxTypedGroup(9);
-        for(j in -(zoneN[0]-1)...(zoneN[0]+1))
-            for(i in -(zoneN[1]-1)...(zoneN[1]+1))
+        //groupMap = new FlxTypedGroup(9);
+        trace((zoneN[0]),zoneN[1]);
+        for(j in (zoneN[0]-1)...(zoneN[0]+2))
+            for(i in (zoneN[1]-1)...(zoneN[1]+2))
             {
                 map2 = new FlxTilemap();
                 map2.widthInTiles = 20; 

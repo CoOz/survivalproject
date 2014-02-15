@@ -83,6 +83,12 @@ class Character extends FlxSprite{
     /* look for position of hero in the map.*/
     public function checkZone():Array<Int>
     {
+        if(x < 0 && y < 0)
+            return([Std.int((x-800)/800), Std.int((y-600)/600)]);
+        if(x < 0  )
+            return([Std.int((x-800)/800), Std.int(y/600)]);
+        if(y < 0)
+            return([Std.int(x/800),Std.int((y-600)/600)]);
         return([Std.int(x/800),Std.int(y/600)]); 
     }
 
