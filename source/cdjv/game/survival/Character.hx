@@ -115,19 +115,24 @@ class Character extends FlxSprite{
 
     public function digging():Void
     {
-        //trace(loadCircle.frame);
-        if(action==true)
+        if(action==true && duringDigging==false)
         {
+            loadCircle.x=this.x;
+            loadCircle.y=this.y;
             loadCircle.animation.play("loading");
             duringDigging=true;
-           
+          
         }
         else if(action==false && duringDigging==true)
         {
-            loadCircle.animation.pause();
+            loadCircle.animation.destroyAnimations();
             loadCircle.frames=8;
            // trace(duringDigging);
             duringDigging=false;
+        }
+        else 
+        {
+            loadCircle.animation.pause();
         }
         if(loadCircle.frames==6) 
         {
