@@ -14,7 +14,7 @@ import flixel.text.FlxText;
 class Character extends FlxSprite{
 
     public var duringDigging:Bool;
-    public var diggingfinish:Bool;
+    public var diggingFinish:Bool;
     public var action:Bool;
 
     public var prevX:Int;
@@ -31,7 +31,7 @@ class Character extends FlxSprite{
         super();
         zone = [0,0];
         duringDigging=false;
-        diggingfinish=false;
+        diggingFinish=false;
 
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
@@ -44,24 +44,23 @@ class Character extends FlxSprite{
         this.sceneJeu=scene;
         this.sceneJeu.add(displayCoord);
         /*Character*/
-        this.loadGraphic("assets/images/char.png",true,false,32,48,false,null);
+        this.loadGraphic("assets/images/char.png",true,false,32,50,false,null);
         scene.add(this);
         /*load circle */
         loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
-        scene.add(loadCircle);
-        
+
 
         /* Animation : */
 
             /* move */
-        this.animation.add("walk_Front",[0,1,2,3],4,true);
-        this.animation.add("walk_Left",[4,5,6,7],4,true);
-        this.animation.add("walk_Right",[8,9,10,11],4,true);
-        this.animation.add("walk_Back",[12,13,14,15],4,true);
-        this.animation.add("walk_Front_Left",[16,17,18,19],4,true);
-        this.animation.add("walk_Back_Left",[20,21,22,23],4,true);
-        this.animation.add("walk_Front_Right",[24,25,26,27],4,true);
-        this.animation.add("walk_Back_Right",[28,29,30,31],4,true);
+        this.animation.add("walk_Front",[0,1,2,3],10,true);
+        this.animation.add("walk_Left",[4,5,6,7],10,true);
+        this.animation.add("walk_Right",[8,9,10,11],10,true);
+        this.animation.add("walk_Back",[12,13,14,15],10,true);
+        this.animation.add("walk_Front_Left",[16,17,18,19],10,true);
+        this.animation.add("walk_Back_Left",[20,21,22,23],10,true);
+        this.animation.add("walk_Front_Right",[24,25,26,27],10,true);
+        this.animation.add("walk_Back_Right",[28,29,30,31],10,true);
 
              /*action*/
         this.animation.add("dig_Front",[32,33,34,35],4,true);
@@ -70,26 +69,14 @@ class Character extends FlxSprite{
         this.animation.add("dig_Back",[44,45,46,47],4,true);
 
             /*loading*/
-        loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
-
+        loadCircle.alpha=0;
+        scene.add(loadCircle);
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
 
         this.registerEvents();
 
-    }
-
-    /* look for position of hero in the map.*/
-    public function checkZone():Array<Int>
-    {
-        if(x < 0 && y < 0)
-            return([Std.int((x-800)/800), Std.int((y-600)/600)]);
-        if(x < 0  )
-            return([Std.int((x-800)/800), Std.int(y/600)]);
-        if(y < 0)
-            return([Std.int(x/800),Std.int((y-600)/600)]);
-        return([Std.int(x/800),Std.int(y/600)]); 
     }
 
     public function registerEvents():Void{
@@ -133,32 +120,26 @@ class Character extends FlxSprite{
 
     public function digging():Void
     {
-        if(action==true && duringDigging==false)
+        if(action==true && duringDigging==false && loadCircle.animation.frameIndex!=7)
         {
+            loadCircle.alpha=100;
+            loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
             loadCircle.x=this.x;
             loadCircle.y=this.y;
             loadCircle.animation.play("loading");
             duringDigging=true;
-          
+        }
+        else if (loadCircle.animation.frameIndex==7)
+        {
+            duringDigging=false;
+            diggingFinish=true;
         }
         else if(action==false && duringDigging==true)
         {
+            loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
-            loadCircle.frames=8;
-           // trace(duringDigging);
             duringDigging=false;
         }
-        else 
-        {
-            loadCircle.animation.pause();
-        }
-        if(loadCircle.frames==6) 
-        {
-            loadCircle.animation.pause();
-            diggingfinish=true;
-            duringDigging=false;
-        }
-
     }
 
     public function move ():Void{
@@ -251,6 +232,18 @@ class Character extends FlxSprite{
         }
     }
 
+    /* look for position of hero in the map. THIS FUNCTION IS CANCER*/
+    public function checkZone():Array<Int>
+    {
+        if(x < 0 && y < 0)
+            return([Std.int((x-800)/800), Std.int((y-600)/600)]);
+        if(x < 0  )
+            return([Std.int((x-800)/800), Std.int(y/600)]);
+        if(y < 0)
+            return([Std.int(x/800),Std.int((y-600)/600)]);
+        return([Std.int(x/800),Std.int(y/600)]); 
+    }
+
     public function diggingAnimation():Void{
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])
             animation.play("dig_Back");
@@ -267,7 +260,6 @@ class Character extends FlxSprite{
         move();
         checkPos();
         zone = checkZone();
-
         digging();
         super.update();
     }
