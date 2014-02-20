@@ -5,6 +5,9 @@ import flash.events.Event;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxCamera;
+
+import flixel.FlxObject;
+
 import flixel.FlxObject;
 import flixel.text.FlxText;
 
@@ -16,7 +19,7 @@ class Character extends FlxSprite{
 
     public var prevX:Int;
     public var prevY:Int;
-
+    public var zone:Array<Int>;
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
 
@@ -26,6 +29,7 @@ class Character extends FlxSprite{
 
     public function new(scene:PlayState){
         super();
+        zone = [0,0];
         duringDigging=false;
         diggingfinish=false;
 
@@ -73,6 +77,19 @@ class Character extends FlxSprite{
         prevY=Std.int(y);
 
         this.registerEvents();
+
+    }
+
+    /* look for position of hero in the map.*/
+    public function checkZone():Array<Int>
+    {
+        if(x < 0 && y < 0)
+            return([Std.int((x-800)/800), Std.int((y-600)/600)]);
+        if(x < 0  )
+            return([Std.int((x-800)/800), Std.int(y/600)]);
+        if(y < 0)
+            return([Std.int(x/800),Std.int((y-600)/600)]);
+        return([Std.int(x/800),Std.int(y/600)]); 
     }
 
     public function registerEvents():Void{
@@ -103,6 +120,7 @@ class Character extends FlxSprite{
         if(evt.keyCode == flash.ui.Keyboard.Q)
             control[3]=false;
     }
+
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
         action=true;
        /* digging();
@@ -140,6 +158,7 @@ class Character extends FlxSprite{
             diggingfinish=true;
             duringDigging=false;
         }
+
     }
 
     public function move ():Void{
@@ -151,48 +170,61 @@ class Character extends FlxSprite{
             this.animation.play("walk_Back");
         }
         else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging)         // aller vers le bas
+
         {
             this.velocity.x = 0;
             this.velocity.y = 100;
             direction[0]=false; direction[1]=false; direction[2]=true; direction[3]=false;
             this.animation.play("walk_Front");
         }
+
         else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)         // aller vers la droite
+
         {
             this.velocity.x = 100;
             this.velocity.y = 0;
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Right");
         }
+
         else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)         // aller vers la gauche
+
         {
             this.velocity.x = -100;
             this.velocity.y = 0;
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Left");
         }
+
         else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)            // aller en haut a droite
+
         {
             this.velocity.x =  100;
             this.velocity.y = -100;
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Back_Right");
         }
+
         else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)             // aller en haut a gauche
+
         {
             this.velocity.x = -100;
             this.velocity.y = -100;
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Back_Left");
         }
+
         else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging)             // aller en bas a droite
+
         {
             this.velocity.x =  100;
             this.velocity.y =  100;
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Front_Right");
         }
+
         else if(!control[0] && !control[1] && control[2] && control[3] &&  !duringDigging)             // aller en bas a gauche
+
         {
             this.velocity.x = -100;
             this.velocity.y =  100;
@@ -215,6 +247,7 @@ class Character extends FlxSprite{
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
             displayCoord.setPosition(this.x+this.width,this.y);
+
         }
     }
 
@@ -233,6 +266,8 @@ class Character extends FlxSprite{
     override public function update():Void{
         move();
         checkPos();
+        zone = checkZone();
+
         digging();
         super.update();
     }
