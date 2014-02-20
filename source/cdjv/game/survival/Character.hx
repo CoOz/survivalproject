@@ -236,54 +236,6 @@ class Character extends FlxSprite{
         digging();
         super.update();
     }
-/*
-    public function onKeyDown(evt:KeyboardEvent):Void{
-        if(evt.keyCode == flash.ui.Keyboard.D)
-        {
-            this.mainChar.velocity.x= 100;
-            this.animation.play("walk_Right");
-        }
-        else if(evt.keyCode == flash.ui.Keyboard.Q)
-        {
-            mainChar.velocity.x= -100;  
-            this.animation.play("walk_Left");      
-        }
 
-        if(evt.keyCode == flash.ui.Keyboard.Z)
-            {
-                mainChar.velocity.y= - 100;
-                this.animation.play("walk_Back");
-            }
-        else if(evt.keyCode == flash.ui.Keyboard.S)
-            {
-                this.mainChar.velocity.y= 100;
-                this.animation.play("walk_Front");
-            }
-
-    }
-    public function onKeyUp(evt:KeyboardEvent):Void{
-      if(evt.keyCode== flash.ui.Keyboard.Z)
-      {
-            this.animation.frameIndex=12;
-            mainChar.velocity.y=0;
-      }
-     if(evt.keyCode== flash.ui.Keyboard.S)
-      {
-            this.animation.frameIndex=0;
-            mainChar.velocity.y=0;
-      }
-    if(evt.keyCode== flash.ui.Keyboard.D)
-      {
-            this.animation.frameIndex=9;
-            mainChar.velocity.x=0;
-      }
-    if(evt.keyCode== flash.ui.Keyboard.Q)
-      {
-            this.animation.frameIndex=4;
-            mainChar.velocity.x=0;
-      }
        //sceneJeu.surface.digMap.creuse(x,y);
-    }
-*/
-
 }
