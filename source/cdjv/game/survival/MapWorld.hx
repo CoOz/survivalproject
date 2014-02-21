@@ -32,7 +32,7 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
        
-        tabMap =    [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+        tabMap = [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                      2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
@@ -62,7 +62,7 @@ class MapWorld extends FlxSprite{
             for(i in (zoneN[1]-1)...(zoneN[1]+2))
             {
                 map2 = new FlxTilemap();
-                map2.widthInTiles = 20; 
+                map2.widthInTiles = 20;
                 //number of tiles by column
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
@@ -75,17 +75,18 @@ class MapWorld extends FlxSprite{
 
     }
     //générer le graphic
-    public function popAleaObject(zoneN:Array<Int>){
+    /*public function popAleaObject(zoneN:Array<Int>){
         var i,j:int;
         i = Math.random()*20;
         for(j in 0...j){
             obj = new FlxSprite();
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1));  
+            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
+            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
             groupObj.add(obj);
         }
+
         this.scene.add(groupObj);
-   }
+   }*/
 
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
