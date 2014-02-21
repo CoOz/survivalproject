@@ -25,6 +25,9 @@ class PlayState extends FlxState
 
         //on crée un monde
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 3a4f73f2e43369c4809d7bb893a01ff64dfd9d09
        	surface=new MapWorld(this); 
        	//modifier le param suivant la dernière position du personnage
        	surface.generateMap([0,0]);
