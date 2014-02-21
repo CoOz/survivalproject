@@ -24,9 +24,17 @@ class PlayState extends FlxState
 		#end
 
         //on crée un monde
+<<<<<<< HEAD
         surface=new MapWorld(this);
         surface.setPosition(0,0);
         this.add(surface);
+=======
+       	surface=new MapWorld(this); 
+       	//modifier le param suivant la dernière position du personnage
+       	surface.generateMap([0,0]);
+       	//surface.setPosition(0,0);
+        //this.add(surface);*/
+>>>>>>> origin/Regnak
 
         //on crée un perso
         var perso:Character=new Character(this);
