@@ -27,10 +27,17 @@ FlxG.mouse.show();
 #end
 
         //on crée un monde
+<<<<<<< HEAD
         surface=new MapWorld(this);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
+=======
+       	surface=new MapWorld(this); 
+       	//modifier le param suivant la dernière position du personnage
+       	surface.generateMap([0,0]);
+       	//surface.setPosition(0,0);
+>>>>>>> 3a4f73f2e43369c4809d7bb893a01ff64dfd9d09
         //this.add(surface);*/
 
         //on crée un perso
