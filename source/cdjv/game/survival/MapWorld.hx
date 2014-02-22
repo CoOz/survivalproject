@@ -5,6 +5,7 @@ import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
+import flixel.group.FlxTypedGroupIterator;
 
 class MapWorld extends FlxSprite{
     private var scene:PlayState;
@@ -54,20 +55,51 @@ class MapWorld extends FlxSprite{
     groupObj = new FlxTypedGroup(20);
     }
 
-    public function popAleaObject(zoneN:Array<Int>){
+    /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
+        var bob:Array<FlxSprite>;
+        bob = group.members();
+        for(i in 0...index){
+            bob = group.getFirstAlive();
+
+        }    
+    }*/
+
+   /* private function exist(k:Int, l:Int):Bool{
         var i:Int;
+        var bob:Array<FlxSprite>;
+        bob = groupObj.members;
+        trace(bob);
+        if(groupObj.countLiving() == -1)
+            return false;
+        else{
+            for(i in 0...(groupObj.length -1)){
+                if((bob[i].x >= k && bob[i].x <= (k+40)) && (bob[i].y >= l && bob[i].y <= (l+40)))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public function popAleaObject(zoneN:Array<Int>){
+        var i,k,l:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
             obj = new FlxSprite();
-
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
-            obj.loadGraphic("assets/images/marioblock.png",false,false,34,33,false,null);
+            
+            do{  
+                k = Std.int(Math.random()*(800*(zoneN[0]+1)));
+                l = Std.int(Math.random()*(600*(zoneN[1]+1)));                      
+            }while(exist(k, l));
+            obj.x = k;
+            obj.y = l;
+                    
+            obj.loadGraphic("assets/images/marioblock.png",false,false,40,40,false,null);
+            
             groupObj.add(obj);
         }
 
         this.scene.add(groupObj);
-   }
+   }*/
 
     public function generateMap(zoneN:Array<Int> ){
         if(a == 1)
@@ -85,11 +117,11 @@ class MapWorld extends FlxSprite{
                 map2.x = j * 800;
                 map2.y = i * 600;
                 map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
-                map2.updateFrameData();    
+                map2.updateFrameData();
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
-        this.popAleaObject(zoneN);
+        //this.popAleaObject(zoneN);
 
     }
     //générer le graphic
