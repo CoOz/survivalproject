@@ -22,9 +22,9 @@ override public function create():Void
 // Set a background color
 FlxG.cameras.bgColor = 0xff000000;
 // Show the mouse (in case it hasn't been disabled)
-#if !FLX_NO_MOUSE
+/*#if !FLX_NO_MOUSE
 FlxG.mouse.show();
-#end
+#end*/
 
         //on crée un monde
 
@@ -44,8 +44,8 @@ FlxG.mouse.show();
 
         surface.loadForCoords(perso.x,perso.y);
 
-        FlxG.camera.target=perso;
-
+        FlxG.camera.target = perso;
+        //FlxG.overlap(perso, surface.groupObj);
 
         super.create();
 }
@@ -66,12 +66,24 @@ override public function destroy():Void
 */
 override public function update():Void
 {
-        zoneN = perso.checkZone();
+        zoneN = perso.zone;
         if((zoneN.toString()) != zoneP){
                 //appele generateMap avec zoneN
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
+       if(FlxG.overlap(perso, surface.groupObj)){
+               //utiliser perso.direction
+                perso.directionPos[0] = !perso.direction[0];
+                perso.directionPos[1] = !perso.direction[1];
+                perso.directionPos[2] = !perso.direction[2];
+                perso.directionPos[3] = !perso.direction[3];
+                perso.inCollide = true;
+                trace(perso.directionPos, perso.direction);
+
+        }       
+        //else perso.duringDigging = false;*/
+
         super.update();
 }	
 }

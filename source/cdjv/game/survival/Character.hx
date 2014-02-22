@@ -22,20 +22,24 @@ class Character extends FlxSprite{
     public var zone:Array<Int>;
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
+    public var directionPos:Array<Bool>;
+    public var inCollide:Bool;
 
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
     public var sceneJeu:PlayState;
+
+
 
     public function new(scene:PlayState){
         super();
         zone = [0,0];
         duringDigging=false;
         diggingFinish=false;
-
+        inCollide = false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-
+        directionPos = [true,true,true,true];
         loadCircle=new FlxSprite();
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";

@@ -5,6 +5,7 @@ import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
+import flixel.group.FlxTypedGroupIterator;
 
 class MapWorld extends FlxSprite{
     private var scene:PlayState;
@@ -20,7 +21,7 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
-    private var groupObj:FlxTypedGroup<FlxSprite>;
+    public var groupObj:FlxTypedGroup<FlxSprite>;
     private var obj:FlxSprite;
     private var bob:Int;
     //pour le premier passage dans generateMap
@@ -51,8 +52,54 @@ class MapWorld extends FlxSprite{
     
     a = 0;
     groupMap = new FlxTypedGroup(9);
-    
+    groupObj = new FlxTypedGroup(20);
     }
+
+    /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
+        var bob:Array<FlxSprite>;
+        bob = group.members();
+        for(i in 0...index){
+            bob = group.getFirstAlive();
+
+        }    
+    }*/
+
+    private function exist(k:Int, l:Int):Bool{
+        var i:Int;
+        var bob:Array<FlxSprite>;
+        bob = groupObj.members();
+        if(groupObj.countLiving() == -1)
+            return false;
+        else{
+            for(i in 0...(groupObj.length -1)){
+                if((bob[i].x >= k && bob[i].x <= (k+40)) && (bob[i].y >= l && bob[i].y <= (l+40)))
+                    return true;
+            }
+            return false;
+        }
+    }
+
+    public function popAleaObject(zoneN:Array<Int>){
+        var i,k,l:Int;
+        i = Std.int(Math.random()*20);
+        for(j in 0...i){
+            obj = new FlxSprite();
+            
+            do{  
+                k = Std.int(Math.random()*(800*(zoneN[0]+1)));
+                l = Std.int(Math.random()*(600*(zoneN[1]+1)));                      
+            }while(exist(k, l));
+            obj.x = k;
+            obj.y = l;
+                    
+            obj.loadGraphic("assets/images/marioblock.png",false,false,40,40,false,null);
+            
+            groupObj.add(obj);
+        }
+
+        this.scene.add(groupObj);
+   }
+
     public function generateMap(zoneN:Array<Int> ){
         if(a == 1)
             groupMap.clear();
@@ -68,29 +115,17 @@ class MapWorld extends FlxSprite{
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
                 map2.y = i * 600;
-                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
+                map2.loadMap(tabMap, "assets/images/tile2.png", 40, 40);
                 map2.updateFrameData();
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
+        //this.popAleaObject(zoneN);
 
     }
     //générer le graphic
-/*
-    public function popAleaObject(zoneN:Array<Int>){
 
-        i = Math.random()*20;
-        for(j in 0...j){
-            obj = new FlxSprite();
-
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
-            groupObj.add(obj);
-        }
-
-        this.scene.add(groupObj);
-   }*/
-
+    
 
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
@@ -101,7 +136,7 @@ class MapWorld extends FlxSprite{
         loadDigMap(xPos,yPos);
     }
 
-    public function loadDigMap(xPos:Float,yPos:Float){
+    public function loadDigMap(xPos:Float, yPos:Float){
 
     }
 }
