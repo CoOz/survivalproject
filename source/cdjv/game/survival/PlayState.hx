@@ -22,16 +22,17 @@ override public function create():Void
 // Set a background color
 FlxG.cameras.bgColor = 0xff000000;
 // Show the mouse (in case it hasn't been disabled)
-#if !FLX_NO_MOUSE
+/*#if !FLX_NO_MOUSE
 FlxG.mouse.show();
-#end
+#end*/
 
         //on crée un monde
+
         surface=new MapWorld(this);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
-        //this.add(surface);*/
+
 
         //on crée un perso
         perso = new Character(this);
@@ -39,14 +40,14 @@ FlxG.mouse.show();
         perso.setPosition(50,50);
         this.add(perso);
         zoneP = perso.checkZone().toString();
-trace(zoneP);
+        trace(zoneP);
 
         surface.loadForCoords(perso.x,perso.y);
 
-        FlxG.camera.target=perso;
+        FlxG.camera.target = perso;
+        //FlxG.overlap(perso, surface.groupObj);
 
-
-super.create();
+        super.create();
 }
 
 
@@ -57,7 +58,7 @@ super.create();
 
 override public function destroy():Void
 {
-super.destroy();
+        super.destroy();
 }
 
 /**
@@ -65,13 +66,23 @@ super.destroy();
 */
 override public function update():Void
 {
-zoneN = perso.checkZone();
-if((zoneN.toString()) != zoneP){
-//appele generateMap avec zoneN
-surface.generateMap(zoneN);
-zoneP = zoneN.toString();
-}
-super.update();
+        zoneN = perso.zone;
+        if((zoneN.toString()) != zoneP){
+                //appele generateMap avec zoneN
+                surface.generateMap(zoneN);
+                zoneP = zoneN.toString();
+        }
+       if(FlxG.overlap(perso, surface.groupObj)){
+               //utiliser perso.direction
+                perso.directionPos[0] = !perso.direction[0];
+                perso.directionPos[1] = !perso.direction[1];
+                perso.directionPos[2] = !perso.direction[2];
+                perso.directionPos[3] = !perso.direction[3];
+                perso.inCollide = true;
+        }       
+       	else perso.inCollide = false;
+
+        super.update();
 }	
 }
 

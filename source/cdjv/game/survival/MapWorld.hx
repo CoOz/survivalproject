@@ -20,7 +20,7 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
-    private var groupObj:FlxTypedGroup<FlxSprite>;
+    public var groupObj:FlxTypedGroup<FlxSprite>;
     private var obj:FlxSprite;
     private var bob:Int;
     //pour le premier passage dans generateMap
@@ -32,26 +32,43 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
        
+
         tabMap = [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
     
     a = 0;
     groupMap = new FlxTypedGroup(9);
-    
+    groupObj = new FlxTypedGroup(20);
     }
+
+    public function popAleaObject(zoneN:Array<Int>){
+        var i:Int;
+        i = Std.int(Math.random()*20);
+        for(j in 0...i){
+            obj = new FlxSprite();
+
+            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
+            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
+            obj.loadGraphic("assets/images/marioblock.png",false,false,34,33,false,null);
+            groupObj.add(obj);
+        }
+
+        this.scene.add(groupObj);
+   }
+
     public function generateMap(zoneN:Array<Int> ){
         if(a == 1)
             groupMap.clear();
@@ -68,25 +85,16 @@ class MapWorld extends FlxSprite{
                 map2.x = j * 800;
                 map2.y = i * 600;
                 map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
-                map2.updateFrameData();
+                map2.updateFrameData();    
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
+        this.popAleaObject(zoneN);
 
     }
     //générer le graphic
-    /*public function popAleaObject(zoneN:Array<Int>){
-        var i,j:int;
-        i = Math.random()*20;
-        for(j in 0...j){
-            obj = new FlxSprite();
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
-            groupObj.add(obj);
-        }
 
-        this.scene.add(groupObj);
-   }*/
+    
 
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
@@ -97,7 +105,7 @@ class MapWorld extends FlxSprite{
         loadDigMap(xPos,yPos);
     }
 
-    public function loadDigMap(xPos:Float,yPos:Float){
+    public function loadDigMap(xPos:Float, yPos:Float){
 
     }
 }
