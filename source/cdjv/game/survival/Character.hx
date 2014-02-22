@@ -20,6 +20,8 @@ class Character extends FlxSprite{
 
     public var prevX:Int;
     public var prevY:Int;
+    public var nbCligno:Int;
+
     public var zone:Array<Int>;
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
@@ -32,6 +34,7 @@ class Character extends FlxSprite{
 
     public function new(scene:PlayState){
         super();
+        nbCligno=0;
         zone = [0,0];
         duringDigging=false;
         diggingFinish=false;
@@ -102,6 +105,7 @@ class Character extends FlxSprite{
         if(evt.keyCode == flash.ui.Keyboard.R)
         {
             // debugg touch 
+            FlxG.resetGame();
         }
     }
 
@@ -120,6 +124,7 @@ class Character extends FlxSprite{
         duringDigging=true;
         loadCircle.alpha=100;
         loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
+        loadCircle.animation.add("clignote",[6,0],10,true);
         loadCircle.x=this.x+this.width/4;
         loadCircle.y=this.y-this.height/4;
         loadCircle.animation.play("loading");
@@ -131,16 +136,28 @@ class Character extends FlxSprite{
             duringDigging=false;
     }
 
+
     public function digging():Void
     {  
-        if (loadCircle.animation.frameIndex==6)
+        if (loadCircle.animation.frameIndex==6) //fini de creuser
         {
-           // sceneJeu.surface.digMap.creuse(this.x,this.y);
+            loadCircle.animation.pause();
+            loadCircle.animation.play("clignote");
+            diggingFinish=true;
             duringDigging=false;
+            nbCligno++;
+            if(nbCligno>=75)
+                {
+                    loadCircle.alpha=0;
+                    loadCircle.animation.destroyAnimations();
+                    nbCligno=0;
+                }
         }
     }
 
     public function move ():Void{
+            loadCircle.x=this.x+this.width/4;
+            loadCircle.y=this.y-this.height/4;
         if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging)         // aller vers le haut
         {
             direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=false;
