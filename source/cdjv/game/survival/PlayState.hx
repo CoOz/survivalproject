@@ -46,7 +46,7 @@ FlxG.mouse.show();
 
         FlxG.camera.target = perso;
         //FlxG.overlap(perso, surface.groupObj);
-
+        FlxG.collide(perso,surface.groupObj);
         super.create();
 }
 
@@ -72,20 +72,7 @@ override public function update():Void
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
-       if(FlxG.overlap(perso, surface.groupObj)){
-               //utiliser perso.direction
-                perso.directionPos[0] = !perso.direction[0];
-                perso.directionPos[1] = !perso.direction[1];
-                perso.directionPos[2] = !perso.direction[2];
-                perso.directionPos[3] = !perso.direction[3];
-                perso.inCollide = true;
-        }       
-       	else
-        {
-            perso.inCollide = false;
-            perso.directionPos[0]=true; perso.directionPos[1]=true; perso.directionPos[2]=true; perso.directionPos[3]=true;
-        }
-
+        FlxG.collide(perso,surface.groupObj);  
         super.update();
 }	
 }

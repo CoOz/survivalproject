@@ -3,6 +3,7 @@ package cdjv.game.survival;
 import flixel.FlxG;
 import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
+import flixel.tile.FlxTileblock;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 
@@ -20,8 +21,8 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
-    public var groupObj:FlxTypedGroup<FlxSprite>;
-    private var obj:FlxSprite;
+    public var groupObj:FlxTypedGroup<FlxTileblock>;
+    private var obj:FlxTileblock;
     private var bob:Int;
     //pour le premier passage dans generateMap
     public var a:Int;
@@ -58,11 +59,8 @@ class MapWorld extends FlxSprite{
         var i:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
-            obj = new FlxSprite();
-
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
-            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
+            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block http://api.haxeflixel.com/
+            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null); 
             groupObj.add(obj);
         }
 

@@ -86,9 +86,6 @@ class Character extends FlxSprite{
 
         if(evt.keyCode == flash.ui.Keyboard.O)
         {
-            trace(poids);
-            trace(this.velocity.x);
-            trace(this.velocity.y);
         }
         if(evt.keyCode == flash.ui.Keyboard.UP)
         {
@@ -97,7 +94,7 @@ class Character extends FlxSprite{
         if(evt.keyCode == flash.ui.Keyboard.DOWN)
         {
             if(poids>0) poids-=2;
-        }
+        }   
     }
 
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
@@ -146,32 +143,23 @@ class Character extends FlxSprite{
     {
         loadCircle.x=this.x+this.width/4;
         loadCircle.y=this.y-this.height/4;
-        if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging)         // aller vers le haut
-        {
+        if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging){         // aller vers le haut
             direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Back");
             zone = checkZone();
-            if(directionPos[0])
+            if(!run)
             {
-                if(!run)
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = -this.maxVelocity.y/2+poids;
-                }
-                else
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = -this.maxVelocity.y+poids;
-                }
+                this.velocity.x = 0;
+                this.velocity.y = -this.maxVelocity.y/2+poids;
             }
-            else 
+            else
             {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;  
+                this.velocity.x = 0;
+                this.velocity.y = -this.maxVelocity.y+poids;
             }
+
         }
-        else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging)         // aller vers le bas
-        {
+        else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging){         // aller vers le bas
             direction[0]=false; direction[1]=false; direction[2]=true; direction[3]=false;
             this.animation.play("walk_Front");
             zone = checkZone();
@@ -195,132 +183,83 @@ class Character extends FlxSprite{
             }
         }
 
-        else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)         // aller vers la droite
-        {
-
+        else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging){         // aller vers la droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Right");
             zone = checkZone();
-            if(directionPos[1])
+            if(run)
             {
-                if(run)
-                {
-                    this.velocity.x = maxVelocity.x/2-poids;
-                    this.velocity.y = 0;
-                }
-                else
-                {
-                    this.velocity.x = maxVelocity.x/2-poids;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = maxVelocity.x/2-poids;
+                this.velocity.y = 0;
             }
-            else 
+            else
             {
-                this.velocity.x = 0;
+                this.velocity.x = maxVelocity.x/2-poids;
                 this.velocity.y = 0;
             }
         }
 
-        else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)         // aller vers la gauche
-        {
+        else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging){         // aller vers la gauche
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Left");
             zone = checkZone();
-            if(directionPos[3])
+            if(!run)
             {
-                if(!run)
-                {
-                    this.velocity.x = -maxVelocity.x/2+poids;
-                    this.velocity.y = 0;
-                }
-                else
-                {
-                    this.velocity.x = -maxVelocity.x+poids;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = -maxVelocity.x/2+poids;
+                this.velocity.y = 0;
             }
-            else 
+            else
             {
-                this.velocity.x = 0;
+                this.velocity.x = -maxVelocity.x+poids;
                 this.velocity.y = 0;
             }
         }
 
-        else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)            // aller en haut a droite
-
-        {
+        else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging){            // aller en haut a droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Back_Right");
             zone = checkZone();
-            if(directionPos[0] && directionPos[1])
+            if(!run)
             {
-                if(!run)
-                {
-                    this.velocity.x =  maxVelocity.x/2-poids;
-                    this.velocity.y = -maxVelocity.y/2+poids;
-                }
-                else 
-                {
-                    this.velocity.x =  maxVelocity.x-poids;
-                    this.velocity.y = -maxVelocity.y+poids;
-                }
+                this.velocity.x =  maxVelocity.x/2-poids;
+                this.velocity.y = -maxVelocity.y/2+poids;
             }
             else 
             {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
+                this.velocity.x =  maxVelocity.x-poids;
+                this.velocity.y = -maxVelocity.y+poids;
             }
         }
 
-        else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)             // aller en haut a gauche
-
-        {
+        else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging){             // aller en haut a gauche
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Back_Left");
             zone = checkZone();
-            if(directionPos[0] && directionPos[3])
+            if(!run)
             {
-                if(!run)
-                {
-                    this.velocity.x = -maxVelocity.x/2+poids;
-                    this.velocity.y = -maxVelocity.y/2+poids; 
-                }
-                else 
-                {
-                    this.velocity.x = -maxVelocity.x+poids;
-                    this.velocity.y = -maxVelocity.y+poids;  
-                }
-
+                this.velocity.x = -maxVelocity.x/2+poids;
+                this.velocity.y = -maxVelocity.y/2+poids; 
             }
             else 
             {
-                this.velocity.x = 0;
-                this.velocity.y = 0;
+                this.velocity.x = -maxVelocity.x+poids;
+                this.velocity.y = -maxVelocity.y+poids;  
             }
         }
 
-        else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging)             // aller en bas a droite
-       {
+        else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging){             // aller en bas a droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Front_Right");
             zone = checkZone();
-            if(directionPos[1] && directionPos[2])
+            if(!run)
             {
-                if(!run)
-                {
-                    this.velocity.x = maxVelocity.x/2;
-                    this.velocity.y = maxVelocity.y/2;
-                }
-                else
-                {
-                    this.velocity.x = maxVelocity.x;
-                    this.velocity.y = maxVelocity.y;
-                }
+                this.velocity.x = maxVelocity.x/2;
+                this.velocity.y = maxVelocity.y/2;
             }
-            else 
+            else
             {
-                this.velocity.x = 0;
-                this.velocity.y = 0;
+                this.velocity.x = maxVelocity.x;
+                this.velocity.y = maxVelocity.y;
             }
         }
 
@@ -329,25 +268,18 @@ class Character extends FlxSprite{
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Front_Left");
             zone = checkZone();
-            if(directionPos[1] && directionPos[3])
-            {
-                if(!run)
-                {  
-                    this.velocity.x = -maxVelocity.x/2+poids;
-                    this.velocity.y =  maxVelocity.y/2-poids;
-                }
-                else
-                {
-                    this.velocity.x = -maxVelocity.x;
-                    this.velocity.y =  maxVelocity.y;
-                }
+            if(!run)
+            {  
+                this.velocity.x = -maxVelocity.x/2+poids;
+                this.velocity.y =  maxVelocity.y/2-poids;
             }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+            else
+            {
+                this.velocity.x = -maxVelocity.x;
+                this.velocity.y =  maxVelocity.y;
+            }
         }
+
         else
         {
             this.velocity.x=0;
@@ -371,24 +303,20 @@ class Character extends FlxSprite{
     }
 
     public function setTheBasicCharPropriety(scene:PlayState):Void{
-        this.maxVelocity.x=200;
-        this.maxVelocity.y=200;
-        run=false;
-        nbCligno=0;
         zone = [0,0];
+        /*Character*/
+        run=false;
         duringDigging=false;
-        inCollide=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         directionPos=[true,true,true,true];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         poids=0;
-
-
-        /* SPRITE */ 
-        /*Character*/
+        //
+        this.maxVelocity.x=200;
+        this.maxVelocity.y=200;
         this.loadGraphic("assets/images/char.png",true,false,23,45,false,null);
-        scene.add(this);
         this.centerOffsets;
+        scene.add(this);
         /*load circle */
         loadCircle=new FlxSprite();
         loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
@@ -396,7 +324,7 @@ class Character extends FlxSprite{
         loadCircle.alpha=0;
         loadCircle.x=this.x+this.width/4;
         loadCircle.y=this.y-this.height/4;
-
+        nbCligno=0;
         /* Animation : */
 
             /* move */
