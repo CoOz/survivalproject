@@ -80,7 +80,11 @@ override public function update():Void
                 perso.directionPos[3] = !perso.direction[3];
                 perso.inCollide = true;
         }       
-       	else perso.inCollide = false;
+       	else
+        {
+            perso.inCollide = false;
+            perso.directionPos[0]=true; perso.directionPos[1]=true; perso.directionPos[2]=true; perso.directionPos[3]=true;
+        }
 
         super.update();
 }	
