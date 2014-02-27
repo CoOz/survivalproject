@@ -29,42 +29,16 @@ FlxG.mouse.show();
 
         //on crée un monde
 
-        surface=new MapWorld(this);
+        surface = new MapWorld(this);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
 
 
         //on crée un perso
-        var perso:Character=new Character(this);
+        perso = new Character(this);
         perso.setPosition(50,50);
         this.add(perso);
-
-        surface.loadForCoords(perso.x,perso.y);
-
-        FlxG.camera.target=perso;
-
-		
-		super.create();
-	}
-	
-	/**
-	 * Function that is called when this state is destroyed - you might want to 
-	 * consider setting all objects this state uses to null to help garbage collection.
-	 */
-	override public function destroy():Void
-	{
-		super.destroy();
-	}
-
-	/**
-	 * Function that is called once every frame.
-	 */
-	override public function update():Void
-	{
-		super.update();
-	}	
-}
 
         zoneP = perso.checkZone().toString();
         trace(zoneP);
@@ -72,7 +46,9 @@ FlxG.mouse.show();
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
+
         //FlxG.overlap(perso, surface.groupObj);
+        FlxG.collide(perso,surface.groupObj);
 
         super.create();
 }
@@ -99,17 +75,8 @@ override public function update():Void
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
-       if(FlxG.overlap(perso, surface.groupObj)){
-               //utiliser perso.direction
-                perso.directionPos[0] = !perso.direction[0];
-                perso.directionPos[1] = !perso.direction[1];
-                perso.directionPos[2] = !perso.direction[2];
-                perso.directionPos[3] = !perso.direction[3];
-                perso.inCollide = true;
-                trace(perso.directionPos, perso.direction);
 
-        }       
-        //else perso.duringDigging = false;*/
+        FlxG.collide(perso,surface.groupObj);  
 
         super.update();
 }	

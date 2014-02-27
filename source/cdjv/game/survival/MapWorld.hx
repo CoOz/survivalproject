@@ -3,6 +3,7 @@ package cdjv.game.survival;
 import flixel.FlxG;
 import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
+import flixel.tile.FlxTileblock;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 import flixel.group.FlxTypedGroupIterator;
@@ -21,8 +22,9 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
-    public var groupObj:FlxTypedGroup<FlxSprite>;
-    private var obj:FlxSprite;
+    public var groupObj:FlxTypedGroup<FlxTileblock>;
+    private var obj:FlxTileblock;
+
     private var bob:Int;
     //pour le premier passage dans generateMap
     public var a:Int;
@@ -33,27 +35,37 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
        
+        tabMap = [1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,1,1,1,2,
+                    1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,
+                    1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,
+                    1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,
+                    1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,2,
+                    1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,1,2,1,1,
+                    1,1,1,2,1,1,1,1,2,2,1,1,2,1,1,1,1,2,1,1,
+                    1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,2,1,1,
+                    1,1,1,1,2,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,
+                    1,2,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,
+                    2,1,1,1,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,
+                    1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,
+                    1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,
+                    1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,2,1,1,1,1,1,2,2,1,1,1,2,1,1,1,2];
 
-        tabMap = [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
     
     a = 0;
     groupMap = new FlxTypedGroup(9);
     groupObj = new FlxTypedGroup(20);
+
     }
+
+    /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
+        var bob:Array<FlxSprite>;
+        bob = group.members();
+        for(i in 0...index){
+            bob = group.getFirstAlive();
+
+        }    
+    }*/
 
     /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
         var bob:Array<FlxSprite>;
@@ -66,35 +78,33 @@ class MapWorld extends FlxSprite{
 
     private function exist(k:Int, l:Int):Bool{
         var i:Int;
-        var bob:Array<FlxSprite>;
-        bob = groupObj.members();
+        var bob:Array<FlxTileblock>;
+        bob = groupObj.members;
+        trace(bob);
         if(groupObj.countLiving() == -1)
             return false;
         else{
             for(i in 0...(groupObj.length -1)){
-                if((bob[i].x >= k && bob[i].x <= (k+40)) && (bob[i].y >= l && bob[i].y <= (l+40)))
+                trace(bob[i]);
+                if((bob[i].x >= (k-34) && bob[i].x <= (k+34)) && (bob[i].y >= (l-33) && bob[i].y <= (l+33)))
                     return true;
             }
             return false;
         }
-
     }
 
     public function popAleaObject(zoneN:Array<Int>){
         var i,k,l:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
-            obj = new FlxSprite();
-            
+            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block http://api.haxeflixel.com/
             do{  
                 k = Std.int(Math.random()*(800*(zoneN[0]+1)));
                 l = Std.int(Math.random()*(600*(zoneN[1]+1)));                      
             }while(exist(k, l));
             obj.x = k;
             obj.y = l;
-                    
-            obj.loadGraphic("assets/images/marioblock.png",false,false,40,40,false,null);
-            
+            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
             groupObj.add(obj);
         }
 
@@ -102,8 +112,10 @@ class MapWorld extends FlxSprite{
    }
 
     public function generateMap(zoneN:Array<Int> ){
-        if(a == 1)
+        if(a == 1){
+            groupObj.clear();
             groupMap.clear();
+        }
         else a = 1;
         //groupMap = new FlxTypedGroup(9);
         trace((zoneN[0]),zoneN[1]);
@@ -116,11 +128,14 @@ class MapWorld extends FlxSprite{
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
                 map2.y = i * 600;
-                map2.loadMap(tabMap, "assets/images/tile2.png", 40, 40);
+                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
                 map2.updateFrameData();
+
+                
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
+        this.popAleaObject(zoneN);
 
         //this.popAleaObject(zoneN);
 
