@@ -4,6 +4,7 @@ import flixel.FlxG;
 import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
 import flixel.FlxSprite;
+import flixel.group.FlxTypedGroup;
 
 class MapWorld extends FlxSprite{
     private var scene:PlayState;
@@ -15,68 +16,99 @@ class MapWorld extends FlxSprite{
     //[Embed(source = "data/tile.png")] private var imgMap:Class;
     // Map variable
     public var map:FlxTilemap;
+    public var map2:FlxTilemap;
+    public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
+    public var groupObj:FlxTypedGroup<FlxSprite>;
+    private var obj:FlxSprite;
+    private var bob:Int;
+    //pour le premier passage dans generateMap
+    public var a:Int;
     //private var tabMapAdjacent:Array<Int>;
 
 
     public function new(scene:PlayState){
         super();
         this.scene = scene;
-       // tabMapAdjacent = []
-        tabMap =    [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
-    //tileToFlxSprite();
-    // setCustomTileMappings()
+       
 
-    map = new FlxTilemap();
-    //number of tiles by line
-    map.widthInTiles = 20; 
-    //number of tiles by column
-    map.heightInTiles = 15;
-    // Setting up the map.
+        tabMap = [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
+                    2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
     
-    //map.startingIndex = 2;
-    //map.drawIndex = 2;
-    map.loadMap(tabMap, "assets/images/tile.png", 40, 40);
-    map.updateFrameData();
-    //map.setTile(prevX+1,prevY,2,true);
+    a = 0;
+    groupMap = new FlxTypedGroup(9);
+    groupObj = new FlxTypedGroup(20);
+    }
 
-    this.scene.add(map);
-//add(map);
+    public function popAleaObject(zoneN:Array<Int>){
+        var i:Int;
+        i = Std.int(Math.random()*20);
+        for(j in 0...i){
+            obj = new FlxSprite();
 
+            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1)));
+            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1)));
+            obj.loadGraphic("assets/images/marioblock.png",false,false,34,33,false,null);
+            groupObj.add(obj);
+        }
 
-        /*this.scene=scene;
-        tileMapPool=new FlxPool<FlxTilemap>();
-        for(nbTM in 2...9)
-            tileMapPool.put(new FlxTilemap());
+        this.scene.add(groupObj);
+   }
+
+    public function generateMap(zoneN:Array<Int> ){
+        if(a == 1)
+            groupMap.clear();
+        else a = 1;
+        //groupMap = new FlxTypedGroup(9);
+        trace((zoneN[0]),zoneN[1]);
+        for(j in (zoneN[0]-1)...(zoneN[0]+2))
+            for(i in (zoneN[1]-1)...(zoneN[1]+2))
+            {
+                map2 = new FlxTilemap();
+                map2.widthInTiles = 20;
+                //number of tiles by column
+                map2.heightInTiles = 15;
+                map2.x = j * 800;
+                map2.y = i * 600;
+                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
+                map2.updateFrameData();    
+                groupMap.add(map2);
+            }
+        this.scene.add(groupMap);
+        this.popAleaObject(zoneN);
 
         this.loadGraphic("assets/images/desert.jpg");
-*/
         digMap=new DigMap(scene);
+
     }
+    //générer le graphic
+
+    
+
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!
+
 
         }
 
         loadDigMap(xPos,yPos);
     }
 
-    public function loadDigMap(xPos:Float,yPos:Float){
+    public function loadDigMap(xPos:Float, yPos:Float){
 
     }
 }

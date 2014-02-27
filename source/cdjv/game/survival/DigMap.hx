@@ -1,5 +1,8 @@
 package cdjv.game.survival;
 
+import flixel.util.FlxColorUtil;
+import flash.ui.Keyboard;
+import flash.events.KeyboardEvent;
 import flixel.util.FlxSpriteUtil;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -7,24 +10,43 @@ import flixel.FlxSprite;
 class DigMap{
     private var sprite:FlxSprite;
     private var scene:PlayState;
+    private var zoneW:Int=10;
+    private var zoneH:Int=10;
+    private var lamap:Map<String,Int>;
 
     public function new(scene:PlayState){
         this.scene=scene;
+        lamap=new Map<String,Int>();
         sprite=new FlxSprite();
         sprite.makeGraphic(FlxG.width,FlxG.height,0x00000000);
         sprite.x=0;sprite.y=0;
         for(i in 0...20*4){
-            FlxSpriteUtil.drawLine(sprite,0,i*10,800,i*10,0xFF000000);
+            FlxSpriteUtil.drawLine(sprite,0,i*zoneW,800,i*zoneW,0xFF000000);
         }
         for(i in 0...15*4){
-            FlxSpriteUtil.drawLine(sprite,i*10,0,i*10,600,0xFF000000);
+            FlxSpriteUtil.drawLine(sprite,i*zoneH,0,i*zoneH,600,0xFF000000);
         }
         //FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
-
+        sprite.visible=false;
         this.scene.add(sprite);
+        FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,showGrid);
     }
 
     public function creuse(x:Float,y:Float){
-
+        var xZone=Math.round(x/zoneW);
+        var yZone=Math.round(y/zoneH);
+        trace("creuse "+xZone+" "+yZone);
+        var cle:String=xZone+'-'+yZone;
+        if(!lamap.exists(cle))
+            lamap.set(cle,0);
+        /*var alpha=(10-lamap.get(cle))*10;
+        trace("a="+alpha);*/
+        FlxSpriteUtil.drawRect(sprite,xZone*zoneW,yZone*zoneH,zoneW,zoneH,FlxColorUtil.makeFromARGB(30,0,0,0));
+    }
+    public function showGrid(key:KeyboardEvent){
+        if(key.keyCode==Keyboard.K){
+            sprite.visible=!sprite.visible;
+            creuse(Math.random()*100,Math.random()*100);
+        }
     }
 }
