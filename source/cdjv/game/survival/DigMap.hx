@@ -7,6 +7,5 @@ class DigMap{
     }
 
     public function creuse(x:Float,y:Float){
-
     }
 }

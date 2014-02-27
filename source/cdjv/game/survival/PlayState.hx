@@ -45,8 +45,13 @@ FlxG.mouse.show();
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
+<<<<<<< HEAD
         
 
+=======
+        //FlxG.overlap(perso, surface.groupObj);
+        FlxG.collide(perso,surface.groupObj);
+>>>>>>> c6570083152867e6847547405d1287b08e9fdc20
         super.create();
 }
 
@@ -72,6 +77,7 @@ override public function update():Void
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
+<<<<<<< HEAD
        if(FlxG.overlap(perso, surface.groupObj)){
                //utiliser perso.direction
                 perso.directionPos[0] = !perso.direction[0];
@@ -83,6 +89,9 @@ override public function update():Void
        	else perso.inCollide = false;
        	//FlxG.overlap(perso, surface.groupObj);
 
+=======
+        FlxG.collide(perso,surface.groupObj);  
+>>>>>>> c6570083152867e6847547405d1287b08e9fdc20
         super.update();
 }	
 }
