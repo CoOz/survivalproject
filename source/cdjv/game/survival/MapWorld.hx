@@ -21,11 +21,7 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
-<<<<<<< HEAD
-    private var groupObj:FlxTypedGroup<FlxSprite>;
-=======
     public var groupObj:FlxTypedGroup<FlxSprite>;
->>>>>>> 214effdfe942f103bafb9aa19498606b368a27fd
     private var obj:FlxSprite;
     private var bob:Int;
     //pour le premier passage dans generateMap
@@ -37,27 +33,6 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
        
-<<<<<<< HEAD
-        tabMap =    [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
-                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2];
-    
-    a = 0;
-    groupMap = new FlxTypedGroup(9);
-    
-=======
 
         tabMap = [2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
                     2,2,1,1,1,1,2,1,1,2,1,2,1,2,1,2,1,2,1,2,
@@ -102,7 +77,7 @@ class MapWorld extends FlxSprite{
             }
             return false;
         }
->>>>>>> 214effdfe942f103bafb9aa19498606b368a27fd
+
     }
 
     public function popAleaObject(zoneN:Array<Int>){
@@ -146,29 +121,14 @@ class MapWorld extends FlxSprite{
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
-<<<<<<< HEAD
 
-    }
-    //générer le graphic
-    public function popAleaObject(zoneN:Array<Int>){
-        var i,j:int;
-        i = Math.random()*20;
-        for(j in 0...j){
-            obj = new FlxSprite();
-            obj.x = Std.int(Math.random()*(800*(zoneN[0]+1));
-            obj.y = Std.int(Math.random()*(600*(zoneN[1]+1));  
-            groupObj.add(obj);
-        }
-        this.scene.add(groupObj);
-   }
-=======
         //this.popAleaObject(zoneN);
 
     }
     //générer le graphic
 
     
->>>>>>> 214effdfe942f103bafb9aa19498606b368a27fd
+
 
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!

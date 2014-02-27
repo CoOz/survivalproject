@@ -12,34 +12,7 @@ import flixel.util.FlxMath;
 */
 class PlayState extends FlxState
 {
-<<<<<<< HEAD
-	public var surface:MapWorld;
 
-	override public function create():Void
-	{
-		// Set a background color
-		FlxG.cameras.bgColor = 0xff000000;
-		// Show the mouse (in case it hasn't been disabled)
-		#if !FLX_NO_MOUSE
-		FlxG.mouse.show();
-		#end
-
-        //on crée un monde
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 3a4f73f2e43369c4809d7bb893a01ff64dfd9d09
-       	surface=new MapWorld(this); 
-       	//modifier le param suivant la dernière position du personnage
-       	surface.generateMap([0,0]);
-       	//surface.setPosition(0,0);
-        //this.add(surface);*/
-=======
-        surface=new MapWorld(this);
-        surface.setPosition(0,0);
-        this.add(surface);
->>>>>>> origin/Zed
-=======
 public var surface:MapWorld;
 public var zoneN:Array<Int>;
 public var zoneP:String;
@@ -61,13 +34,11 @@ FlxG.mouse.show();
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
 
->>>>>>> 214effdfe942f103bafb9aa19498606b368a27fd
 
         //on crée un perso
         var perso:Character=new Character(this);
         perso.setPosition(50,50);
         this.add(perso);
-<<<<<<< HEAD
 
         surface.loadForCoords(perso.x,perso.y);
 
@@ -94,7 +65,7 @@ FlxG.mouse.show();
 		super.update();
 	}	
 }
-=======
+
         zoneP = perso.checkZone().toString();
         trace(zoneP);
 
@@ -144,4 +115,3 @@ override public function update():Void
 }	
 }
 
->>>>>>> 214effdfe942f103bafb9aa19498606b368a27fd
