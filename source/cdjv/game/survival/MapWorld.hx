@@ -64,7 +64,7 @@ class MapWorld extends FlxSprite{
         }    
     }*/
 
-   /* private function exist(k:Int, l:Int):Bool{
+    private function exist(k:Int, l:Int):Bool{
         var i:Int;
         var bob:Array<FlxSprite>;
         bob = groupObj.members;
@@ -73,7 +73,8 @@ class MapWorld extends FlxSprite{
             return false;
         else{
             for(i in 0...(groupObj.length -1)){
-                if((bob[i].x >= k && bob[i].x <= (k+40)) && (bob[i].y >= l && bob[i].y <= (l+40)))
+                trace(bob[i]);
+                if((bob[i].x >= (k-34) && bob[i].x <= (k+34)) && (bob[i].y >= (l-33) && bob[i].y <= (l+33)))
                     return true;
             }
             return false;
@@ -93,17 +94,19 @@ class MapWorld extends FlxSprite{
             obj.x = k;
             obj.y = l;
                     
-            obj.loadGraphic("assets/images/marioblock.png",false,false,40,40,false,null);
+            obj.loadGraphic("assets/images/marioblock.png",false,false,34,33,false,null);
             
             groupObj.add(obj);
         }
 
         this.scene.add(groupObj);
-   }*/
+   }
 
     public function generateMap(zoneN:Array<Int> ){
-        if(a == 1)
+        if(a == 1){
+            groupObj.clear();
             groupMap.clear();
+        }
         else a = 1;
         //groupMap = new FlxTypedGroup(9);
         trace((zoneN[0]),zoneN[1]);
@@ -121,7 +124,7 @@ class MapWorld extends FlxSprite{
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
-        //this.popAleaObject(zoneN);
+        this.popAleaObject(zoneN);
 
     }
     //générer le graphic

@@ -45,7 +45,7 @@ FlxG.mouse.show();
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
-        //FlxG.overlap(perso, surface.groupObj);
+        
 
         super.create();
 }
@@ -81,6 +81,7 @@ override public function update():Void
                 perso.inCollide = true;
         }       
        	else perso.inCollide = false;
+       	//FlxG.overlap(perso, surface.groupObj);
 
         super.update();
 }	
