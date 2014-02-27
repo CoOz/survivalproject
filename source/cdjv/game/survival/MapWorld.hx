@@ -8,6 +8,11 @@ import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
 import flixel.group.FlxTypedGroupIterator;
 
+typedef Point = {
+       var x:Int;
+       var y:Int;
+   }
+
 class MapWorld extends FlxSprite{
     private var scene:PlayState;
     private var zones:Map<String,FlxTilemap>;
@@ -22,6 +27,10 @@ class MapWorld extends FlxSprite{
     public var groupMap:FlxTypedGroup<FlxTilemap>;
     public var digMap:DigMap;
     private var tabMap:Array<Int>;
+
+    public var tabCoord:Array<Point>;
+    public var lal:Point;
+
     public var groupObj:FlxTypedGroup<FlxTileblock>;
     private var obj:FlxTileblock;
 
@@ -78,18 +87,18 @@ class MapWorld extends FlxSprite{
 
     private function exist(k:Int, l:Int):Bool{
         var i:Int;
-        var bob:Array<FlxTileblock>;
-        bob = groupObj.members;
-        trace(bob);
+        //var bob:Array<FlxTileblock>;
+        //bob = groupObj.members;
+        //trace(bob);
         if(groupObj.countLiving() == -1)
             return false;
         else{
-            for(i in 0...(groupObj.length -1)){
-                trace(bob[i]);
-                if((bob[i].x >= (k-34) && bob[i].x <= (k+34)) && (bob[i].y >= (l-33) && bob[i].y <= (l+33)))
+            for(i in 0...(/*groupObj.length -1*/tabCoord.length)){
+                //trace(bob[i]);
+                if((tabCoord[i].x >= (k-24) && tabCoord[i].x <= (k+24)) && (tabCoord[i].y >= (l-28) && tabCoord[i].y <= (l+28)))
                     return true;
             }
-            return false;
+        return false;
         }
     }
 
@@ -101,7 +110,9 @@ class MapWorld extends FlxSprite{
             do{  
                 k = Std.int(Math.random()*(800*(zoneN[0]+1)));
                 l = Std.int(Math.random()*(600*(zoneN[1]+1)));                      
-            }while(exist(k, l));
+            }while(exist(k, l)); //attention bloquant
+            lal.x = k; lal.y = l;
+            tabCoord.push(lal);
             obj.x = k;
             obj.y = l;
             obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
@@ -115,6 +126,8 @@ class MapWorld extends FlxSprite{
         if(a == 1){
             groupObj.clear();
             groupMap.clear();
+            while(tabCoord.length != 0)
+                tabCoord.pop();
         }
         else a = 1;
         //groupMap = new FlxTypedGroup(9);
