@@ -14,12 +14,13 @@ import flixel.text.FlxText;
 class Character extends FlxSprite{
 
     public var duringDigging:Bool;
-    public var diggingFinish:Bool;
     public var action:Bool;
     public var inCollide:Bool;
+    public var run:Bool;
 
     public var prevX:Int;
     public var prevY:Int;
+    public var poids:Int;
     public var nbCligno:Int;
 
     public var zone:Array<Int>;
@@ -34,50 +35,12 @@ class Character extends FlxSprite{
 
     public function new(scene:PlayState){
         super();
-        nbCligno=0;
-        zone = [0,0];
-        duringDigging=false;
-        diggingFinish=false;
-        inCollide=false;
-        control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        directionPos=[true,true,true,true];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        loadCircle=new FlxSprite();
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";
-        displayCoord.color=0xFFFFFFFF;
-
+        displayCoord.color=0x00000000;
         this.sceneJeu=scene;
         this.sceneJeu.add(displayCoord);
-        /*Character*/
-        this.loadGraphic("assets/images/char.png",true,false,23,45,false,null);
-        scene.add(this);
-        /*load circle */
-        loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
-
-
-        /* Animation : */
-
-            /* move */
-        this.animation.add("walk_Front",[0,1,2,3],10,true);
-        this.animation.add("walk_Left",[4,5,6,7],10,true);
-        this.animation.add("walk_Right",[8,9,10,11],10,true);
-        this.animation.add("walk_Back",[12,13,14,15],10,true);
-        this.animation.add("walk_Front_Left",[16,17,18,19],10,true);
-        this.animation.add("walk_Back_Left",[20,21,22,23],10,true);
-        this.animation.add("walk_Front_Right",[24,25,26,27],10,true);
-        this.animation.add("walk_Back_Right",[28,29,30,31],10,true);
-
-             /*action*/
-        this.animation.add("dig_Front",[32,33,34,35],4,true);
-        this.animation.add("dig_Left",[36,37,38,39],4,true);
-        this.animation.add("dig_Right",[40,41,42,43],4,true);
-        this.animation.add("dig_Back",[44,45,46,47],4,true);
-
-            /*loading*/
-        loadCircle.alpha=0;
-        scene.add(loadCircle);
-        this.centerOffsets; 
+        this.setTheBasicCharPropriety(scene);
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
@@ -103,10 +66,9 @@ class Character extends FlxSprite{
         if(evt.keyCode == flash.ui.Keyboard.Q)
             control[3]=true;
         if(evt.keyCode == flash.ui.Keyboard.R)
-        {
-            // debugg touch 
             FlxG.resetGame();
-        }
+        if(evt.keyCode == flash.ui.Keyboard.SHIFT)
+            run=true;
     }
 
     public function onKeyUp(evt:KeyboardEvent):Void{
@@ -118,6 +80,21 @@ class Character extends FlxSprite{
             control[2]=false;
         if(evt.keyCode == flash.ui.Keyboard.Q)
             control[3]=false;
+        if(evt.keyCode == flash.ui.Keyboard.SHIFT)
+            run=false;
+       
+
+        if(evt.keyCode == flash.ui.Keyboard.O)
+        {
+        }
+        if(evt.keyCode == flash.ui.Keyboard.UP)
+        {
+            if(poids<this.maxVelocity.y/2) poids+=2;
+        }
+        if(evt.keyCode == flash.ui.Keyboard.DOWN)
+        {
+            if(poids>0) poids-=2;
+        }   
     }
 
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
@@ -128,6 +105,7 @@ class Character extends FlxSprite{
         loadCircle.x=this.x+this.width/4;
         loadCircle.y=this.y-this.height/4;
         loadCircle.animation.play("loading");
+        diggingAnimation();
     }
 
     public function onMousseUP(evt:flash.events.MouseEvent):Void{
@@ -139,200 +117,149 @@ class Character extends FlxSprite{
 
     public function digging():Void
     {  
-        if (loadCircle.animation.frameIndex==6) //fini de creuser
+        if (loadCircle.animation.frameIndex==6 && nbCligno!=75)     //fini de creuser
         {
             loadCircle.animation.pause();
             loadCircle.animation.play("clignote");
-            diggingFinish=true;
             duringDigging=false;
             nbCligno++;
-            if(nbCligno>=75)
+            if(direction[0])
+                sceneJeu.surface.digMap.creuse(x,y-1);
+            else if(direction[1])
+                sceneJeu.surface.digMap.creuse(x+1,y);
+            else if(direction[2])
+                sceneJeu.surface.digMap.creuse(x,y+1);
+            else if(direction[3])
+                sceneJeu.surface.digMap.creuse(x-1,y);
+            if(nbCligno==50)
                 {
-                    loadCircle.alpha=0;
-                    loadCircle.animation.destroyAnimations();
+                    loadCircle.alpha=0; 
                     nbCligno=0;
                 }
         }
     }
 
-    public function move ():Void{
-            loadCircle.x=this.x+this.width/4;
-            loadCircle.y=this.y-this.height/4;
-        if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging)         // aller vers le haut
-        {
+    public function move ():Void
+    {
+        loadCircle.x=this.x+this.width/4;
+        loadCircle.y=this.y-this.height/4;
+        if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging){         // aller vers le haut
             direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Back");
             zone = checkZone();
-            if(!inCollide)
+            if(!run)
             {
                 this.velocity.x = 0;
-                this.velocity.y = -100;
+                this.velocity.y = -this.maxVelocity.y/2+poids;
             }
             else
             {
-                if(directionPos[0])
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = -100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;  
-                }
+                this.velocity.x = 0;
+                this.velocity.y = -this.maxVelocity.y+poids;
             }
+
         }
-        else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging)         // aller vers le bas
-        {
+        else if(!control[0] && !control[1] && control[2] && !control[3] &&  !duringDigging){         // aller vers le bas
             direction[0]=false; direction[1]=false; direction[2]=true; direction[3]=false;
             this.animation.play("walk_Front");
             zone = checkZone();
-            if(!inCollide)
+            if(directionPos[2])
+            {
+                if(!run)
+                {
+                    this.velocity.x = 0;
+                    this.velocity.y = this.maxVelocity.y/2-poids;
+                }
+                else
+                {
+                    this.velocity.x = 0;
+                    this.velocity.y = this.maxVelocity.y-poids;
+                }
+            }
+            else 
             {
                 this.velocity.x = 0;
-                this.velocity.y = 100;
-            }
-            else
-            {
-                if( directionPos[2])
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.y = 0;
             }
         }
 
-        else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)         // aller vers la droite
-        {
-
+        else if(!control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging){         // aller vers la droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Right");
             zone = checkZone();
-            if(!inCollide)
+            if(run)
             {
-                this.velocity.x = 100;
+                this.velocity.x = maxVelocity.x/2-poids;
                 this.velocity.y = 0;
             }
             else
             {
-                if(directionPos[1])
-                {
-                    this.velocity.x = 100;
-                    this.velocity.y = 0;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = maxVelocity.x/2-poids;
+                this.velocity.y = 0;
             }
         }
 
-        else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)         // aller vers la gauche
-        {
+        else if(!control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging){         // aller vers la gauche
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Left");
             zone = checkZone();
-            if(!inCollide)
+            if(!run)
             {
-                this.velocity.x = -100;
+                this.velocity.x = -maxVelocity.x/2+poids;
                 this.velocity.y = 0;
             }
             else
             {
-                if(directionPos[3])
-                {
-                    this.velocity.x = -100;
-                    this.velocity.y = 0;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = -maxVelocity.x+poids;
+                this.velocity.y = 0;
             }
         }
 
-        else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging)            // aller en haut a droite
-
-        {
+        else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging){            // aller en haut a droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Back_Right");
             zone = checkZone();
-             if(!inCollide)
+            if(!run)
             {
-                this.velocity.x =  100;
-                this.velocity.y = -100;
+                this.velocity.x =  maxVelocity.x/2-poids;
+                this.velocity.y = -maxVelocity.y/2+poids;
             }
-            else
+            else 
             {
-                if(directionPos[0] && directionPos[1])
-                {
-                    this.velocity.x =  100;
-                    this.velocity.y = -100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x =  maxVelocity.x-poids;
+                this.velocity.y = -maxVelocity.y+poids;
             }
         }
 
-        else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging)             // aller en haut a gauche
-
-        {
+        else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging){             // aller en haut a gauche
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Back_Left");
             zone = checkZone();
-             if(!inCollide)
+            if(!run)
             {
-                this.velocity.x = -100;
-                this.velocity.y = -100;
+                this.velocity.x = -maxVelocity.x/2+poids;
+                this.velocity.y = -maxVelocity.y/2+poids; 
             }
-            else
+            else 
             {
-                if(directionPos[0] && directionPos[3])
-                {
-                    this.velocity.x = -100;
-                    this.velocity.y = -100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = -maxVelocity.x+poids;
+                this.velocity.y = -maxVelocity.y+poids;  
             }
         }
 
-        else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging)             // aller en bas a droite
-
-        {
+        else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging){             // aller en bas a droite
             direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
             this.animation.play("walk_Front_Right");
             zone = checkZone();
-            if(!inCollide)
+            if(!run)
             {
-                this.velocity.x =  100;
-                this.velocity.y =  100;
+                this.velocity.x = maxVelocity.x/2;
+                this.velocity.y = maxVelocity.y/2;
             }
             else
             {
-                if(directionPos[1] && directionPos[2])
-                {
-                    this.velocity.x = -100;
-                    this.velocity.y = -100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = maxVelocity.x;
+                this.velocity.y = maxVelocity.y;
             }
         }
 
@@ -341,25 +268,18 @@ class Character extends FlxSprite{
             direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
             this.animation.play("walk_Front_Left");
             zone = checkZone();
-            if(!inCollide)
-            {
-                this.velocity.x = -100;
-                this.velocity.y =  100;
+            if(!run)
+            {  
+                this.velocity.x = -maxVelocity.x/2+poids;
+                this.velocity.y =  maxVelocity.y/2-poids;
             }
             else
             {
-                if(directionPos[1] && directionPos[3])
-                {
-                    this.velocity.x = -100;
-                    this.velocity.y =  100;
-                }
-                else 
-                {
-                    this.velocity.x = 0;
-                    this.velocity.y = 0;
-                }
+                this.velocity.x = -maxVelocity.x;
+                this.velocity.y =  maxVelocity.y;
             }
         }
+
         else
         {
             this.velocity.x=0;
@@ -367,6 +287,8 @@ class Character extends FlxSprite{
             this.animation.pause();
         }
     }
+
+
 
     public function checkPos():Void{
         if(Std.int(x)!=prevX || Std.int(y)!=prevY)
@@ -378,6 +300,49 @@ class Character extends FlxSprite{
             displayCoord.setPosition(this.x+this.width,this.y);
 
         }
+    }
+
+    public function setTheBasicCharPropriety(scene:PlayState):Void{
+        zone = [0,0];
+        /*Character*/
+        run=false;
+        duringDigging=false;
+        control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        directionPos=[true,true,true,true];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        poids=0;
+        //
+        this.maxVelocity.x=200;
+        this.maxVelocity.y=200;
+        this.loadGraphic("assets/images/char.png",true,false,23,45,false,null);
+        this.centerOffsets;
+        scene.add(this);
+        /*load circle */
+        loadCircle=new FlxSprite();
+        loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
+        scene.add(loadCircle);
+        loadCircle.alpha=0;
+        loadCircle.x=this.x+this.width/4;
+        loadCircle.y=this.y-this.height/4;
+        nbCligno=0;
+        /* Animation : */
+
+            /* move */
+        this.animation.add("walk_Front",[0,1,2,3],10,true);
+        this.animation.add("walk_Left",[4,5,6,7],10,true);
+        this.animation.add("walk_Right",[8,9,10,11],10,true);
+        this.animation.add("walk_Back",[12,13,14,15],10,true);
+        this.animation.add("walk_Front_Left",[16,17,18,19],10,true);
+        this.animation.add("walk_Back_Left",[20,21,22,23],10,true);
+        this.animation.add("walk_Front_Right",[24,25,26,27],10,true);
+        this.animation.add("walk_Back_Right",[28,29,30,31],10,true);
+
+             /*action*/
+        this.animation.add("dig_Front",[32,33,34,35],4,true);
+        this.animation.add("dig_Left",[36,37,38,39],4,true);
+        this.animation.add("dig_Right",[40,41,42,43],4,true);
+        this.animation.add("dig_Back",[44,45,46,47],4,true);
+
     }
 
     /* look for position of hero in the map. THIS FUNCTION IS CANCER*/
@@ -393,7 +358,7 @@ class Character extends FlxSprite{
     }
 
     public function diggingAnimation():Void{
-        if(direction[0] && !direction[1] && !direction[2] && !direction[3])
+        if(direction[0] && !direction[1] && !direction[2] && !direction[3] )
             animation.play("dig_Back");
         else if(!direction[0] && direction[1] && !direction[2] && !direction[3])
             animation.play("dig_Right");
@@ -407,6 +372,7 @@ class Character extends FlxSprite{
     override public function update():Void{
         move();
         digging();
+        checkPos();
         super.update();
     }
 
