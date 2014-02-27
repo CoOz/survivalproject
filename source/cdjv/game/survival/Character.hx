@@ -116,21 +116,22 @@ class Character extends FlxSprite{
 
 
     public function digging():Void
-    {  
+    {
+        sceneJeu.surface.digMap.creuse(this);
         if (loadCircle.animation.frameIndex==6 && nbCligno!=75)     //fini de creuser
         {
             loadCircle.animation.pause();
             loadCircle.animation.play("clignote");
             duringDigging=false;
             nbCligno++;
-            if(direction[0])
+            /*if(direction[0])
                 sceneJeu.surface.digMap.creuse(x,y-1);
             else if(direction[1])
                 sceneJeu.surface.digMap.creuse(x+1,y);
             else if(direction[2])
                 sceneJeu.surface.digMap.creuse(x,y+1);
             else if(direction[3])
-                sceneJeu.surface.digMap.creuse(x-1,y);
+                sceneJeu.surface.digMap.creuse(x-1,y);*/
             if(nbCligno==50)
                 {
                     loadCircle.alpha=0; 

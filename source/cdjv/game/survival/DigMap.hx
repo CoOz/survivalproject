@@ -27,12 +27,26 @@ class DigMap{
             FlxSpriteUtil.drawLine(sprite,i*zoneH,0,i*zoneH,600,0xFF000000);
         }
         //FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
-        sprite.visible=false;
+        //sprite.visible=false;
         this.scene.add(sprite);
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,showGrid);
     }
 
-    public function creuse(x:Float,y:Float){
+    public function creuse(joueur:Character){
+        var x:Float=0,y:Float=0;
+        if(joueur.direction[0]){
+            x=joueur.x+joueur.width/2-zoneW/2;
+            y=joueur.y-zoneH;
+        }else if(joueur.direction[1]){
+            x=joueur.x+joueur.width;
+            y=joueur.y+joueur.height/2;
+        }else if(joueur.direction[2]){
+            x=joueur.x+joueur.width/2-zoneW/2;
+            y=joueur.y+joueur.height;
+        }else if(joueur.direction[3]){
+            x=joueur.x-zoneW;
+            y=joueur.y+joueur.height/2;
+        }
         var xZone=Math.round(x/zoneW);
         var yZone=Math.round(y/zoneH);
         trace("creuse "+xZone+" "+yZone);
@@ -46,7 +60,7 @@ class DigMap{
     public function showGrid(key:KeyboardEvent){
         if(key.keyCode==Keyboard.K){
             sprite.visible=!sprite.visible;
-            creuse(Math.random()*100,Math.random()*100);
+            //creuse(Math.random()*100,Math.random()*100);
         }
     }
 }
