@@ -89,6 +89,9 @@ class MapWorld extends FlxSprite{
         this.scene.add(groupMap);
         this.popAleaObject(zoneN);
 
+        this.loadGraphic("assets/images/desert.jpg");
+        digMap=new DigMap(scene);
+
     }
     //générer le graphic
 
