@@ -6,6 +6,7 @@ import flixel.tile.FlxTilemap;
 import flixel.tile.FlxTileblock;
 import flixel.FlxSprite;
 import flixel.group.FlxTypedGroup;
+import flixel.group.FlxTypedGroupIterator;
 
 class MapWorld extends FlxSprite{
     private var scene:PlayState;
@@ -23,6 +24,7 @@ class MapWorld extends FlxSprite{
     private var tabMap:Array<Int>;
     public var groupObj:FlxTypedGroup<FlxTileblock>;
     private var obj:FlxTileblock;
+
     private var bob:Int;
     //pour le premier passage dans generateMap
     public var a:Int;
@@ -33,7 +35,6 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
        
-
         tabMap = [1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,1,1,1,2,
                     1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,
                     1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,
@@ -49,18 +50,66 @@ class MapWorld extends FlxSprite{
                     1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,
                     1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,
                     1,1,1,1,2,1,1,1,1,1,2,2,1,1,1,2,1,1,1,2];
+
     
     a = 0;
     groupMap = new FlxTypedGroup(9);
     groupObj = new FlxTypedGroup(20);
+
+    }
+
+    /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
+        var bob:Array<FlxSprite>;
+        bob = group.members();
+        for(i in 0...index){
+            bob = group.getFirstAlive();
+
+        }    
+    }*/
+
+    /*private function recupFlxsprite(group:FlxTypedGroup, index:Int):FlxSprite{
+        var bob:Array<FlxSprite>;
+        bob = group.members();
+        for(i in 0...index){
+            bob = group.getFirstAlive();
+
+        }    
+    }*/
+
+    private function exist(k:Int, l:Int):Bool{
+        var i:Int;
+        var bob:Array<FlxTileblock>;
+        bob = groupObj.members;
+        trace(bob);
+        if(groupObj.countLiving() == -1)
+            return false;
+        else{
+            for(i in 0...(groupObj.length -1)){
+                trace(bob[i]);
+                if((bob[i].x >= (k-34) && bob[i].x <= (k+34)) && (bob[i].y >= (l-33) && bob[i].y <= (l+33)))
+                    return true;
+            }
+            return false;
+        }
     }
 
     public function popAleaObject(zoneN:Array<Int>){
-        var i:Int;
+        var i,k,l:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
+<<<<<<< HEAD
             obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block aleatoirement sur la map http://api.haxeflixel.com/
             obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null); 
+=======
+            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block http://api.haxeflixel.com/
+            do{  
+                k = Std.int(Math.random()*(800*(zoneN[0]+1)));
+                l = Std.int(Math.random()*(600*(zoneN[1]+1)));                      
+            }while(exist(k, l));
+            obj.x = k;
+            obj.y = l;
+            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
+>>>>>>> 7b3c041ea8cdf0764cb718e69605a7f5526c4db5
             groupObj.add(obj);
         }
 
@@ -68,8 +117,10 @@ class MapWorld extends FlxSprite{
    }
 
     public function generateMap(zoneN:Array<Int> ){
-        if(a == 1)
+        if(a == 1){
+            groupObj.clear();
             groupMap.clear();
+        }
         else a = 1;
         //groupMap = new FlxTypedGroup(9);
         trace((zoneN[0]),zoneN[1]);
@@ -82,20 +133,27 @@ class MapWorld extends FlxSprite{
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
                 map2.y = i * 600;
-                map2.loadMap(tabMap, "assets/images/tile.png", 40,40);
-                map2.updateFrameData();    
+                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
+                map2.updateFrameData();
+
+                
                 groupMap.add(map2);
             }
         this.scene.add(groupMap);
         this.popAleaObject(zoneN);
 
+<<<<<<< HEAD
         this.loadGraphic("assets/images/desert.jpg");
         digMap=new DigMap(scene);
+=======
+        //this.popAleaObject(zoneN);
+>>>>>>> 7b3c041ea8cdf0764cb718e69605a7f5526c4db5
 
     }
     //générer le graphic
 
     
+
 
     public function loadForCoords(xPos:Float,yPos:Float){
         if(xPos%FlxG.game.width<10 || xPos%FlxG.game.width>FlxG.game.width-10){ //bords!

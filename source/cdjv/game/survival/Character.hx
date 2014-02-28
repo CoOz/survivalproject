@@ -14,6 +14,7 @@ import flixel.text.FlxText;
 class Character extends FlxSprite{
 
     public var duringDigging:Bool;
+
     public var action:Bool;
     public var inCollide:Bool;
     public var run:Bool;
@@ -33,14 +34,18 @@ class Character extends FlxSprite{
     public var sceneJeu:PlayState;
 
 
+
     public function new(scene:PlayState){
         super();
+        zone = [0,0];
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";
         displayCoord.color=0x00000000;
         this.sceneJeu=scene;
         this.sceneJeu.add(displayCoord);
+
         this.setTheBasicCharPropriety(scene);
+
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
@@ -115,12 +120,18 @@ class Character extends FlxSprite{
 
 
     public function digging():Void
+<<<<<<< HEAD
     {
         sceneJeu.surface.digMap.creuse(this);
+=======
+
+    {  
+>>>>>>> 7b3c041ea8cdf0764cb718e69605a7f5526c4db5
         if (loadCircle.animation.frameIndex==6 && nbCligno!=75)     //fini de creuser
         {
             loadCircle.animation.pause();
             loadCircle.animation.play("clignote");
+
             duringDigging=false;
             nbCligno++;
             /*if(direction[0])
@@ -302,6 +313,7 @@ class Character extends FlxSprite{
         }
     }
 
+
     public function setTheBasicCharPropriety(scene:PlayState):Void{
         zone = [0,0];
         /*Character*/
@@ -345,6 +357,7 @@ class Character extends FlxSprite{
 
     }
 
+
     /* look for position of hero in the map. THIS FUNCTION IS CANCER*/
     public function checkZone():Array<Int>
     {
@@ -371,9 +384,12 @@ class Character extends FlxSprite{
 
     override public function update():Void{
         move();
+
+
         digging();
         checkPos();
         super.update();
     }
+
 
 }
