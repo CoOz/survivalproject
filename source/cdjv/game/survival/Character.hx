@@ -44,7 +44,6 @@ class Character extends FlxSprite{
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
-
         this.registerEvents();
 
     }

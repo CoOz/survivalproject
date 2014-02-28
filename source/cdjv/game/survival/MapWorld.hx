@@ -59,7 +59,7 @@ class MapWorld extends FlxSprite{
         var i:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
-            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block http://api.haxeflixel.com/
+            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block aleatoirement sur la map http://api.haxeflixel.com/
             obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null); 
             groupObj.add(obj);
         }
