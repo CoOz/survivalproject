@@ -14,6 +14,7 @@ class PlayState extends FlxState
 {
 
 public var surface:MapWorld;
+public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
 private var perso:Character;
@@ -23,9 +24,9 @@ override public function create():Void
 // Set a background color
 FlxG.cameras.bgColor = 0xff000000;
 // Show the mouse (in case it hasn't been disabled)
-/*#if !FLX_NO_MOUSE
+#if !FLX_NO_MOUSE
 FlxG.mouse.show();
-#end*/
+#end
 
         //on crée un monde
 
@@ -33,7 +34,7 @@ FlxG.mouse.show();
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
-
+        //digm = new DigMap(this);
 
         //on crée un perso
         perso = new Character(this);
@@ -46,10 +47,7 @@ FlxG.mouse.show();
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
-
-        //FlxG.overlap(perso, surface.groupObj);
-        FlxG.collide(perso,surface.groupObj);
-
+        
         super.create();
 }
 

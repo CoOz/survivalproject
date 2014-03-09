@@ -26,7 +26,7 @@ class DigMap{
         for(i in 0...15*4){
             FlxSpriteUtil.drawLine(sprite,i*zoneH,0,i*zoneH,600,0xFF000000);
         }
-        //FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
+        FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
         //sprite.visible=false;
         this.scene.add(sprite);
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,showGrid);
@@ -55,10 +55,10 @@ class DigMap{
             lamap.set(cle,0);
         /*var alpha=(10-lamap.get(cle))*10;
         trace("a="+alpha);*/
-        FlxSpriteUtil.drawRect(sprite,xZone*zoneW,yZone*zoneH,zoneW,zoneH,FlxColorUtil.makeFromARGB(30,0,0,0));
+        //FlxSpriteUtil.drawRect(sprite,xZone*zoneW,yZone*zoneH,zoneW,zoneH,FlxColorUtil.makeFromARGB(30,0,0,0));
     }
     public function showGrid(key:KeyboardEvent){
-        if(key.keyCode==Keyboard.K){
+        if(key.keyCode==Keyboard.K){    
             sprite.visible=!sprite.visible;
             //creuse(Math.random()*100,Math.random()*100);
         }
