@@ -162,7 +162,7 @@ class Character extends FlxSprite{
     public function move ():Void
     {
         barre.x=x-FlxG.width/2+64;
-        barre.y=y-FlxG.height/2+30;
+        barre.y=y-FlxG.height/2+50;
         loadCircle.x=x+width/4;
         loadCircle.y=y-height/4;
         changeMaxVelocity();
@@ -234,6 +234,7 @@ class Character extends FlxSprite{
         {
             velocity.x=0;
             velocity.y=0;
+            this.animation.frameIndex=0;
             animation.pause();
         }
     }
@@ -260,7 +261,7 @@ class Character extends FlxSprite{
         duringDigging=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        //
+        this.angle=0;
         maxVelocity.x=100;
         maxVelocity.y=100;
         loadGraphic("assets/images/char2.png",true,false,63,64,false,null);
@@ -284,7 +285,7 @@ class Character extends FlxSprite{
         animation.add("walk_Back_Left",[20,21,22,23],10,true);
         animation.add("walk_Front_Right",[24,25,26,27],10,true);
         animation.add("walk_Back_Right",[28,29,30,31],10,true);*/
-         animation.add("walk",[0,1,2,3,4,5,6],10,true);
+         animation.add("walk",[0,1,2,3,4,5,6],12,true);
              /*action*/
         animation.add("dig_Front",[32,33,34,35],4,true);       // creuser vers le bas
         animation.add("dig_Left",[36,37,38,39],4,true);

@@ -75,7 +75,6 @@ override public function update():Void
         }
 
         FlxG.collide(perso,surface.groupObj);  
-
         super.update();
 }	
 }
