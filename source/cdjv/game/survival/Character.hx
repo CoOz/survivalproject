@@ -112,12 +112,13 @@ class Character extends FlxSprite{
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
+        //sceneJeu.surface.digMan.creuse(this);
     }
 
 
     public function digging():Void
     {
-        sceneJeu.surface.digMap.creuse(this);
+        sceneJeu.surface.digMan.creuse(this);
         if (loadCircle.animation.frameIndex==6 && nbCligno!=75)     //fini de creuser
         {
             loadCircle.animation.pause();

@@ -1,5 +1,6 @@
 package cdjv.game.survival;
 
+import cdjv.game.survival.DigMapManager;
 import flixel.FlxG;
 import flixel.util.FlxPool;
 import flixel.tile.FlxTilemap;
@@ -19,7 +20,7 @@ class MapWorld extends FlxSprite{
     public var map:FlxTilemap;
     public var map2:FlxTilemap;
     public var groupMap:FlxTypedGroup<FlxTilemap>;
-    public var digMap:DigMap;
+    public var digMan:DigMapManager;
     private var tabMap:Array<Int>;
     public var groupObj:FlxTypedGroup<FlxTileblock>;
     private var obj:FlxTileblock;
@@ -53,6 +54,9 @@ class MapWorld extends FlxSprite{
     a = 0;
     groupMap = new FlxTypedGroup(9);
     groupObj = new FlxTypedGroup(20);
+
+        this.scene.add(groupMap);
+        digMan=new DigMapManager(scene);
     }
 
     public function popAleaObject(zoneN:Array<Int>){
@@ -85,12 +89,13 @@ class MapWorld extends FlxSprite{
                 map2.loadMap(tabMap, "assets/images/tile.png", 40,40);
                 map2.updateFrameData();    
                 groupMap.add(map2);
+                digMan.loadMap(j,i);
             }
-        this.scene.add(groupMap);
+        //this.scene.add(groupMap);
         this.popAleaObject(zoneN);
 
-        this.loadGraphic("assets/images/desert.jpg");
-        digMap=new DigMap(scene);
+        //this.loadGraphic("assets/images/desert.jpg");
+        //digMap=new DigMap(scene);
 
     }
     //générer le graphic
