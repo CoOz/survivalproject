@@ -27,6 +27,9 @@ class Character extends FlxSprite{
     public var prevX:Int;
     public var prevY:Int;
     public var poids:Int;
+
+    public var z:Int;
+
     static var dig_time=5;
     static var dig_finish_time=0.5;
     public var endActionFrame:Int;
@@ -112,8 +115,7 @@ class Character extends FlxSprite{
         duringDigging=true;
         loadCircle.alpha=100;
         loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
-        loadCircle.x=x+width/4;
-        loadCircle.y=y-height/4;
+        loadCirclePositionning();
         loadCircle.animation.play("loading");
         diggingAnimation();
         digTime=FlxTimer.start(dig_time);
@@ -163,8 +165,8 @@ class Character extends FlxSprite{
     {
         barre.x=x-FlxG.width/2+64;
         barre.y=y-FlxG.height/2+50;
-        loadCircle.x=x+width/4;
-        loadCircle.y=y-height/4;
+     /*   loadCircle.x=x+width/4;
+        loadCircle.y=y-height/4;*/
         changeMaxVelocity();
         if(velocity.x !=0 || velocity.y!=0) zone = checkZone();
         if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging){         // aller vers le haut
@@ -199,7 +201,7 @@ class Character extends FlxSprite{
         }
 
         else if(control[0] && control[1] && !control[2] && !control[3] &&  !duringDigging){            // aller en haut a droite
-            direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
+            direction[0]=true; direction[1]=true; direction[2]=false; direction[3]=false;
             this.angle=-45;
             animation.play("walk");  
             velocity.x =  maxVelocity.x;
@@ -207,7 +209,7 @@ class Character extends FlxSprite{
         }
 
         else if(control[0] && !control[1] && !control[2] && control[3] &&  !duringDigging){             // aller en haut a gauche
-            direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
+            direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=true;
             this.angle=-125;
             animation.play("walk");  
             velocity.x = -maxVelocity.x;
@@ -215,7 +217,7 @@ class Character extends FlxSprite{
         }
 
         else if(!control[0] && control[1] && control[2] && !control[3] &&  !duringDigging){             // aller en bas a droite
-            direction[0]=false; direction[1]=true; direction[2]=false; direction[3]=false;
+            direction[0]=false; direction[1]=true; direction[2]=true; direction[3]=false;
             this.angle=45;
             animation.play("walk");  
             velocity.x = maxVelocity.x;
@@ -224,7 +226,7 @@ class Character extends FlxSprite{
 
         else if(!control[0] && !control[1] && control[2] && control[3] &&  !duringDigging)             // aller en bas a gauche
         {
-            direction[0]=false; direction[1]=false; direction[2]=false; direction[3]=true;
+            direction[0]=false; direction[1]=false; direction[2]=true; direction[3]=true;
             this.angle=125;
             animation.play("walk");  
             velocity.x = -maxVelocity.x;
@@ -253,7 +255,38 @@ class Character extends FlxSprite{
         }
     }
 
+    public function loadCirclePositionning():Void{
+        if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
+        {
+            loadCircle.x=this.x+width/2;
+            loadCircle.y=this.y-height;
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
 
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
+
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
+
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
+
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
+
+        }
+        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        {
+
+        }
+
+    }
     public function setTheBasicCharPropriety(scene:PlayState):Void{
         zone = [0,0];
         /*Character*/
@@ -274,6 +307,10 @@ class Character extends FlxSprite{
         loadCircle.alpha=0;
         loadCircle.x=x+width/4;
         loadCircle.y=y-height/4;
+
+        this.scale.x=0.75;
+        this.scale.y=0.75;
+        updateHitbox(); 
         /* Animation : */
 
             /* move */

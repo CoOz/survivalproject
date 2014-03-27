@@ -24,9 +24,9 @@ override public function create():Void
 // Set a background color
 FlxG.cameras.bgColor = 0xff000000;
 // Show the mouse (in case it hasn't been disabled)
-#if !FLX_NO_MOUSE
+/*#if !FLX_NO_MOUSE
 FlxG.mouse.show();
-#end
+#end*/
 
         //on crée un monde
 
