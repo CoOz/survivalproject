@@ -1,5 +1,6 @@
 package cdjv.game.survival;
 
+import flixel.util.FlxPoint;
 import flash.events.KeyboardEvent;
 import flash.events.Event;
 import flixel.FlxG;
@@ -30,8 +31,11 @@ class Character extends FlxSprite{
 
     public var z:Int;
 
-    static var dig_time=5;
+    /* TIMER */
+    static var dig_time=2;
     static var dig_finish_time=0.5;
+
+
     public var endActionFrame:Int;
 
     public var zone:Array<Int>;
@@ -114,11 +118,12 @@ class Character extends FlxSprite{
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
         duringDigging=true;
         loadCircle.alpha=100;
-        loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
+        loadCircle.animation.add("loading",[0,1,2,3,4,5,6],3,true);
         loadCirclePositionning();
         loadCircle.animation.play("loading");
         diggingAnimation();
         digTime=FlxTimer.start(dig_time);
+       // sceneJeu.surface.digMan.creuse(this);
     }
 
     public function onMousseUP(evt:flash.events.MouseEvent):Void{
@@ -133,7 +138,8 @@ class Character extends FlxSprite{
 
 
     public function digging():Void
-    { 
+    {
+        //sceneJeu.surface.digMan.creuse(this);
         if(duringDigging)
         {
            if(digTime.finished)
@@ -141,6 +147,7 @@ class Character extends FlxSprite{
                 digTime.abort();
                 digTime.finished=false;
                 duringDigging=false;
+                sceneJeu.surface.digMan.creuse(this);
                 loadCircle.animation.destroyAnimations();
                 loadCircle.animation.add("clignote",[6,0],20,true);
                 loadCircle.animation.play("clignote");
@@ -168,7 +175,13 @@ class Character extends FlxSprite{
      /*   loadCircle.x=x+width/4;
         loadCircle.y=y-height/4;*/
         changeMaxVelocity();
-        if(velocity.x !=0 || velocity.y!=0) zone = checkZone();
+        if(velocity.x !=0 || velocity.y!=0){
+            zone = checkZone();
+            var facteur:Float=.01;
+            if(z>0) this.scale=new FlxPoint(1-z*facteur,1-z*facteur);
+            else this.scale=new FlxPoint(1,1);
+            FlxG.camera.zoom=1+z*facteur;
+        }
         if(control[0] && !control[1] && !control[2] && !control[3] && !duringDigging){         // aller vers le haut
             direction[0]=true; direction[1]=false; direction[2]=false; direction[3]=false;
             this.angle=-90;
@@ -239,6 +252,8 @@ class Character extends FlxSprite{
             this.animation.frameIndex=0;
             animation.pause();
         }
+        z=sceneJeu.surface.digMan.getProfondeur(this);
+
     }
 
 
@@ -250,6 +265,7 @@ class Character extends FlxSprite{
             prevY=Std.int(y);
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
+            displayCoord.text+="z:"+Std.int(z)+"\n";
             displayCoord.setPosition(x+width,y);
 
         }
@@ -259,7 +275,7 @@ class Character extends FlxSprite{
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
         {
             loadCircle.x=this.x+width/2;
-            loadCircle.y=this.y-height;
+            loadCircle.y=this.y+height;
         }
         else if(direction[0] && direction[1] && direction[2] && direction[3])
         {
@@ -294,7 +310,7 @@ class Character extends FlxSprite{
         duringDigging=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        this.angle=0;
+        this.angle=90;
         maxVelocity.x=100;
         maxVelocity.y=100;
         loadGraphic("assets/images/char2.png",true,false,63,64,false,null);
@@ -305,11 +321,11 @@ class Character extends FlxSprite{
         loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
         scene.add(loadCircle);
         loadCircle.alpha=0;
-        loadCircle.x=x+width/4;
-        loadCircle.y=y-height/4;
+        loadCircle.x=this.x+this.width/2;
+        loadCircle.y=this.y+3;
 
-        this.scale.x=0.75;
-        this.scale.y=0.75;
+       /* this.scale.x=0.75;
+        this.scale.y=0.75;*/
         updateHitbox(); 
         /* Animation : */
 
@@ -380,5 +396,10 @@ class Character extends FlxSprite{
         super.update();
     }
 
-
+    public function getXCenter():Float{
+        return x+width/2-4;
+    }
+    public function getYCenter():Float{
+        return y+height/2-4;
+    }
 }
