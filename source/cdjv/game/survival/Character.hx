@@ -125,6 +125,7 @@ class Character extends FlxSprite{
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
+            sceneJeu.surface.digMap.creuse(this);     
             animation.frameIndex=endActionFrame;
             digTime.abort();
             digTime.finished=false;
@@ -140,7 +141,6 @@ class Character extends FlxSprite{
                 digTime.abort();
                 digTime.finished=false;
                 duringDigging=false;
-               // sceneJeu.surface.digMap.creuse(this);         /* fait foirée */
                 loadCircle.animation.destroyAnimations();
                 loadCircle.animation.add("clignote",[6,0],20,true);
                 loadCircle.animation.play("clignote");
@@ -355,7 +355,7 @@ class Character extends FlxSprite{
             {animation.play("dig_Front");endActionFrame=0;}
         else if(!direction[0] && !direction[1] && !direction[2] && direction[3] && duringDigging)
             {animation.play("dig_Left");endActionFrame=4;}
-        else trace("error");
+       // else trace("error");
     }  
 
     
@@ -372,9 +372,6 @@ class Character extends FlxSprite{
         }
     } 
 
-    public function test():Void{
-        trace("coucou");
-    }
 
     override public function update():Void{
         move();

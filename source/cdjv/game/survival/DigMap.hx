@@ -33,6 +33,7 @@ class DigMap{
     }
 
     public function creuse(joueur:Character){
+    
         var x:Float=0,y:Float=0;
         if(joueur.direction[0]){
             x=joueur.x+joueur.width/2-zoneW/2;
