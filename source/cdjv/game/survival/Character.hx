@@ -115,6 +115,7 @@ class Character extends FlxSprite{
         duringDigging=true;
         loadCircle.alpha=100;
         loadCircle.animation.add("loading",[0,1,2,3,4,5,6],1,true);
+
         loadCirclePositionning();
         loadCircle.animation.play("loading");
         diggingAnimation();
@@ -140,7 +141,7 @@ class Character extends FlxSprite{
                 digTime.abort();
                 digTime.finished=false;
                 duringDigging=false;
-               // sceneJeu.surface.digMap.creuse(this);         /* fait foirée */
+                //sceneJeu.surface.digMap.creuse(this);         /* fait foirée */
                 loadCircle.animation.destroyAnimations();
                 loadCircle.animation.add("clignote",[6,0],20,true);
                 loadCircle.animation.play("clignote");
@@ -163,8 +164,8 @@ class Character extends FlxSprite{
 
     public function move ():Void
     {
-        barre.x=x-FlxG.width/2+64;
-        barre.y=y-FlxG.height/2+50;
+        barre.x=this.x-FlxG.width/2+64;
+        barre.y=this.y-FlxG.height/2+50;
      /*   loadCircle.x=x+width/4;
         loadCircle.y=y-height/4;*/
         changeMaxVelocity();
@@ -256,34 +257,51 @@ class Character extends FlxSprite{
     }
 
     public function loadCirclePositionning():Void{
+        trace(direction);    
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
         {
-            loadCircle.x=this.x+width/2;
-            loadCircle.y=this.y-height;
+            loadCircle.x=this.x+this.width/2;
+            loadCircle.y=this.y+0.75*this.height;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])   // vers la droite
+        {
+            loadCircle.x=this.x;
+            loadCircle.y=this.y+this.height/2;
+
+        }
+        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])   // vers le bas
+        {
+            loadCircle.x=this.x+this.width/2;
+            loadCircle.y=this.y-0.10*this.height;
+        }
+        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])   // vers la gauche
+        {
+            loadCircle.x=this.x+0.75*this.width;
+            loadCircle.y=this.y+this.height/2;
+        }
+        else if(direction[0] && direction[1] && !direction[2] && !direction[3])    // haut droite   
+        {
+            loadCircle.x=this.x+this.width/6;
+            loadCircle.y=this.y+1.5*this.height/2;
+        }
+        else if(direction[0] && !direction[1] && !direction[2] &&   direction[3])    // haut gauche
+        {
+            loadCircle.x=this.x+this.width/2;
+            loadCircle.y=this.y+this.height/6;
+        }
+        else if(!direction[0] && direction[1] && direction[2] && !direction[3])     // bas droite
+        {
+            loadCircle.x=this.x+this.width/6;
+            loadCircle.y=this.y-this.height/2;
+        }
+        else if(!direction[0] && direction[1] && !direction[2] && direction[3])     // bas gauche
         {
 
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else
         {
-
-        }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
-        {
-
-        }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
-        {
-
-        }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
-        {
-
-        }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
-        {
-
+            loadCircle.x=this.x;
+            loadCircle.y=this.y;
         }
 
     }
@@ -355,7 +373,6 @@ class Character extends FlxSprite{
             {animation.play("dig_Front");endActionFrame=0;}
         else if(!direction[0] && !direction[1] && !direction[2] && direction[3] && duringDigging)
             {animation.play("dig_Left");endActionFrame=4;}
-        else trace("error");
     }  
 
     
