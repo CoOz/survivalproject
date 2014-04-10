@@ -69,10 +69,11 @@ class DigMap{
     }
 
     public function creuse(joueur:Character){
+        trace("coucou");
         var zoneIndex=getZoneIndex(joueur);
         var xZone=zoneIndex[0];
         var yZone=zoneIndex[1];
-        //trace("creuse "+xZone+" "+yZone,xZone*zoneW-sprite.x,sprite.x);
+        trace("creuse "+xZone+" "+yZone,xZone*zoneW-sprite.x,sprite.x);
         var cle:String=buildKey(xZone,yZone);
         if(!lamap.exists(cle))
             lamap.set(cle,0);
