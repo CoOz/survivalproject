@@ -123,14 +123,12 @@ class Character extends FlxSprite{
         loadCircle.animation.play("loading");
         diggingAnimation();
         digTime=FlxTimer.start(dig_time);
-       // sceneJeu.surface.digMan.creuse(this);
     }
 
     public function onMousseUP(evt:flash.events.MouseEvent):Void{
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
-            sceneJeu.surface.digMap.creuse(this);     
             animation.frameIndex=endActionFrame;
             digTime.abort();
             digTime.finished=false;
@@ -139,7 +137,6 @@ class Character extends FlxSprite{
 
     public function digging():Void
     {
-        //sceneJeu.surface.digMan.creuse(this);
         if(duringDigging)
         {
            if(digTime.finished)
@@ -275,31 +272,42 @@ class Character extends FlxSprite{
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
         {
             loadCircle.x=this.x+width/2;
-            loadCircle.y=this.y+height;
+            loadCircle.y=this.y+height-10;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])    //vers la droite
         {
-
+            loadCircle.x = this.x;
+            loadCircle.y = this.y+this.height/2;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(!direction[0] && !direction[1] && direction[2] && !direction[3])    // vers le bas
         {
-
+            loadCircle.x = this.x+width/2;
+            loadCircle.y = this.y;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(!direction[0] && !direction[1] && !direction[2] && direction[3])       // vers la gauche
         {
-
+            loadCircle.x = this.x+this.width+10;
+            loadCircle.y = this.y+this.height/2;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(direction[0] && direction[1] && !direction[2] && !direction[3])       // haut droit
         {
-
+            loadCircle.x=this.x+this.width/3;
+            loadCircle.y=this.y+this.height/1.3;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(direction[0] && !direction[1] && !direction[2] && direction[3])   // haut gauche
         {
-
+            loadCircle.x=this.x+2*this.width/3;
+            loadCircle.y=this.y+this.height/1.3;
         }
-        else if(direction[0] && direction[1] && direction[2] && direction[3])
+        else if(!direction[0] && direction[1] && direction[2] && !direction[3])   // bas droit
         {
-
+            loadCircle.x=this.x+this.width/3;
+            loadCircle.y=this.y+this.height/5;
+        }
+        else if(!direction[0] && !direction[1] && direction[2] && direction[3])   // bas gauche
+        {
+            loadCircle.x=this.x+2*this.width/3;
+            loadCircle.y=this.y+this.height/5;
         }
 
     }
@@ -325,8 +333,8 @@ class Character extends FlxSprite{
         loadCircle.y=this.y+3;
 
        /* this.scale.x=0.75;
-        this.scale.y=0.75;*/
-        updateHitbox(); 
+        this.scale.y=0.75;
+        updateHitbox(); */
         /* Animation : */
 
             /* move */

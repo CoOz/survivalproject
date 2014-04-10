@@ -47,13 +47,8 @@ class DigMap{
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,showGrid);
     }
 
-<<<<<<< HEAD
-    public function creuse(joueur:Character){
-    
-=======
     /** Renvoie l'index de la zone de creusage en fonction des coordonnées passées en parametres */
     public function getZoneIndex(joueur:Character):Array<Int>{
->>>>>>> master
         var x:Float=0,y:Float=0;
         if(joueur.direction[0]){
             x=joueur.x+joueur.width/2-zoneW/2;
