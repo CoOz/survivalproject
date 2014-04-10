@@ -40,13 +40,15 @@ class DigMap{
 
         sprite.blend=BlendMode.LAYER;
         //FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
+
         //sprite.visible=false;
         this.scene.add(sprite);
         this.scene.add(nom);
         FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,showGrid);
     }
 
-    public function creuse(joueur:Character){
+    /** Renvoie l'index de la zone de creusage en fonction des coordonnées passées en parametres */
+    public function getZoneIndex(joueur:Character):Array<Int>{
         var x:Float=0,y:Float=0;
         if(joueur.direction[0]){
             x=joueur.x+joueur.width/2-zoneW/2;
@@ -63,6 +65,13 @@ class DigMap{
         }
         var xZone=Math.round(x/zoneW);
         var yZone=Math.round(y/zoneH);
+        return [xZone,yZone];
+    }
+
+    public function creuse(joueur:Character){
+        var zoneIndex=getZoneIndex(joueur);
+        var xZone=zoneIndex[0];
+        var yZone=zoneIndex[1];
         //trace("creuse "+xZone+" "+yZone,xZone*zoneW-sprite.x,sprite.x);
         var cle:String=buildKey(xZone,yZone);
         if(!lamap.exists(cle))
@@ -86,13 +95,27 @@ class DigMap{
         trace("drawDig",xZone,yZone,profondeur);
         var deltaUp:Int=0;
         var deltaLeft:Int=0;
+        var deltaUpLeft:Int=0;
         sprite.pixels.fillRect(new Rectangle(xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH),0x00000000);
         //FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(0,0,0,0),ls,fs,dsErase);
         FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(profondeur*10,0,0,0));
+
+        /*cleCase=buildKey(xZone-1,yZone-1);
+        //hautgauche
+        var profUpLeft:Int=(lamap.exists(cleCase)?lamap.get(cleCase):0);
+        trace(cleCase,'hautgauche',profUpLeft,profondeur);
+        if(profUpLeft<profondeur){
+            deltaUpLeft=profondeur-profUpLeft;
+            //on affiche l'ombre avec une hauteur = delta
+            //sprite.pixels.fillRect(new Rectangle(xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,deltaUpLeft/2,deltaUpLeft),FlxColorUtil.makeFromARGB((profondeur*10)+50,0,0,0));
+            FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,deltaUpLeft/2,deltaUpLeft,FlxColorUtil.makeFromARGB(100,0,0,0));
+        }*/
+
+
         var cleCase:String=buildKey(xZone,yZone-1);
         //au dessus
         var profHaut:Int=(lamap.exists(cleCase)?lamap.get(cleCase):0);
-        trace(cleCase,'dessus',profHaut,profondeur,profondeur-profHaut);
+        //trace(cleCase,'dessus',profHaut,profondeur,profondeur-profHaut);
         if(profHaut<profondeur){
             deltaUp=profondeur-profHaut;
             //on affiche l'ombre avec une hauteur = delta
@@ -102,7 +125,7 @@ class DigMap{
         cleCase=buildKey(xZone-1,yZone);
         //agauche
         var profLeft:Int=(lamap.exists(cleCase)?lamap.get(cleCase):0);
-        trace(cleCase,'a gauche',profLeft,profondeur);
+        //trace(cleCase,'a gauche',profLeft,profondeur);
         if(profLeft<profondeur){
             deltaLeft=profondeur-profLeft;
             //on affiche l'ombre avec une hauteur = delta
@@ -119,7 +142,12 @@ class DigMap{
             if(lamap.exists(cleCase)){
                 drawDig(xZone+1,yZone,lamap.get(cleCase),false);
             }
+            /*cleCase=buildKey(xZone-1,yZone-1);
+            if(lamap.exists(cleCase)){
+                drawDig(xZone+1,yZone,lamap.get(cleCase),false);
+            }*/
         }
+
     }
 
     public function drawShadows(){
@@ -152,9 +180,23 @@ class DigMap{
     }
 
     public function showGrid(key:KeyboardEvent){
-        if(key.keyCode==Keyboard.K){
+        if(key.keyCode==Keyboard.K){    
             sprite.visible=!sprite.visible;
             //creuse(Math.random()*100,Math.random()*100);
+        }
+    }
+
+    /** Renvoie la valeur de profondeur pour les coordonnées demandées en paramètres */
+    public function getProfondeur(joueur:Character):Int{
+        var xZone=Math.round(joueur.getXCenter()/zoneW);
+        var yZone=Math.round(joueur.getYCenter()/zoneH);
+
+        var cle=buildKey(xZone,yZone);
+        trace("getProfondeur "+cle);
+        if(lamap.exists(cle)){
+            return lamap.get(cle);
+        }else{
+            return 0;
         }
     }
 }

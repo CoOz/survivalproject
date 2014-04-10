@@ -28,12 +28,9 @@ class MapWorld extends FlxSprite{
     //pour le premier passage dans generateMap
     public var a:Int;
     //private var tabMapAdjacent:Array<Int>;
-
-
     public function new(scene:PlayState){
         super();
         this.scene = scene;
-       
 
         tabMap = [1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,1,1,1,2,
                     1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,
@@ -63,8 +60,8 @@ class MapWorld extends FlxSprite{
         var i:Int;
         i = Std.int(Math.random()*20);
         for(j in 0...i){
-            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28);  // pour créer un nouveau block http://api.haxeflixel.com/
-            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null); 
+            obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28); // pour créer un nouveau block http://api.haxeflixel.com/
+            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
             groupObj.add(obj);
         }
 
@@ -87,15 +84,12 @@ class MapWorld extends FlxSprite{
                 map2.x = j * 800;
                 map2.y = i * 600;
                 map2.loadMap(tabMap, "assets/images/tile.png", 40,40);
-                map2.updateFrameData();    
+                map2.updateFrameData();
                 groupMap.add(map2);
                 digMan.loadMap(j,i);
             }
         //this.scene.add(groupMap);
         this.popAleaObject(zoneN);
-
-        //this.loadGraphic("assets/images/desert.jpg");
-        //digMap=new DigMap(scene);
 
     }
     //générer le graphic
@@ -112,6 +106,5 @@ class MapWorld extends FlxSprite{
     }
 
     public function loadDigMap(xPos:Float, yPos:Float){
-
     }
 }

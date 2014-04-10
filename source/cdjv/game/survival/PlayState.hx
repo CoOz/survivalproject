@@ -12,7 +12,9 @@ import flixel.util.FlxMath;
 */
 class PlayState extends FlxState
 {
+
 public var surface:MapWorld;
+public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
 private var perso:Character;
@@ -28,25 +30,24 @@ FlxG.mouse.show();
 
         //on crée un monde
 
-        surface=new MapWorld(this);
+        surface = new MapWorld(this);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
-
+        //digm = new DigMap(this);
 
         //on crée un perso
         perso = new Character(this);
-        
         perso.setPosition(50,50);
         this.add(perso);
+
         zoneP = perso.checkZone().toString();
         trace(zoneP);
 
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
-        //FlxG.overlap(perso, surface.groupObj);
-        FlxG.collide(perso,surface.groupObj);
+        
         super.create();
 }
 
@@ -72,6 +73,7 @@ override public function update():Void
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
+
         FlxG.collide(perso,surface.groupObj);  
         super.update();
 }	
