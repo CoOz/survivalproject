@@ -49,7 +49,7 @@ class MapWorld extends FlxSprite{
                     1,1,1,1,2,1,1,1,1,1,2,2,1,1,1,2,1,1,1,2];
     
     a = 0;
-    groupMap = new FlxTypedGroup(9);
+    groupMap = new FlxTypedGroup(0);
     groupObj = new FlxTypedGroup(20);
 
         this.scene.add(groupMap);
@@ -94,6 +94,35 @@ class MapWorld extends FlxSprite{
     }
     //générer le graphic
 
+   /* public function generateMap(zoneN:Array<Int> ){
+        if(a == 1){
+            groupObj.clear();
+            groupMap.clear();
+        }
+        else a = 1;
+        //groupMap = new FlxTypedGroup(9);
+        trace((zoneN[0]), zoneN[1]);
+        for(j in (zoneN[0]-1)...(zoneN[0]+2))
+            for(i in (zoneN[1]-1)...(zoneN[1]+2))
+            {
+                map2 = new FlxTilemap();
+                map2.widthInTiles = 20;
+                //number of tiles by column
+                map2.heightInTiles = 15;
+                map2.x = j * 800;
+                map2.y = i * 600;
+                map2.loadMap(tabMap, "assets/images/tile.png", 40, 40);
+
+                digMan.loadMap(j,i);
+                groupMap.add(map2);
+                // afficher les map après avec un foreach
+                //map2.updateFrameData();
+            }
+        for(i in 0...groupMap.length){
+            groupMap.members[i].updateFrameData(); 
+        }
+        this.popAleaObject(zoneN);
+    }*/
     
 
     public function loadForCoords(xPos:Float,yPos:Float){

@@ -32,8 +32,8 @@ class Character extends FlxSprite{
     public var z:Int;
 
     /* TIMER */
-    static var dig_time=2;
-    static var dig_finish_time=0.5;
+    static var dig_time=2;                      // TEMPS POUR CREUSER
+    static var dig_finish_time=0.5;             // TEMPS DE CLIGNOTEMENT
 
 
     public var endActionFrame:Int;
@@ -41,8 +41,9 @@ class Character extends FlxSprite{
     public var zone:Array<Int>;
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
+
     public var stuff:Array<String>;
-    public var inHand:Array<String>;    // 1: left hand, 2: right hand
+    public var inHand:Array<String>;    // 0: left hand, 1: right hand
 
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
@@ -63,7 +64,6 @@ class Character extends FlxSprite{
         sceneJeu=scene;
         sceneJeu.add(displayCoord);
         setTheBasicCharPropriety(scene);
-        sceneJeu.add(barre);
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
@@ -105,7 +105,6 @@ class Character extends FlxSprite{
         if(evt.keyCode == flash.ui.Keyboard.SHIFT)
             run=false;
        
-
         if(evt.keyCode == flash.ui.Keyboard.O)
         {
             trace(x);trace(y);
@@ -129,9 +128,10 @@ class Character extends FlxSprite{
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
-            animation.frameIndex=endActionFrame;
+            //animation.frameIndex=endActionFrame;
             digTime.abort();
             digTime.finished=false;
+            sceneJeu.surface.digMan.creuse(this);
     }
 
 
@@ -167,8 +167,7 @@ class Character extends FlxSprite{
 
     public function move ():Void
     {
-        barre.x=x-FlxG.width/2+64;
-        barre.y=y-FlxG.height/2+50;
+        barre.velocity=this.velocity;
      /*   loadCircle.x=x+width/4;
         loadCircle.y=y-height/4;*/
         changeMaxVelocity();
@@ -324,7 +323,7 @@ class Character extends FlxSprite{
         loadGraphic("assets/images/char2.png",true,false,63,64,false,null);
         centerOffsets;
         scene.add(this);
-        /*load circle */
+        /*loadcircle */
         loadCircle=new FlxSprite();
         loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
         scene.add(loadCircle);
@@ -353,7 +352,14 @@ class Character extends FlxSprite{
         animation.add("dig_Right",[40,41,42,43],4,true);
         animation.add("dig_Back",[44,45,46,47],4,true);        // creuser vers le haut
 
-        barre = new FlxBar(x-FlxG.width/2+64,y-FlxG.height/2+50,FlxBar.FILL_LEFT_TO_RIGHT,64,10,this,"health");
+        barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health");
+        barre.createFilledBar(0xFF000000,0x00FFFFFF,false);
+        barre.x=(this.x+barre.width)-FlxG.width/2;
+        barre.y=(this.y+barre.height)-FlxG.height/3;
+        barre.width=FlxG.width/10;
+        trace((this.x+barre.width)-FlxG.width/2);
+        trace((this.y+barre.height*2)-FlxG.height/2);
+        scene.add(barre);
 
     }
 
@@ -372,13 +378,13 @@ class Character extends FlxSprite{
 
     public function diggingAnimation():Void{
         if(direction[0] && !direction[1] && !direction[2] && !direction[3] && duringDigging)
-            {animation.play("dig_Back");endActionFrame=12;}
+            {animation.play("dig_Back");endActionFrame=0;}
         else if(!direction[0] && direction[1] && !direction[2] && !direction[3] && duringDigging)
-            {animation.play("dig_Right");endActionFrame=8;}
+            {animation.play("dig_Right");endActionFrame=0;}
         else if(!direction[0] && !direction[1] && direction[2] && !direction[3] && duringDigging)
             {animation.play("dig_Front");endActionFrame=0;}
         else if(!direction[0] && !direction[1] && !direction[2] && direction[3] && duringDigging)
-            {animation.play("dig_Left");endActionFrame=4;}
+            {animation.play("dig_Left");endActionFrame=0 ;}
        // else trace("error");
     }  
 
