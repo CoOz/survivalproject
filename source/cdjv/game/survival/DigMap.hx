@@ -69,7 +69,6 @@ class DigMap{
     }
 
     public function creuse(joueur:Character){
-        trace("coucou");
         var zoneIndex=getZoneIndex(joueur);
         var xZone=zoneIndex[0];
         var yZone=zoneIndex[1];
@@ -193,7 +192,7 @@ class DigMap{
         var yZone=Math.round(joueur.getYCenter()/zoneH);
 
         var cle=buildKey(xZone,yZone);
-        trace("getProfondeur "+cle);
+        //trace("getProfondeur "+cle);
         if(lamap.exists(cle)){
             return lamap.get(cle);
         }else{

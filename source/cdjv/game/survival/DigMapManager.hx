@@ -28,6 +28,7 @@ class DigMapManager{
     }
 
     public function creuse(joueur:Character){
+        trace("digman creuse");
         var z=joueur.checkZone().toString();
         var cle=z.substr(1,z.length-2);
         if(digMaps.exists(cle)){
