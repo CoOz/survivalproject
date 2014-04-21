@@ -27,10 +27,11 @@ class DigMap{
         this.scene=scene;this.zoneX=zoneX;this.zoneY=zoneY;
         lamap=new Map<String,Int>();
         sprite=new FlxSprite();
-        sprite.makeGraphic(FlxG.width,FlxG.height,0x00000000);
+        sprite.makeGraphic(FlxG.width,FlxG.height,0x00000000,true);
         sprite.x=zoneX*FlxG.width;sprite.y=zoneY*FlxG.height;
+        var ls:LineStyle={color:0xFFFF0000,thickness:1};
         for(i in 0...Std.int(FlxG.height/zoneH)){
-            //FlxSpriteUtil.drawLine(sprite,0,i*zoneH,FlxG.width,i*zoneH,0xFF000000);
+            //FlxSpriteUtil.drawLine(sprite,30,i*zoneH,FlxG.width,i*zoneH,ls);
         }
         for(i in 0...Std.int(FlxG.width/zoneW)){
             //FlxSpriteUtil.drawLine(sprite,i*zoneW,0,i*zoneW,FlxG.height,0xFF000000);
@@ -38,7 +39,7 @@ class DigMap{
         }
         var nom:FlxText=new FlxText(sprite.x+20,sprite.y+20,300,zoneX+','+zoneY);
 
-        sprite.blend=BlendMode.LAYER;
+        //sprite.blend=BlendMode.LAYER;
         //FlxSpriteUtil.drawRect(sprite,0,0,40,40,0xFFFFFFFF);
 
         //sprite.visible=false;
@@ -96,9 +97,9 @@ class DigMap{
         var deltaUp:Int=0;
         var deltaLeft:Int=0;
         var deltaUpLeft:Int=0;
-        sprite.pixels.fillRect(new Rectangle(xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH),0x00000000);
+        sprite.pixels.fillRect(new Rectangle(xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,zoneW,zoneH),0x00000000);
         //FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(0,0,0,0),ls,fs,dsErase);
-        FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(profondeur*10,0,0,0));
+        FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(profondeur*10,0,0,0));
 
         /*cleCase=buildKey(xZone-1,yZone-1);
         //hautgauche
@@ -120,7 +121,7 @@ class DigMap{
             deltaUp=profondeur-profHaut;
             //on affiche l'ombre avec une hauteur = delta
             //FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,profondeur-prof,FlxColorUtil.makeFromARGB(0,0,0,0));
-            FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y,zoneW,deltaUp,FlxColorUtil.makeFromARGB(100,0,0,0));
+            FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,zoneW,deltaUp,FlxColorUtil.makeFromARGB(100,0,0,0));
         }
         cleCase=buildKey(xZone-1,yZone);
         //agauche
@@ -130,7 +131,7 @@ class DigMap{
             deltaLeft=profondeur-profLeft;
             //on affiche l'ombre avec une hauteur = delta
             //sprite.pixels.fillRect(new Rectangle(xZone*zoneW+sprite.x,(yZone+1)*zoneH+sprite.y,zoneW,zoneH),FlxColorUtil.makeFromARGB(prof*10,0,0,0));
-            FlxSpriteUtil.drawRect(sprite,xZone*zoneW+sprite.x,yZone*zoneH+sprite.y+deltaUp,deltaLeft/2,zoneH-deltaUp,FlxColorUtil.makeFromARGB(100,0,0,0));
+            FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y+deltaUp,deltaLeft/2,zoneH-deltaUp,FlxColorUtil.makeFromARGB(100,0,0,0));
         }
 
         if(updateCon){

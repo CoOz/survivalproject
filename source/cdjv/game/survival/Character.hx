@@ -127,7 +127,7 @@ class Character extends FlxSprite{
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
-            animation.frameIndex=endActionFrame;
+            //animation.frameIndex=endActionFrame;
             digTime.abort();
             digTime.finished=false;
     }
@@ -248,7 +248,7 @@ class Character extends FlxSprite{
             this.animation.frameIndex=0;
             animation.pause();
         }
-        z=sceneJeu.surface.digMan.getProfondeur(this);
+        z=0;//sceneJeu.surface.digMan.getProfondeur(this);
 
     }
 
