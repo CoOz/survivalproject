@@ -80,15 +80,8 @@ class DigMap{
         else
             if(lamap.get(cle)<profondeurMax){
                 lamap.set(cle,lamap.get(cle)+1);
-                /*var alpha=(10-lamap.get(cle))*10;
-                trace("a="+alpha);*/
-                //FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,zoneW,zoneH,FlxColorUtil.makeFromARGB(20,0,0,0));
-                //FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,zoneW,lamap.get(cle),FlxColorUtil.makeFromARGB(30,0,0,0));
-                //FlxSpriteUtil.drawRect(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,lamap.get(cle),zoneH,FlxColorUtil.makeFromARGB(30,0,0,0));
-                //FlxSpriteUtil.drawLine(sprite,xZone*zoneW-sprite.x,yZone*zoneH-sprite.y,xZone*zoneW-sprite.x+zoneW,yZone*zoneH-sprite.y,FlxColor.BLACK);
-                //trace(lamap.get(cle),xZone*zoneW-sprite.x,xZone*zoneW-sprite.x+zoneW,yZone*zoneH-sprite.y);
-                //drawShadows();
                 drawDig(xZone,yZone,lamap.get(cle));
+                scene.con.sCreuse(xZone,yZone);
             }
     }
 
