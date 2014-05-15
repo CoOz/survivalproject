@@ -14,6 +14,7 @@ class DigMapManager{
 
     public function loadMap(zoneX:Int,zoneY:Int){
         var cle=zoneX+','+zoneY;
+        //digMaps.set(cle,new DigMap(this.scene,zoneX,zoneY));
         if(!digMaps.exists(cle)){
             trace("loadMap",zoneX,zoneY);
             //on va la chercher sur la bdd
@@ -30,6 +31,7 @@ class DigMapManager{
     public function creuse(joueur:Character){
         var z=joueur.checkZone().toString();
         var cle=z.substr(1,z.length-2);
+        trace("digman creuse",z,digMaps);
         if(digMaps.exists(cle)){
             digMaps.get(cle).creuse(joueur);
         }

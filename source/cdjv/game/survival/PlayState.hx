@@ -18,6 +18,7 @@ public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
 private var perso:Character;
+public var con:Connexion;
 
 override public function create():Void
 {
@@ -47,7 +48,9 @@ FlxG.mouse.show();
         surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
-        
+
+        con=new Connexion();
+
         super.create();
 }
 
