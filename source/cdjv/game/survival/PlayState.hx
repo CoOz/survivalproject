@@ -17,17 +17,24 @@ public var surface:MapWorld;
 public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
-private var perso:Character;
+public var perso:Character;
 public var con:Connexion;
+public var pseudo: String;
+
+ function new(login:String)
+ {
+        pseudo=login;
+        super();
+ }
 
 override public function create():Void
 {
-// Set a background color
-FlxG.cameras.bgColor = 0xff000000;
-// Show the mouse (in case it hasn't been disabled)
-/*#if !FLX_NO_MOUSE
-FlxG.mouse.show();
-#end*/
+        // Set a background color
+        FlxG.cameras.bgColor = 0xff000000;
+        // Show the mouse (in case it hasn't been disabled)
+        /*#if !FLX_NO_MOUSE
+        FlxG.mouse.show();
+        #end*/
 
         //on crée un monde
 
@@ -38,7 +45,7 @@ FlxG.mouse.show();
         //digm = new DigMap(this);
 
         //on crée un perso
-        perso = new Character(this);
+        perso = new Character(this,pseudo,0,0);
         perso.setPosition(50,50);
         this.add(perso);
 
