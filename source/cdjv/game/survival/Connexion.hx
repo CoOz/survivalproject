@@ -14,7 +14,7 @@ class Connexion{
         init();
     }
     public function init(){
-        socket=new SockJS("http://172.20.73.35:9999/survival", {reconnect: true});
+        socket=new SockJS("http://127.0.0.1:9999/survival", {reconnect: true});
         // Listen open event
         socket.onOpen(function() {
             trace("[sock]connected");
@@ -45,7 +45,7 @@ class Connexion{
         socket.send(paquet);
     }
     public function sLogin(pseudo:String){
-
+        trace("login"+pseudo);
         socket.send("l"+pseudo);
     }
     public function sCreuse(x:Int,y:Int){

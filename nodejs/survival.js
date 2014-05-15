@@ -1,10 +1,23 @@
 var http = require('http');
 var sockjs = require('sockjs');
 
+var joueurs={};
+
 var echo = sockjs.createServer();
 echo.on('connection', function(conn) {
     conn.on('data', function(message) {
-        conn.write(message);
+        switch(message.charAt(0)){
+        	case 'l':
+        		var login=message.substring(1);
+        		if(joueurs[login]===undefined)
+        			joueurs[login]=conn;
+        		console.log("login "+login);
+        		conn.write('l');
+        		break;
+        	default:
+        		console.log('paquet inconnu '+message);
+        		break;
+        }
     });
     conn.on('close', function() {});
 });
@@ -12,3 +25,7 @@ echo.on('connection', function(conn) {
 var server = http.createServer();
 echo.installHandlers(server, {prefix:'/survival'});
 server.listen(9999, '0.0.0.0');
+
+function sendToAll(message){
+
+}
