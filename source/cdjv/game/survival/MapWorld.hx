@@ -83,7 +83,7 @@ class MapWorld extends FlxSprite{
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
                 map2.y = i * 600;
-                map2.loadMap(tabMap, "assets/images/tile.png", 40,40);
+                map2.loadMap(tabMap, "assets/images/tile.png", 40,40, "ALT");
                 map2.updateFrameData();
                 groupMap.add(map2);
                 digMan.loadMap(j,i);
