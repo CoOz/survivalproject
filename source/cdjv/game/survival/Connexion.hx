@@ -1,5 +1,8 @@
 package cdjv.game.survival;
 
+import cdjv.game.survival.LoginManager;
+import flixel.FlxG;
+import flixel.FlxState;
 import sockjs.SockJS;
 
 class Connexion{
@@ -21,6 +24,7 @@ class Connexion{
         // Listen message event
         socket.onMessage(function(message) {
             trace("[sock]<-"+message);
+            dispatch(message);
         });
 
         // Listen error event
@@ -42,9 +46,21 @@ class Connexion{
     }
     public function sLogin(pseudo:String){
 
+        socket.send("l"+pseudo);
     }
     public function sCreuse(x:Int,y:Int){
         send("c"+x+";"+y);
+    }
+    public function dispatch(message:String){
+        switch(message.charAt(0)){
+            case 'l':
+                var test:LoginManager=cast FlxG.state;
+                test.loginOK();
+            case 'j':
+                //CharManager.recoitJoueurs(message);
+            default:
+                trace('paquet incorrect! '+message);
+        }
     }
 
 }
