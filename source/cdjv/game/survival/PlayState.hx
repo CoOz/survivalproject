@@ -17,7 +17,7 @@ public var surface:MapWorld;
 public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
-private var perso:Character;
+public var perso:Character;
 public var con:Connexion;
 
 override public function create():Void
@@ -38,7 +38,7 @@ FlxG.mouse.show();
         //digm = new DigMap(this);
 
         //on crée un perso
-        perso = new Character(this);
+        perso = new Character(this,"TestMan",0,0);
         perso.setPosition(50,50);
         this.add(perso);
 

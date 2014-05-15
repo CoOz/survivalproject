@@ -19,6 +19,8 @@ import flixel.ui.FlxBar;
 
 class Character extends FlxSprite{
 
+    public var pseudo:String;
+
     public var duringDigging:Bool;
     public var diggingFinish:Bool;
 
@@ -53,8 +55,9 @@ class Character extends FlxSprite{
     public var barre:FlxBar;
 
 
-    public function new(scene:PlayState){
+    public function new(scene:PlayState, pseudo:String, posx:Int, posy:Int){
         super();
+        this.pseudo=pseudo;
         zone = [0,0];
         diggingFinish=false;
         displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
@@ -62,7 +65,7 @@ class Character extends FlxSprite{
         displayCoord.color=0x00000000;
         sceneJeu=scene;
         sceneJeu.add(displayCoord);
-        setTheBasicCharPropriety(scene);
+        setTheBasicCharPropriety(scene, posx, posy);
         sceneJeu.add(barre);
         /* Fin Animation */
         prevX=Std.int(x);
@@ -265,6 +268,7 @@ class Character extends FlxSprite{
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
             displayCoord.text+="z:"+Std.int(z)+"\n";
+            displayCoord.text+=pseudo+"\n";
             displayCoord.setPosition(x+width,y);
 
         }
@@ -302,16 +306,20 @@ class Character extends FlxSprite{
         }
 
     }
-    public function setTheBasicCharPropriety(scene:PlayState):Void{
+    public function setTheBasicCharPropriety(scene:PlayState, posx: Int, posy: Int):Void{
         zone = [0,0];
         /*Character*/
         run=false;
         duringDigging=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+
         this.angle=90;
         maxVelocity.x=100;
         maxVelocity.y=100;
+        this.x=posx;
+        this.y=posy;
+
         loadGraphic("assets/images/char2.png",true,false,63,64,false,null);
         centerOffsets;
         scene.add(this);
