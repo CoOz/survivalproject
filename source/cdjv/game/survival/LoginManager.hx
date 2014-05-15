@@ -48,6 +48,7 @@ class LoginManager extends FlxState{
 			else if(evt.keyCode==flash.ui.Keyboard.BACKSPACE && login.length>0)
 			{ 
 				login=login.substr(0,login.length-1);
+				trace(login);
 				afflogin.text=login.substr(0,login.length-1);
 			}
         	else
@@ -71,7 +72,7 @@ class LoginManager extends FlxState{
         }
     }
 
-	public function loginOK():void{
+	public function loginOK(){
 		trace("Login Ok!");
 	}
 
