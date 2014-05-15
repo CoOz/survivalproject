@@ -43,7 +43,6 @@ class LoginManager extends FlxState{
 				var connex:Connexion;
 				connex = new Connexion();
 				connex.sLogin(login);
-				FlxG.switchState(new PlayState(login));
 			}
 			else if(evt.keyCode==flash.ui.Keyboard.BACKSPACE && login.length>0)
 			{ 
@@ -73,6 +72,7 @@ class LoginManager extends FlxState{
     }
 
 	public function loginOK(){
+		FlxG.switchState(new PlayState(login));
 		trace("Login Ok!");
 	}
 
