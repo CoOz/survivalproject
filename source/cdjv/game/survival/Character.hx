@@ -19,6 +19,8 @@ import flixel.ui.FlxBar;
 
 class Character extends FlxSprite{
 
+    public var inCollideWithSomething:Bool;
+
     public var duringDigging:Bool;
     public var diggingFinish:Bool;
 
@@ -53,6 +55,7 @@ class Character extends FlxSprite{
 
     public var barre:FlxBar;
 
+    public var inventaire:Inventory;
 
     public function new(scene:PlayState){
         super();
@@ -91,6 +94,8 @@ class Character extends FlxSprite{
             FlxG.resetGame();
         if(evt.keyCode == flash.ui.Keyboard.SHIFT)
             run=true;
+        if(evt.keyCode == flash.ui.Keyboard.I)
+            inventaire.alpha=100;
     }
 
     public function onKeyUp(evt:KeyboardEvent):Void{
@@ -104,14 +109,20 @@ class Character extends FlxSprite{
             control[3]=false;
         if(evt.keyCode == flash.ui.Keyboard.SHIFT)
             run=false;
-       
+        if(evt.keyCode == flash.ui.Keyboard.I)
+            inventaire.alpha=0;
         if(evt.keyCode == flash.ui.Keyboard.O)
         {
-            trace(x);trace(y);
-            trace(FlxG.width/2);
-            trace(barre.x);
-            trace(barre.y);
-        }  
+            trace(this.health);
+            trace(barre.currentValue);
+        } 
+
+
+        if(evt.keyCode == flash.ui.Keyboard.P)
+        {
+            this.hurt(1);
+            barre.currentValue-=20;
+        } 
     }
 
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
@@ -167,12 +178,6 @@ class Character extends FlxSprite{
 
     public function move ():Void
     {
-<<<<<<< HEAD
-=======
-        barre.velocity=this.velocity;
-     /*   loadCircle.x=x+width/4;
-        loadCircle.y=y-height/4;*/
->>>>>>> c9ada878ae6821f58cd0c3f680ac138ee87f3703
         changeMaxVelocity();
         if(velocity.x !=0 || velocity.y!=0){
             zone = checkZone();
@@ -324,6 +329,7 @@ class Character extends FlxSprite{
         zone = [0,0];
         /*Character*/
         run=false;
+        inCollideWithSomething=false;
         duringDigging=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
@@ -357,19 +363,25 @@ class Character extends FlxSprite{
         animation.add("walk_Back_Right",[28,29,30,31],10,true);*/
          animation.add("walk",[0,1,2,3,4,5,6],12,true);
              /*action*/
-        animation.add("dig_Front",[32,33,34,35],4,true);       // creuser vers le bas
+        /*animation.add("dig_Front",[32,33,34,35],4,true);       // creuser vers le bas
         animation.add("dig_Left",[36,37,38,39],4,true);
         animation.add("dig_Right",[40,41,42,43],4,true);
-        animation.add("dig_Back",[44,45,46,47],4,true);        // creuser vers le haut
+        animation.add("dig_Back",[44,45,46,47],4,true);        // creuser vers le haut*/
 
-        barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health");
-        barre.createFilledBar(0xFF000000,0x00FFFFFF,false);
-        barre.x=(this.x+barre.width)-FlxG.width/2;
-        barre.y=(this.y+barre.height)-FlxG.height/3;
+        /* VIE ET BARRE DE VIE */ 
+
+        this.health=20;
+
+        barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health",0,20,true);
+        barre.createFilledBar(0xFFFF0000,0xFF00FF00,false);
         barre.width=FlxG.width/10;
-        trace((this.x+barre.width)-FlxG.width/2);
-        trace((this.y+barre.height*2)-FlxG.height/2);
+        barre.trackParent(Std.int((this.x+barre.width)-FlxG.width/1.8),Std.int((this.y-barre.height)-FlxG.height/2.5));
+        barre.pxPerPercent=barre.width/100;
         scene.add(barre);
+
+
+        /* INVENTAIRE */
+        inventaire = new Inventory(scene);
 
     }
 

@@ -1,14 +1,14 @@
 package cdjv.game.survival;
 
+import flixel.FlxSprite;
+
 class Inventory extends FlxSprite{
 
-	public function new(){
-			super();
-		super.create();
-	}
-
-	public function registerEvents():Void{
-
+	public function new (scene: PlayState){
+		super();
+		loadGraphic("assets/images/charEquip.png",false,false,126,115,false,null);
+		this.alpha=0;
+		scene.add(this);
 	}
 
 	override public function destroy():Void{
@@ -16,7 +16,6 @@ class Inventory extends FlxSprite{
 	}
 
 	override public function update():Void{
-        trace("coucou");
         super.update();
     }
 

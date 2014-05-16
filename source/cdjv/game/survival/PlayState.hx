@@ -74,7 +74,8 @@ override public function update():Void
                 zoneP = zoneN.toString();
         }
 
-        FlxG.collide(perso,surface.groupObj);  
+        if(FlxG.collide(perso,surface.groupObj)) perso.inCollideWithSomething=true;
+        else perso.inCollideWithSomething=false;  
         super.update();
 }	
 }
