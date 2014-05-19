@@ -373,13 +373,15 @@ class Character extends FlxSprite{
         animation.add("dig_Right",[40,41,42,43],4,true);
         animation.add("dig_Back",[44,45,46,47],4,true);        // creuser vers le haut
 
-        barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health");
-        barre.createFilledBar(0xFF000000,0x00FFFFFF,false);
-        barre.x=(this.x+barre.width)-FlxG.width/2;
-        barre.y=(this.y+barre.height)-FlxG.height/3;
+
+        this.health=20;
+
+        barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health",0,20,true);
+        barre.createFilledBar(0xFFFF0000,0xFF00FF00,false);
         barre.width=FlxG.width/10;
-        trace((this.x+barre.width)-FlxG.width/2);
-        trace((this.y+barre.height*2)-FlxG.height/2);
+        barre.trackParent(Std.int((this.x+barre.width)-FlxG.width/1.8),Std.int((this.y-barre.height)-FlxG.height/2.5));
+        barre.pxPerPercent=barre.width/100;
+        
         scene.add(barre);
 
     }
