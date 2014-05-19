@@ -83,10 +83,7 @@ override public function update():Void
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
-
-        if(FlxG.collide(perso,surface.groupObj))
-                perso.onCollision=true; 
-
+        FlxG.collide(perso,surface.groupObj);
         super.update();
 }	
 }
