@@ -128,29 +128,34 @@ class Character extends FlxSprite{
     }
 
     public function onMousseDown(evt:flash.events.MouseEvent):Void{
-        duringDigging=true;
-        loadCircle.alpha=100;
-        loadCircle.animation.add("loading",[0,1,2,3,4,5,6],3,true);
-        loadCirclePositionning();
-        loadCircle.animation.play("loading");
-        diggingAnimation();
-        digTime=FlxTimer.start(dig_time);
+        if(this.alive)
+        {
+            duringDigging=true;
+            loadCircle.alpha=100;
+            loadCircle.animation.add("loading",[0,1,2,3,4,5,6],3,true);
+            loadCirclePositionning();
+            loadCircle.animation.play("loading");
+            diggingAnimation();
+            digTime=FlxTimer.start(dig_time);
+        }
     }
 
     public function onMousseUP(evt:flash.events.MouseEvent):Void{
+        if(this.alive)
+        {
             loadCircle.alpha=0;
             loadCircle.animation.destroyAnimations();
             duringDigging=false;
             //animation.frameIndex=endActionFrame;
             digTime.abort();
             digTime.finished=false;
-            sceneJeu.surface.digMan.creuse(this);
+        }
     }
 
 
     public function digging():Void
     {
-        if(duringDigging)
+        if(duringDigging && this.alive)
         {
            if(digTime.finished)
             {
@@ -272,14 +277,13 @@ class Character extends FlxSprite{
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
             displayCoord.text+="z:"+Std.int(z)+"\n";
-            displayCoord.text+=pseudo+"\n";
+            displayCoord.text+=pseudo+" ";
             displayCoord.setPosition(x+width,y);
 
         }
     }
 
     public function loadCirclePositionning():Void{
-        trace(direction);    
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
         {
             loadCircle.x=this.x+this.width/2;
@@ -332,7 +336,6 @@ class Character extends FlxSprite{
         zone = [0,0];
         /*Character*/
         run=false;
-        inCollideWithSomething=false;
         duringDigging=false;
         control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
         direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
