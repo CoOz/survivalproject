@@ -1,30 +1,68 @@
 package cdjv.game.survival;
 
 import flixel.FlxState;
+import flixel.FlxSprite;
 import flash.events.KeyboardEvent;
+import flash.ui.Keyboard;
 import flash.events.Event;
 import flixel.FlxG;
 import flixel.text.FlxText;
+import flixel.ui.FlxButton;
+import flixel.ui.FlxTypedButton;
+import flixel.util.*;
+import flash.display.Graphics;
 /**
 * A FlxState which can be used for the actual gameplay.
 */
 class LoginManager extends FlxState{
 	var login:String;
 	var afflogin:FlxText;
+	var messlogin:FlxText;
+	var bgimage:FlxSprite;
+	var rectlog:FlxSprite;
+
+	static var tempsconnex=10;
+	public var timerconnex:FlxTimer;
+
 	var valid:Bool;
 	var majactionner:Bool;
+	var boutonvalid: FlxButton;
+	var connex:Connexion;
+
 	override public function create():Void
-	{
+	{		
+			bgimage=new FlxSprite();
+        	bgimage.loadGraphic("assets/images/pagelogin.jpg",true,false,640,480,false,null);
+        	bgimage.x=(FlxG.width-bgimage.width)/2;
+        	bgimage.y=(FlxG.height-bgimage.height)/2;
+
+        	this.bgColor = FlxColor.BLACK;
+			FlxG.cameras.bgColor = 0xff000000;
+
+			boutonvalid = new FlxButton(FlxG.width/2, FlxG.height, "Connexion", validationlog); //new(?X : Float, ?Y : Float, ?Label : String, ?OnClick : Void -> Void)
+			boutonvalid.x = FlxG.width/2-boutonvalid.width/3;
+			boutonvalid.y =  FlxG.height*5/6-boutonvalid.height;
+
 			login="";
 			valid=false;
-			FlxG.cameras.bgColor = 0xff000000;
-			this.bgColor=0x00000000;
-			afflogin = new FlxText (FlxG.width/2, FlxG.height/2, FlxG.width); 
-			afflogin.alignment="left";
-       		afflogin.color=0x00000020;
+			majactionner=false;
+
+
+			afflogin = new FlxText (280, 410, FlxG.width);
+			afflogin.size = 11;
+       		afflogin.color = FlxColor.BLUE;
+
+       		messlogin = new FlxText(320, 560, FlxG.width);
+       		messlogin.size = 12;
+
 			FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
 			FlxG.game.stage.addEventListener(KeyboardEvent.KEY_UP,onKeyUp);
+			
+			this.add(bgimage);
 			this.add(afflogin);
+			this.add(messlogin);
+			this.add(boutonvalid);
+
 	        super.create();
 	}
 
@@ -33,27 +71,35 @@ class LoginManager extends FlxState{
     	{
     		majactionner=false;
     	}
+	   	if(evt.keyCode==flash.ui.Keyboard.CAPS_LOCK)
+       	{
+       		majactionner=false;
+       	}
     }
 
 	public function onKeyDown(evt:KeyboardEvent):Void{
 		if(!valid)
 		{
-			if(evt.keyCode==flash.ui.Keyboard.ENTER && login.length>0)
-			{
-				var connex:Connexion;
-				connex = new Connexion();
-				connex.sLogin(login);
+			if(evt.keyCode==flash.ui.Keyboard.ENTER){
+					validationlog();
 			}
 			else if(evt.keyCode==flash.ui.Keyboard.BACKSPACE && login.length>0)
 			{ 
-				login=login.substr(0,login.length-1);
-				afflogin.text=login.substr(0,login.length-1);
-				trace(login);
-				trace(afflogin.text+"\n");
-			}
-        	else
+				var flag:Int;
+				var newlog:String;
+				newlog="";
+				flag=0;
+				while(flag<(login.length-1))
+				{
+					newlog+=login.charAt(flag);
+					flag++;
+				}
+				login=newlog;
+				afflogin.text=login;
+			}	
+        	else if(64<evt.keyCode&&evt.keyCode<91)
         	{
-        		if(majactionner=true)
+        		if(majactionner==true)
         		{
         			login+=String.fromCharCode(evt.keyCode);
         			afflogin.text+=String.fromCharCode(evt.keyCode);
@@ -61,7 +107,7 @@ class LoginManager extends FlxState{
 
         		else
         		{
-        			login+=String.fromCharCode(evt.keyCode);
+        			login+=String.fromCharCode(evt.keyCode+32);
         			afflogin.text+=String.fromCharCode(evt.keyCode+32);	
         		}
         	}
@@ -69,7 +115,47 @@ class LoginManager extends FlxState{
         	{
         		majactionner=true;
         	}
+        	if(evt.keyCode==flash.ui.Keyboard.CAPS_LOCK)
+        	{
+        		majactionner=true;
+        	}
         }
+    }
+
+    public function validationlog():Void
+    {
+    	if(login.length>0)
+    	{
+    		connex = new Connexion();
+    		valid=true;  
+    		messlogin.color=FlxColor.BLUE ;
+    		messlogin.x=320;
+    		messlogin.y=560;
+    		messlogin.text="connexion en cours...";
+    		timerconnex=FlxTimer.start(tempsconnex);				
+    		connex.sLogin(login);
+    	}
+    	else
+    	{
+    		messlogin.x=340;
+    		messlogin.y=560;
+			messlogin.color = FlxColor.RED;
+      		messlogin.text="Login Incorrect"; 
+    	}
+    }
+    
+    public function checktimerconnex()
+    {
+    	if(valid)
+    	{
+    		if(timerconnex.finished)
+    		{
+				messlogin.color = FlxColor.RED;
+				messlogin.x=290;
+    			messlogin.y=560;
+      			messlogin.text="Erreur: Le serveur ne repond pas";
+    		}
+    	}
     }
 
 	public function loginOK(){
@@ -83,9 +169,10 @@ class LoginManager extends FlxState{
 	}
 		override public function update():Void
 	{
+		checktimerconnex();
 		super.update();
 	}
 }
 
 // FlxG.switchState(new PlayState(con));
-// con = new Connectio();
+// con = new Connection();

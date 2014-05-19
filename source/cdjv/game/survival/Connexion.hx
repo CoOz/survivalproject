@@ -45,7 +45,7 @@ class Connexion{
         socket.send(paquet);
     }
     public function sLogin(pseudo:String){
-        trace("login"+pseudo);
+        trace("login "+pseudo);
         socket.send("l"+pseudo);
     }
     public function sCreuse(x:Int,y:Int){
