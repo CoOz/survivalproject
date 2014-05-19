@@ -20,6 +20,7 @@ import flixel.ui.FlxBar;
 class Character extends FlxSprite{
 
     public var pseudo:String;
+    public var onCollision:Bool;
 
     public var duringDigging:Bool;
     public var diggingFinish:Bool;
@@ -66,12 +67,8 @@ class Character extends FlxSprite{
         displayCoord.color=0x00000000;
         sceneJeu=scene;
         sceneJeu.add(displayCoord);
-<<<<<<< HEAD
         setTheBasicCharPropriety(scene, posx, posy);
         sceneJeu.add(barre);
-=======
-        setTheBasicCharPropriety(scene);
->>>>>>> 713666e8454821ecc4190d1aaf3f3378d7742ba0
         /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
@@ -175,12 +172,13 @@ class Character extends FlxSprite{
 
     public function move ():Void
     {
-<<<<<<< HEAD
-=======
-        barre.velocity=this.velocity;
-     /*   loadCircle.x=x+width/4;
-        loadCircle.y=y-height/4;*/
->>>>>>> c9ada878ae6821f58cd0c3f680ac138ee87f3703
+        if(!onCollision)
+            barre.velocity=this.velocity;
+        else
+        {
+            barre.velocity.x=0;
+            barre.velocity.y=0;
+        }
         changeMaxVelocity();
         if(velocity.x !=0 || velocity.y!=0){
             zone = checkZone();
