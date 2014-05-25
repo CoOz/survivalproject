@@ -46,7 +46,7 @@ override public function create():Void
 
         //on crée un perso
         perso = new Character(this,pseudo,0,0);
-        perso.setPosition(50,50);
+        //perso.setPosition(50,50);
         this.add(perso);
 
         zoneP = perso.checkZone().toString();
@@ -58,6 +58,8 @@ override public function create():Void
 
         con=new Connexion();
 
+        ajoutbot(5, 10, 10);
+
         super.create();
 }
 
@@ -66,6 +68,13 @@ override public function create():Void
 * Function that is called when this state is destroyed - you might want to
 * consider setting all objects this state uses to null to help garbage collection.
 */
+
+public function ajoutbot(nbbot: Int, x: Int, y: Int):Void
+{
+        var i:Int;
+        for (i in 0...nbbot)
+                this.add(new Bot(this,"botnum"+i, x, y));
+}
 
 override public function destroy():Void
 {

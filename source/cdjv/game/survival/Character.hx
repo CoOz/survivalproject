@@ -69,7 +69,6 @@ class Character extends FlxSprite{
         sceneJeu.add(displayCoord);
         setTheBasicCharPropriety(scene, posx, posy);
         sceneJeu.add(barre);
-        /* Fin Animation */
         prevX=Std.int(x);
         prevY=Std.int(y);
         registerEvents();
@@ -263,7 +262,7 @@ class Character extends FlxSprite{
             this.animation.frameIndex=0;
             animation.pause();
         }
-        z=0;//sceneJeu.surface.digMan.getProfondeur(this);
+        z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
 
     }
 
@@ -287,18 +286,13 @@ class Character extends FlxSprite{
         if(direction[0] && !direction[1] && !direction[2] && !direction[3])     // vers le haut
         {
             loadCircle.x=this.x+this.width/2;
-            loadCircle.y=this.y+this.height;
+            loadCircle.y=this.y+this.height*2/3;
         }
         else if(!direction[0] && direction[1] && !direction[2] && !direction[3])   // vers la droite
         {
             loadCircle.x=this.x;
             loadCircle.y=this.y+this.height/2;
 
-        }
-        else if(!direction[0] && direction[1] && !direction[2] && !direction[3])    //vers la droite
-        {
-            loadCircle.x = this.x;
-            loadCircle.y = this.y+this.height/2;
         }
         else if(!direction[0] && !direction[1] && direction[2] && !direction[3])    // vers le bas
         {
@@ -307,7 +301,7 @@ class Character extends FlxSprite{
         }
         else if(!direction[0] && !direction[1] && !direction[2] && direction[3])       // vers la gauche
         {
-            loadCircle.x = this.x+this.width+10;
+            loadCircle.x = this.x+this.width-10;
             loadCircle.y = this.y+this.height/2;
         }
         else if(direction[0] && direction[1] && !direction[2] && !direction[3])       // haut droit
@@ -322,7 +316,7 @@ class Character extends FlxSprite{
         }
         else if(!direction[0] && direction[1] && direction[2] && !direction[3])   // bas droit
         {
-            loadCircle.x=this.x+this.width/3;
+            loadCircle.x=this.x+this.width/5;
             loadCircle.y=this.y+this.height/5;
         }
         else if(!direction[0] && !direction[1] && direction[2] && direction[3])   // bas gauche
@@ -357,31 +351,11 @@ class Character extends FlxSprite{
         loadCircle.x=this.x+this.width/2;
         loadCircle.y=this.y+3;
 
-       /* this.scale.x=0.75;
-        this.scale.y=0.75;
-        updateHitbox(); */
-        /* Animation : */
-
-            /* move */
-       /* animation.add("walk_Front",[0,1,2,3],10,true);
-        animation.add("walk_Left",[4,5,6,7],10,true);
-        animation.add("walk_Right",[0,1,2,3,4,5,6],10,true);
-        animation.add("walk_Back",[12,13,14,15],10,true);
-        animation.add("walk_Front_Left",[16,17,18,19],10,true);
-        animation.add("walk_Back_Left",[20,21,22,23],10,true);
-        animation.add("walk_Front_Right",[24,25,26,27],10,true);
-        animation.add("walk_Back_Right",[28,29,30,31],10,true);*/
-         animation.add("walk",[0,1,2,3,4,5,6],12,true);
-             /*action*/
-        /*animation.add("dig_Front",[32,33,34,35],4,true);       // creuser vers le bas
-        animation.add("dig_Left",[36,37,38,39],4,true);
-        animation.add("dig_Right",[40,41,42,43],4,true);
-        animation.add("dig_Back",[44,45,46,47],4,true);        // creuser vers le haut*/
+        animation.add("walk",[0,1,2,3,4,5,6],12,true);
 
         /* VIE ET BARRE DE VIE */ 
 
         this.health=20;
-
         barre = new FlxBar(0,0,FlxBar.FILL_LEFT_TO_RIGHT,100,10,this,"health",0,20,true);
         barre.createFilledBar(0xFFFF0000,0xFF00FF00,false);
         barre.width=FlxG.width/10;
@@ -390,9 +364,6 @@ class Character extends FlxSprite{
 
         scene.add(barre);
 
-
-        /* INVENTAIRE */
-        inventaire = new Inventory(scene);
 
     }
 
