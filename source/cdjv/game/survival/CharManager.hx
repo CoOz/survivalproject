@@ -42,7 +42,7 @@ class CharManager{
         tabJoueur = new Array<Array<String>>();
         bob = paquet.split("]");
         while(bob.length){
-            tabJoueur.push((bob.pop()).split(";")); // attention au premier "[" (corrigé dans le for grâce aux substring)
+            tabJoueur.push((bob.pop()).split(";"));
         }        
         for (i in 0...(tabJoueur.length-1) {
             setPosition(parseInt(tabJoueur[i][0].substring(1, (tabJoueur[i].length-1))), parseInt(tabJoueur[i][1]), parseInt(tabJoueur[i][2].substring(0, (tabJoueur[i].length-2))));
