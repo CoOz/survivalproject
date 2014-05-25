@@ -58,10 +58,19 @@ override public function create():Void
 
         con=new Connexion();
 
-        ajoutbot(5, 10, 10);
+        //ajoutbot(5, 10, 10);
 
         super.create();
 }
+
+/*
+public function ajoutbot(nbbot: Int, x: Int, y: Int):Void
+{
+        var i:Int;
+        for (i in 0...nbbot)
+                this.add(new Bot(this,"botnum"+i, x, y));
+}
+*/
 
 
 /**
@@ -69,12 +78,6 @@ override public function create():Void
 * consider setting all objects this state uses to null to help garbage collection.
 */
 
-public function ajoutbot(nbbot: Int, x: Int, y: Int):Void
-{
-        var i:Int;
-        for (i in 0...nbbot)
-                this.add(new Bot(this,"botnum"+i, x, y));
-}
 
 override public function destroy():Void
 {
