@@ -110,8 +110,6 @@ class Character extends FlxSprite{
             control[3]=false;
         if(evt.keyCode == flash.ui.Keyboard.SHIFT)
             run=false;
-        if(evt.keyCode == flash.ui.Keyboard.I)
-            inventaire.alpha=0;
         if(evt.keyCode == flash.ui.Keyboard.O)
         {
             trace(this.health);

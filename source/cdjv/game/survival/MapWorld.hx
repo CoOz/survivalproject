@@ -23,7 +23,9 @@ class MapWorld extends FlxSprite{
     public var digMan:DigMapManager;
     private var tabMap:Array<Int>;
     public var groupObj:FlxTypedGroup<FlxTileblock>;
+    public var groupArbre:FlxTypedGroup<FlxTileblock>;
     private var obj:FlxTileblock;
+    private var arbre:FlxTileblock;
     private var bob:Int;
     //pour le premier passage dans generateMap
     public var a:Int;
@@ -32,25 +34,26 @@ class MapWorld extends FlxSprite{
         super();
         this.scene = scene;
 
-        tabMap = [1,1,1,1,1,1,1,1,1,1,1,2,1,2,1,1,1,1,1,2,
-                    1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,
-                    1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,
-                    1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,
-                    1,1,2,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,2,
-                    1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,1,2,1,1,
-                    1,1,1,2,1,1,1,1,2,2,1,1,2,1,1,1,1,2,1,1,
-                    1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,2,1,1,
-                    1,1,1,1,2,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,
-                    1,2,1,1,1,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,
-                    2,1,1,1,1,1,1,1,2,1,1,1,1,1,2,1,1,1,1,1,
-                    1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,2,1,1,
-                    1,1,1,1,1,1,2,1,1,1,1,1,1,1,2,1,1,1,1,1,
-                    1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,
-                    1,1,1,1,2,1,1,1,1,1,2,2,1,1,1,2,1,1,1,2];
+        tabMap = [1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,
+                    1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1,1,1,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1];
     
     a = 0;
     groupMap = new FlxTypedGroup(0);
     groupObj = new FlxTypedGroup(20);
+    groupArbre = new FlxTypedGroup(20);
 
         this.scene.add(groupMap);
         digMan=new DigMapManager(scene);
@@ -83,14 +86,23 @@ class MapWorld extends FlxSprite{
                 map2.heightInTiles = 15;
                 map2.x = j * 800;
                 map2.y = i * 600;
-                map2.loadMap(tabMap, "assets/images/tile.png", 40,40);
+                map2.loadMap(tabMap, "assets/images/tilesmap2.png", 40,40);
                 map2.updateFrameData();
                 groupMap.add(map2);
                 digMan.loadMap(j,i);
             }
         //this.scene.add(groupMap);
         this.popAleaObject(zoneN);
+        putsomefantasy(zoneN);
 
+    }
+
+    public function putsomefantasy(zoneN:Array<Int>)
+    {
+        arbre = new FlxTileblock(10,10,80,68);
+        obj.loadGraphic("assets/images/arbre.png",false,false,80,68,false,null);
+        groupArbre.add(arbre);
+        this.scene.add(groupArbre);
     }
     //générer le graphic
 
