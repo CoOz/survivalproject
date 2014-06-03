@@ -96,6 +96,7 @@ override public function update():Void
                 zoneP = zoneN.toString();
         }
         FlxG.collide(perso,surface.groupObj);
+        FlxG.collide(perso,surface.groupArbre);
         super.update();
 }	
 }

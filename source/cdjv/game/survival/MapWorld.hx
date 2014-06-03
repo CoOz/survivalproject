@@ -99,8 +99,8 @@ class MapWorld extends FlxSprite{
 
     public function putsomefantasy(zoneN:Array<Int>)
     {
-        arbre = new FlxTileblock(10,10,80,68);
-        obj.loadGraphic("assets/images/arbre.png",false,false,80,68,false,null);
+        arbre = new FlxTileblock(10,10,200,170);
+        obj.loadGraphic("assets/images/arbre.PNG",false,false,200,170,false,null);
         groupArbre.add(arbre);
         this.scene.add(groupArbre);
     }
