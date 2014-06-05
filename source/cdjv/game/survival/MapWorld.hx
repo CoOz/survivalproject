@@ -93,7 +93,7 @@ class MapWorld extends FlxSprite{
             }
         //this.scene.add(groupMap);
         this.popAleaObject(zoneN);
-        putsomefantasy(zoneN);
+     ///   putsomefantasy(zoneN);
 
     }
 

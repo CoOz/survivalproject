@@ -54,6 +54,8 @@ class Character extends FlxSprite{
     public var digFinishTime:FlxTimer;
 
     public var barre:FlxBar;
+    public var life:FlxText;
+    public var maxlife:FlxText;
 
     public var inventaire:Inventory;
 
@@ -95,8 +97,6 @@ class Character extends FlxSprite{
             FlxG.resetGame();
         if(evt.keyCode == flash.ui.Keyboard.SHIFT)
             run=true;
-        if(evt.keyCode == flash.ui.Keyboard.I)
-            inventaire.alpha=100;
     }
 
     public function onKeyUp(evt:KeyboardEvent):Void{

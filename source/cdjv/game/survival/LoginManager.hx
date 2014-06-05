@@ -124,8 +124,8 @@ class LoginManager extends FlxState{
 
     public function validationlog():Void
     {
-                trace("\n\n ====================== \n ===== Login Ok ! ===== \n ======================= \n\n\n");
-        FlxG.switchState(new PlayState(login));
+               /* trace("\n\n ====================== \n ===== Login Ok ! ===== \n ======================= \n\n\n");
+        FlxG.switchState(new PlayState(login));*/
     	if(login.length>0)
     	{
     		connex = new Connexion();
