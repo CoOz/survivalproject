@@ -128,7 +128,8 @@ class LoginManager extends FlxState{
         FlxG.switchState(new PlayState(login));*/
     	if(login.length>0)
     	{
-    		connex = new Connexion();
+    		connex = cast(FlxG.game, GameClass).connexion;
+            connex.init();
     		valid=true;  
     		messlogin.color=FlxColor.BLUE ;
     		messlogin.x=320;
