@@ -64,7 +64,7 @@ class MapWorld extends FlxSprite{
         i = Std.int(Math.random()*20);
         for(j in 0...i){
             obj = new FlxTileblock(Std.int(Math.random()*(800*(zoneN[0]+1))),Std.int(Math.random()*(600*(zoneN[1]+1))),24,28); // pour créer un nouveau block http://api.haxeflixel.com/
-            obj.loadGraphic("assets/images/rock.png",false,false,24,28,false,null);
+            obj.loadGraphic("assets/images/rock.png",false,false,24,28,true,null);
             groupObj.add(obj);
         }
 
@@ -100,7 +100,7 @@ class MapWorld extends FlxSprite{
     public function putsomefantasy(zoneN:Array<Int>)
     {
         arbre = new FlxTileblock(10,10,200,170);
-        obj.loadGraphic("assets/images/arbre.PNG",false,false,200,170,false,null);
+        obj.loadGraphic("assets/images/arbre.PNG",false,false,200,170,true,null);
         groupArbre.add(arbre);
         this.scene.add(groupArbre);
     }

@@ -19,12 +19,16 @@ public var zoneN:Array<Int>;
 public var zoneP:String;
 public var perso:Character;
 public var con:Connexion;
-public var pseudo: String;
+public var pseudo:String;
+public var charMan:CharManager;
 
  function new(login:String)
  {
         pseudo=login;
         super();
+        charMan = new CharManager(this);
+        con = new Connexion(this);
+
  }
 
 override public function create():Void
@@ -56,7 +60,6 @@ override public function create():Void
 
         FlxG.camera.target = perso;
 
-        con=new Connexion();
 
         //ajoutbot(5, 10, 10);
 
