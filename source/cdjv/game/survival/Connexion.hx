@@ -9,16 +9,11 @@ class Connexion{
     public var connected:Bool;
     public var socket:SockJS;
     private var uid:String;
-    public var scene:Playstate;
+    public var scene:PlayState;
 
-<<<<<<< HEAD
-    public function new(scene:Playstate){
-        init();
-        this.scene = scene;
-=======
     public function new(){
-  //      init();
->>>>>>> 621aef6b1a70c86ce020ee98444a827655e4840c
+        //init();
+        
     }
     public function init(){
         socket=new SockJS("http://172.20.73.235:9999/survival", {reconnect: true});
@@ -68,14 +63,16 @@ class Connexion{
                 var test:LoginManager=cast FlxG.state;
                 test.loginOK();
             case 'j':
-<<<<<<< HEAD
-                charMan.recoitJoueurs(message);
-=======
-               // CharManager.recoitJoueurs(message);
->>>>>>> 621aef6b1a70c86ce020ee98444a827655e4840c
+
+             
+        // CharManager.recoitJoueurs(message);
             default:
                 trace('paquet incorrect! '+message);
         }
+    }
+    public function setPlayState(scene:PlayState){
+        this.scene = scene;
+
     }
 
 

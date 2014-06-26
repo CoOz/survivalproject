@@ -26,8 +26,10 @@ public var charMan:CharManager;
  {
         pseudo=login;
         super();
+        (cast(FlxG.game,GameClass).connexion).setPlayState(this);
         charMan = new CharManager(this);
-        con = new Connexion(this);
+
+
 
  }
 
