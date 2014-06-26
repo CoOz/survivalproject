@@ -51,6 +51,9 @@ class Connexion{
     public function sCreuse(x:Int,y:Int){
         send("c"+x+";"+y);
     }
+    public function sPos(x:Float,y:Float){
+        send("p"+x+";"+y);
+    }
     public function dispatch(message:String){
         switch(message.charAt(0)){
             case 'l':

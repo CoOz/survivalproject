@@ -261,7 +261,9 @@ class Character extends FlxSprite{
             animation.pause();
         }
         z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
-
+        if(this.animation.frameIndex!=0){
+            sceneJeu.con.sPos(x,y);
+        }
     }
 
 
