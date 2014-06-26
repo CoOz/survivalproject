@@ -16,7 +16,7 @@ echo.on('connection', function(conn) {
         			joueurs[login]=conn;
         		console.log("login "+login);
         		//conn.write('l');
-                conn['user']=new character(0,0);
+                conn['user']=new character(0,0,login);
                 console.log(conn['user']);
                 connManager.addConn(conn);
         		break;

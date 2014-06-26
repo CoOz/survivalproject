@@ -1,7 +1,8 @@
 exports.addConn=function(conn){
 	conn.write('l');
 	addToRoom(conn);
-	exports.sendToNearConn(conn,"test");
+	exports.sendToNearConn(conn,'j['+conn['user'].getJString()+']');
+	exports.sendNearPlayers(conn);
 };
 exports.removeConn=function(conn){
 
@@ -22,6 +23,20 @@ exports.sendToZone=function(cle,message){
 		console.log(exports.rooms[cle][address]);
 		exports.rooms[cle][address].write(message);
 	}
+}
+exports.sendNearPlayers=function(conn){
+	var zone=conn.user.getZone();
+	var cle=zone[0]+';'+zone[1];
+	var paquet="";
+	for(address in exports.rooms[cle]){
+		//console.log(exports.rooms[cle][address]);
+		var player=exports.rooms[cle][address]['user'];
+		if(player.id!==conn['user'].id){
+			paquet+='['+player.getJString()+']';
+		}
+	}
+	if(paquet!=='')
+		conn.write('j'+paquet);
 }
 
 exports.rooms={};
