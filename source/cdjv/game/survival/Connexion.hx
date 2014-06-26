@@ -11,10 +11,10 @@ class Connexion{
     private var uid:String;
 
     public function new(){
-        init();
+  //      init();
     }
     public function init(){
-        socket=new SockJS("http://127.0.0.1:9999/survival", {reconnect: true});
+        socket=new SockJS("http://172.20.73.235:9999/survival", {reconnect: true});
         // Listen open event
         socket.onOpen(function() {
             trace("[sock]connected");
@@ -54,13 +54,14 @@ class Connexion{
     public function sPos(x:Float,y:Float){
         send("p"+x+";"+y);
     }
+
     public function dispatch(message:String){
         switch(message.charAt(0)){
             case 'l':
                 var test:LoginManager=cast FlxG.state;
                 test.loginOK();
             case 'j':
-                //CharManager.recoitJoueurs(message);
+               // CharManager.recoitJoueurs(message);
             default:
                 trace('paquet incorrect! '+message);
         }

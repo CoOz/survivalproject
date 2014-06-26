@@ -14,11 +14,14 @@ class GameClass extends FlxGame
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
 
+	public var connexion: Connexion;
+
 	/**
 	 * You can pretty much ignore this logic and edit the variables above.
 	 */
 	public function new()
 	{
+		connexion  =new Connexion();
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
