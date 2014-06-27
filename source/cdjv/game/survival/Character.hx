@@ -60,6 +60,7 @@ class Character extends FlxSprite{
     public var inventaire:Inventory;
 
     public function new(scene:PlayState, pseudo:String, posx:Int, posy:Int){
+        trace(pseudo,posX,posY);
         super();
         this.pseudo=pseudo;
         zone = [0,0];
@@ -257,7 +258,7 @@ class Character extends FlxSprite{
         {
             velocity.x=0;
             velocity.y=0;
-            this.animation.frameIndex=0;
+            //this.animation.frameIndex=0;
             animation.pause();
         }
         z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
@@ -340,7 +341,7 @@ class Character extends FlxSprite{
         this.x=posx;
         this.y=posy;
 
-        loadGraphic("assets/images/char2.png",true,false,63,64,false,null);
+        loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
         centerOffsets;
         scene.add(this);
         /*loadcircle */

@@ -65,7 +65,7 @@ class Connexion{
             case 'j':
 
              
-        // CharManager.recoitJoueurs(message);
+                scene.charMan.recoitJoueurs(message);
             default:
                 trace('paquet incorrect! '+message);
         }

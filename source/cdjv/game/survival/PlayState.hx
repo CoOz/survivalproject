@@ -27,7 +27,7 @@ public var charMan:CharManager;
         pseudo=login;
         super();
         (cast(FlxG.game,GameClass).connexion).setPlayState(this);
-        charMan = new CharManager(this);
+        
 
 
 
@@ -64,8 +64,9 @@ override public function create():Void
 
 
         //ajoutbot(5, 10, 10);
-
+        charMan = new CharManager(this);
         super.create();
+    
 }
 
 /*
