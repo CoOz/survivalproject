@@ -21,7 +21,7 @@ class GameClass extends FlxGame
 	 */
 	public function new()
 	{
-		connexion  =new Connexion();
+		connexion  = new Connexion();
 		var stageWidth:Int = Lib.current.stage.stageWidth;
 		var stageHeight:Int = Lib.current.stage.stageHeight;
 
