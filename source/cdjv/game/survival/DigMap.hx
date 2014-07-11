@@ -81,7 +81,7 @@ class DigMap{
             if(lamap.get(cle)<profondeurMax){
                 lamap.set(cle,lamap.get(cle)+1);
                 drawDig(xZone,yZone,lamap.get(cle));
-                scene.con.sCreuse(xZone,yZone);
+                scene.connexion.sCreuse(xZone,yZone);
             }
     }
 

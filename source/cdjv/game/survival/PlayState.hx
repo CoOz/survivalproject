@@ -18,20 +18,18 @@ public var digm:DigMap;
 public var zoneN:Array<Int>;
 public var zoneP:String;
 public var perso:Character;
-public var con:Connexion;
+public var connexion:Connexion;
 public var pseudo:String;
 public var charMan:CharManager;
 
- function new(login:String)
+ function new(login: String, connex: Connexion)
  {
         pseudo=login;
+        connexion=connex;
         super();
-        (cast(FlxG.game,GameClass).connexion).setPlayState(this);
+       // (cast(FlxG.game,GameClass).connexion).setPlayState(this);
         
-
-
-
- }
+}
 
 override public function create():Void
 {

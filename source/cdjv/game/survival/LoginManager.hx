@@ -163,7 +163,7 @@ class LoginManager extends FlxState{
 
 	public function loginOK(){
         trace("\n\n ====================== \n ===== Login Ok ! ===== \n ======================== \n\n\n");
-		FlxG.switchState(new PlayState(login));
+		FlxG.switchState(new PlayState(login, connex));
 	}
 
 	override public function destroy():Void

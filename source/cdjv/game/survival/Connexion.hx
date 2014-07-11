@@ -64,7 +64,7 @@ class Connexion{
                 var test:LoginManager=cast FlxG.state;
                 test.loginOK();
             case 'j':
-                scene.charMan.recoitJoueurs(message);
+               // scene.charMan.recoitJoueurs(message);              ALLER JOEL AU BOULOT UN PEU LA ! x)
             default:
                 trace('paquet incorrect! '+message);
         }
