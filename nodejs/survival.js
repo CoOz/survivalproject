@@ -10,6 +10,7 @@ echo.on('connection', function(conn) {
     console.log("+connexion");
     conn.on('data', function(message) {
         switch(message.charAt(0)){
+            //console.log("SURVIVAL.JS\n");
         	case 'l':
         		var login=message.substring(1);
         		if(joueurs[login]===undefined)

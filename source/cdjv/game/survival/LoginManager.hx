@@ -162,7 +162,7 @@ class LoginManager extends FlxState{
     }
 
 	public function loginOK(){
-        trace("\n\n ====================== \n ===== Login Ok ! ===== \n ======================== \n\n\n");
+        trace("\n\n ====================== \n ===== Login Ok ! ===== \n ======================= \n\n");
 		FlxG.switchState(new PlayState(login, connex));
 	}
 
@@ -172,7 +172,7 @@ class LoginManager extends FlxState{
 	}
 		override public function update():Void
 	{
-		checktimerconnex();
+		//checktimerconnex();
 		super.update();
 	}
 }

@@ -21,14 +21,16 @@ public var perso:Character;
 public var connexion:Connexion;
 public var pseudo:String;
 public var charMan:CharManager;
+public var test:Int;
 
  function new(login: String, connex: Connexion)
  {
-        pseudo=login;
+        pseudo=login;   
         connexion=connex;
-        super();
-       // (cast(FlxG.game,GameClass).connexion).setPlayState(this);
-        
+        test=12;
+        connex.setPlayState(this);
+        trace("playstate");
+        super();        
 }
 
 override public function create():Void
@@ -41,7 +43,6 @@ override public function create():Void
         #end*/
 
         //on crée un monde
-
         surface = new MapWorld(this);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
@@ -62,7 +63,6 @@ override public function create():Void
 
 
         //ajoutbot(5, 10, 10);
-        charMan = new CharManager(this);
         super.create();
     
 }

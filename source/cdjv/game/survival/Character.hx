@@ -49,8 +49,8 @@ class Character extends FlxSprite{
 
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
-    public var sceneJeu:PlayState;
     public var digTime:FlxTimer;
+    public var scene:PlayState;
     public var digFinishTime:FlxTimer;
 
     public var barre:FlxBar;
@@ -60,18 +60,19 @@ class Character extends FlxSprite{
     public var inventaire:Inventory;
 
     public function new(scene:PlayState, pseudo:String, posx:Int, posy:Int){
-       // trace(pseudo,posX,posY);
+        
+        trace("CREATION DE :"+pseudo +" !!!!! ");
+        trace(""+ posx +","+ posy);
         super();
         this.pseudo=pseudo;
         zone = [0,0];
         diggingFinish=false;
-        displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
+        /*displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
         displayCoord.alignment="left";
         displayCoord.color=0x00000000;
-        sceneJeu=scene;
-        sceneJeu.add(displayCoord);
+        scene.add(displayCoord);*/
         setTheBasicCharPropriety(scene, posx, posy);
-        sceneJeu.add(barre);
+        scene.add(barre);
         prevX=Std.int(x);
         prevY=Std.int(y);
         registerEvents();
@@ -160,7 +161,7 @@ class Character extends FlxSprite{
                 digTime.abort();
                 digTime.finished=false;
                 duringDigging=false;
-                sceneJeu.surface.digMan.creuse(this);
+                scene.surface.digMan.creuse(this);
                 loadCircle.animation.destroyAnimations();
                 loadCircle.animation.add("clignote",[6,0],20,true);
                 loadCircle.animation.play("clignote");
@@ -263,7 +264,7 @@ class Character extends FlxSprite{
         }
         z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
         if(this.animation.frameIndex!=0){
-            sceneJeu.connexion.sPos(x,y);
+            scene.connexion.sPos(x,y);
         }
     }
 
@@ -272,13 +273,13 @@ class Character extends FlxSprite{
     public function checkPos():Void{
         if(Std.int(x)!=prevX || Std.int(y)!=prevY)
         {
-            prevX=Std.int(x);
-            prevY=Std.int(y);
+            prevX=Std.int(this.x);
+            prevY=Std.int(this.y);
             displayCoord.text="x:"+prevX+"\n";
             displayCoord.text+="y:"+prevY+"\n";
-            displayCoord.text+="z:"+Std.int(z)+"\n";
+            displayCoord.text+="z:"+Std.int(this.z)+"\n";
             displayCoord.text+=pseudo+" ";
-            displayCoord.setPosition(x+width,y);
+            displayCoord.setPosition(this.x+this.width, this.y);
 
         }
     }
@@ -328,31 +329,30 @@ class Character extends FlxSprite{
 
     }
     public function setTheBasicCharPropriety(scene:PlayState, posx: Int, posy: Int):Void{
-        zone = [0,0];
+        this.zone = [0,0];
+
         /*Character*/
-        run=false;
-        duringDigging=false;
-        control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
-        direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        this.run=false;
+        this.duringDigging=false;
+        this.control=[false,false,false,false];      // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
+        this.direction=[false,false,true,false];    // 0: vers le haut, 1: vers la droite, 2: vers le bas, 3: vers la gauche
 
         this.angle=90;
-        maxVelocity.x=100;
-        maxVelocity.y=100;
-        this.x=posx;
-        this.y=posy;
+        this.maxVelocity.x=100;
+        this.maxVelocity.y=100;
 
-        loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
-        centerOffsets;
+        this.loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
+        this.centerOffsets;
         scene.add(this);
         /*loadcircle */
-        loadCircle=new FlxSprite();
-        loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
+        this.loadCircle=new FlxSprite();
+        this.loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
         scene.add(loadCircle);
-        loadCircle.alpha=0;
-        loadCircle.x=this.x+this.width/2;
-        loadCircle.y=this.y+3;
+        this.loadCircle.alpha=0;
+        this.loadCircle.x=this.x+this.width/2;
+        this.loadCircle.y=this.y+3;
 
-        animation.add("walk",[0,1,2,3,4,5,6],12,true);
+        this.animation.add("walk",[0,1,2,3,4,5,6],12,true);
 
         /* VIE ET BARRE DE VIE */ 
 

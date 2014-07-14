@@ -10,10 +10,10 @@ class Connexion{
     public var socket:SockJS;
     private var uid:String;
     public var scene:PlayState;
-
+    public var charMan:CharManager;
     public function new(){
         //init();
-        
+      
     }
     public function init(){
         //socket=new SockJS("http://172.20.73.235:9999/survival", {reconnect: true});
@@ -63,15 +63,15 @@ class Connexion{
             case 'l':
                 var test:LoginManager=cast FlxG.state;
                 test.loginOK();
-            case 'j':
-               // scene.charMan.recoitJoueurs(message);              ALLER JOEL AU BOULOT UN PEU LA ! x)
+            case 'j': 
+                charMan.recoitJoueurs(message);             // ALLER JOEL AU BOULOT UN PEU LA ! x) 
             default:
                 trace('paquet incorrect! '+message);
         }
     }
     public function setPlayState(scene:PlayState){
         this.scene = scene;
-
+        charMan = new CharManager(scene);
     }
 
 
