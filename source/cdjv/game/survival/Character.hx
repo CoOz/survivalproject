@@ -74,7 +74,7 @@ class Character extends FlxSprite{
         scene.add(barre);
         prevX=Std.int(this.x);
         prevY=Std.int(this.y);
-        registerEvents();
+        //registerEvents();
 
     }
 
@@ -410,8 +410,8 @@ class Character extends FlxSprite{
 
 
     override public function update():Void{
-        move();
-        digging();
+      //  move();
+       // digging();
       //  checkPos();
         super.update();
     }
