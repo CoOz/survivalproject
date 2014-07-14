@@ -59,10 +59,9 @@ class Character extends FlxSprite{
 
     public var inventaire:Inventory;
 
-    public function new(scene:PlayState, pseudo:String, posx:Int, posy:Int){
+    public function new(scene:PlayState, pseudo:String, posx:Float, posy:Float){
         
-        trace("CREATION DE :"+pseudo +" !!!!! ");
-        trace(""+ posx +","+ posy);
+        trace("creation d'un personnage :"+pseudo +" en ["+posx +", "+ posy+"]");
         super();
         this.pseudo=pseudo;
         zone = [0,0];
@@ -73,8 +72,8 @@ class Character extends FlxSprite{
         scene.add(displayCoord);*/
         setTheBasicCharPropriety(scene, posx, posy);
         scene.add(barre);
-        prevX=Std.int(x);
-        prevY=Std.int(y);
+        prevX=Std.int(this.x);
+        prevY=Std.int(this.y);
         registerEvents();
 
     }
@@ -328,7 +327,7 @@ class Character extends FlxSprite{
         }
 
     }
-    public function setTheBasicCharPropriety(scene:PlayState, posx: Int, posy: Int):Void{
+    public function setTheBasicCharPropriety(scene:PlayState, posx: Float, posy: Float):Void{
         this.zone = [0,0];
 
         /*Character*/
@@ -341,16 +340,19 @@ class Character extends FlxSprite{
         this.maxVelocity.x=100;
         this.maxVelocity.y=100;
 
-        this.loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
-        this.centerOffsets;
+        this.x=posx;
+        this.y=posy;
+
+        loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
+        centerOffsets;
         scene.add(this);
         /*loadcircle */
-        this.loadCircle=new FlxSprite();
-        this.loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
+        loadCircle=new FlxSprite();
+        loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
         scene.add(loadCircle);
-        this.loadCircle.alpha=0;
-        this.loadCircle.x=this.x+this.width/2;
-        this.loadCircle.y=this.y+3;
+        loadCircle.alpha=0;
+        loadCircle.x=this.x+this.width/2;
+        loadCircle.y=this.y+3;
 
         this.animation.add("walk",[0,1,2,3,4,5,6],12,true);
 
@@ -362,7 +364,6 @@ class Character extends FlxSprite{
         barre.width=FlxG.width/10;
         barre.trackParent(Std.int((this.x+barre.width)-FlxG.width/1.8),Std.int((this.y-barre.height)-FlxG.height/2.5));
         barre.pxPerPercent=barre.width/100;
-
         scene.add(barre);
 
 
@@ -411,7 +412,7 @@ class Character extends FlxSprite{
     override public function update():Void{
         move();
         digging();
-        checkPos();
+      //  checkPos();
         super.update();
     }
 

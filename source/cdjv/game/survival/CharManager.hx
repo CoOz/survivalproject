@@ -64,12 +64,12 @@ class CharManager{
                     tabJoueur.insert(flag, tabpaquet);
                 }
             }
-            trace(tabJoueur);
+            trace("Tableau de joueurs: "+ tabJoueur);
             for (i in 0...(tabJoueur.length-1)) 
-                creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseInt(tabJoueur[i][2]), Std.parseInt(tabJoueur[i][3]));
+                creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
     }
 
-    public function creeJoueur(id:Int,pseudo:String,x:Int,y:Int){ 
+    public function creeJoueur(id:Int,pseudo:String,x:Float,y:Float){ 
         var perso:Character;
         perso = new Character(state, pseudo, x, y);
         state.add(perso);
