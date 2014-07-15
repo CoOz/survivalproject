@@ -175,91 +175,95 @@ class Character extends FlxSprite{
 
     public function move ():Void
     {
-        this.changeMaxVelocity();
-        if(this.velocity.x !=0 || this.velocity.y!=0){
-            this.zone = this.checkZone();
-            var facteur:Float=.01;
-            if(this.z>0) this.scale=new FlxPoint(1-this.z*facteur,1-this.z*facteur);
-            else this.scale=new FlxPoint(1,1);
-            FlxG.camera.zoom=1+z*facteur;
-        }
-        if(this.control[0] && !this.control[1] && !this.control[2] && !this.control[3] && !this.duringDigging){         // aller vers le haut
-            this.direction[0]=true; this.direction[1]=false; this.direction[2]=false; this.direction[3]=false;
-            this.angle=-90;
-            this.animation.play("walk");         
-            this.velocity.x=0;
-            this.velocity.y=-maxVelocity.y;
-        }
-        else if(!this.control[0] && !this.control[1] && this.control[2] && !this.control[3] &&  !this.duringDigging){         // aller vers le bas
-            this.direction[0]=false; this.direction[1]=false; this.direction[2]=true; this.direction[3]=false;
-            this.angle=90;
-            this.animation.play("walk");  
-            this.velocity.x = 0;
-            this.velocity.y = this.maxVelocity.y;
-        }
-
-        else if(!this.control[0] && this.control[1] && !this.control[2] && !this.control[3] &&  !this.duringDigging){         // aller vers la droite
-            this.direction[0]=false; this.direction[1]=true; this.direction[2]=false; this.direction[3]=false;
-            this.angle=0;
-            this.animation.play("walk");  
-            this.velocity.x = this.maxVelocity.x;
-            this.velocity.y = 0;
-        }
-
-        else if(!this.control[0] && !this.control[1] && !this.control[2] && this.control[3] &&  !this.duringDigging){         // aller vers la gauche
-            this.direction[0]=false; this.direction[1]=false; this.direction[2]=false; this.direction[3]=true;
-            this.angle=180;
-            this.animation.play("walk");  
-            this.velocity.x = -this.maxVelocity.x;
-            this.velocity.y = 0;
-        }
-
-        else if(this.control[0] && this.control[1] && !this.control[2] && !this.control[3] &&  !this.duringDigging){            // aller en haut a droite
-            this.direction[0]=true; this.direction[1]=true; this.direction[2]=false; this.direction[3]=false;
-            this.angle=-45;
-            this.animation.play("walk");  
-            this.velocity.x =  this.maxVelocity.x;
-            this.velocity.y = -this.maxVelocity.y;
-        }
-
-        else if(this.control[0] && !this.control[1] && !this.control[2] && this.control[3] &&  !this.duringDigging){             // aller en haut a gauche
-            this.direction[0]=true; this.direction[1]=false; this.direction[2]=false; this.direction[3]=true;
-            this.angle=-125;
-            this.animation.play("walk");  
-            this.velocity.x = -this.maxVelocity.x;
-            this.velocity.y = -this.maxVelocity.y; 
-        }
-
-        else if(!this.control[0] && this.control[1] && this.control[2] && !this.control[3] &&  !this.duringDigging){             // aller en bas a droite
-            this.direction[0]=false; this.direction[1]=true; this.direction[2]=true; this.direction[3]=false;
-            this.angle=45;
-            this.animation.play("walk");  
-            this.velocity.x = this.maxVelocity.x;
-            this.velocity.y = this.maxVelocity.y;
-        }
-
-        else if(!this.control[0] && !this.control[1] && this.control[2] && this.control[3] &&  !this.duringDigging)             // aller en bas a gauche
+        if(this.mainChar==true)
         {
-            this.direction[0]=false; this.direction[1]=false; this.direction[2]=true; this.direction[3]=true;
-            this.angle=125;
-            this.animation.play("walk");  
-            this.velocity.x = -this.maxVelocity.x;
-            this.velocity.y =  this.maxVelocity.y;
-        }
-        else
-        {
-            this.velocity.x=0;
-            this.velocity.y=0;
-            //this.animation.frameIndex=0;
-            this.animation.pause();
-        }
-        this.z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
-        if(this.animation.frameIndex!=0){
-            this.scene.connexion.sPos(x,y);
+            this.changeMaxVelocity();
+            if(this.velocity.x !=0 || this.velocity.y!=0){
+                this.zone = this.checkZone();
+                var facteur:Float=.01;
+                if(this.z>0) this.scale=new FlxPoint(1-this.z*facteur,1-this.z*facteur);
+                else this.scale=new FlxPoint(1,1);
+                FlxG.camera.zoom=1+z*facteur;
+            }
+            if(this.control[0] && !this.control[1] && !this.control[2] && !this.control[3] && !this.duringDigging){         // aller vers le haut
+                this.direction[0]=true; this.direction[1]=false; this.direction[2]=false; this.direction[3]=false;
+                this.angle=-90;
+                this.animation.play("walk");         
+                this.velocity.x=0;
+                this.velocity.y=-maxVelocity.y;
+            }
+            else if(!this.control[0] && !this.control[1] && this.control[2] && !this.control[3] &&  !this.duringDigging){         // aller vers le bas
+                this.direction[0]=false; this.direction[1]=false; this.direction[2]=true; this.direction[3]=false;
+                this.angle=90;
+                this.animation.play("walk");  
+                this.velocity.x = 0;
+                this.velocity.y = this.maxVelocity.y;
+            }
+
+            else if(!this.control[0] && this.control[1] && !this.control[2] && !this.control[3] &&  !this.duringDigging){         // aller vers la droite
+                this.direction[0]=false; this.direction[1]=true; this.direction[2]=false; this.direction[3]=false;
+                this.angle=0;
+                this.animation.play("walk");  
+                this.velocity.x = this.maxVelocity.x;
+                this.velocity.y = 0;
+            }
+
+            else if(!this.control[0] && !this.control[1] && !this.control[2] && this.control[3] &&  !this.duringDigging){         // aller vers la gauche
+                this.direction[0]=false; this.direction[1]=false; this.direction[2]=false; this.direction[3]=true;
+                this.angle=180;
+                this.animation.play("walk");  
+                this.velocity.x = -this.maxVelocity.x;
+                this.velocity.y = 0;
+            }
+
+            else if(this.control[0] && this.control[1] && !this.control[2] && !this.control[3] &&  !this.duringDigging){            // aller en haut a droite
+                this.direction[0]=true; this.direction[1]=true; this.direction[2]=false; this.direction[3]=false;
+                this.angle=-45;
+                this.animation.play("walk");  
+                this.velocity.x =  this.maxVelocity.x;
+                this.velocity.y = -this.maxVelocity.y;
+            }
+
+            else if(this.control[0] && !this.control[1] && !this.control[2] && this.control[3] &&  !this.duringDigging){             // aller en haut a gauche
+                this.direction[0]=true; this.direction[1]=false; this.direction[2]=false; this.direction[3]=true;
+                this.angle=-125;
+                this.animation.play("walk");  
+                this.velocity.x = -this.maxVelocity.x;
+                this.velocity.y = -this.maxVelocity.y; 
+            }
+
+            else if(!this.control[0] && this.control[1] && this.control[2] && !this.control[3] &&  !this.duringDigging){             // aller en bas a droite
+                this.direction[0]=false; this.direction[1]=true; this.direction[2]=true; this.direction[3]=false;
+                this.angle=45;
+                this.animation.play("walk");  
+                this.velocity.x = this.maxVelocity.x;
+                this.velocity.y = this.maxVelocity.y;
+            }
+
+            else if(!this.control[0] && !this.control[1] && this.control[2] && this.control[3] &&  !this.duringDigging)             // aller en bas a gauche
+            {
+                this.direction[0]=false; this.direction[1]=false; this.direction[2]=true; this.direction[3]=true;
+                this.angle=125;
+                this.animation.play("walk");  
+                this.velocity.x = -this.maxVelocity.x;
+                this.velocity.y =  this.maxVelocity.y;
+            }
+            else
+            {
+                this.velocity.x=0;
+                this.velocity.y=0;
+                //this.animation.frameIndex=0;
+                this.animation.pause();
+            }
+
+            if(this.animation.frameIndex!=0){
+                this.scene.connexion.sPos(x,y);
+            }            
+            this.z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
         }
     }
 
-
+/*
 
     public function checkPos():Void{
         if(Std.int(x)!=this.prevX || Std.int(y)!=this.prevY)
@@ -274,50 +278,52 @@ class Character extends FlxSprite{
 
         }
     }
-
+*/
     public function loadCirclePositionning():Void{
-        if(this.direction[0] && !this.direction[1] && !this.direction[2] && !this.direction[3])     // vers le haut
+        if(this.mainChar==true)
         {
-            this.loadCircle.x=this.x+this.width/2;
-            this.loadCircle.y=this.y+this.height*2/3;
-        }
-        else if(!this.direction[0] && this.direction[1] && !this.direction[2] && !this.direction[3])   // vers la droite
-        {
-            this.loadCircle.x=this.x;
-            this.loadCircle.y=this.y+this.height/2;
+            if(this.direction[0] && !this.direction[1] && !this.direction[2] && !this.direction[3])     // vers le haut
+            {
+                this.loadCircle.x=this.x+this.width/2;
+                this.loadCircle.y=this.y+this.height*2/3;
+            }
+            else if(!this.direction[0] && this.direction[1] && !this.direction[2] && !this.direction[3])   // vers la droite
+            {
+                this.loadCircle.x=this.x;
+                this.loadCircle.y=this.y+this.height/2;
 
+            }
+            else if(!this.direction[0] && !this.direction[1] && this.direction[2] && !this.direction[3])    // vers le bas
+            {
+                this.loadCircle.x = this.x+width/2;
+                this.loadCircle.y = this.y;
+            }
+            else if(!this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3])       // vers la gauche
+            {
+                this.loadCircle.x = this.x+this.width-10;
+                this.loadCircle.y = this.y+this.height/2;
+            }
+            else if(this.direction[0] && this.direction[1] && !this.direction[2] && !this.direction[3])       // haut droit
+            {
+                this.loadCircle.x=this.x+this.width/3;
+                this.loadCircle.y=this.y+this.height/1.3;
+            }
+            else if(this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3])   // haut gauche
+            {
+                this.loadCircle.x=this.x+2*this.width/3;
+                this.loadCircle.y=this.y+this.height/1.3;
+            }
+            else if(!this.direction[0] && this.direction[1] && this.direction[2] && !this.direction[3])   // bas droit
+            {
+                this.loadCircle.x=this.x+this.width/5;
+                this.loadCircle.y=this.y+this.height/5;
+            }
+            else if(!this.direction[0] && !this.direction[1] && this.direction[2] && this.direction[3])   // bas gauche
+            {
+                this.loadCircle.x=this.x+2*this.width/3;
+                this.loadCircle.y=this.y+this.height/5;
+            }
         }
-        else if(!this.direction[0] && !this.direction[1] && this.direction[2] && !this.direction[3])    // vers le bas
-        {
-            this.loadCircle.x = this.x+width/2;
-            this.loadCircle.y = this.y;
-        }
-        else if(!this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3])       // vers la gauche
-        {
-            this.loadCircle.x = this.x+this.width-10;
-            this.loadCircle.y = this.y+this.height/2;
-        }
-        else if(this.direction[0] && this.direction[1] && !this.direction[2] && !this.direction[3])       // haut droit
-        {
-            this.loadCircle.x=this.x+this.width/3;
-            this.loadCircle.y=this.y+this.height/1.3;
-        }
-        else if(this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3])   // haut gauche
-        {
-            this.loadCircle.x=this.x+2*this.width/3;
-            this.loadCircle.y=this.y+this.height/1.3;
-        }
-        else if(!this.direction[0] && this.direction[1] && this.direction[2] && !this.direction[3])   // bas droit
-        {
-            this.loadCircle.x=this.x+this.width/5;
-            this.loadCircle.y=this.y+this.height/5;
-        }
-        else if(!this.direction[0] && !this.direction[1] && this.direction[2] && this.direction[3])   // bas gauche
-        {
-            this.loadCircle.x=this.x+2*this.width/3;
-            this.loadCircle.y=this.y+this.height/5;
-        }
-
     }
     public function setTheBasicCharPropriety():Void{
         this.zone = [0,0];
@@ -331,10 +337,11 @@ class Character extends FlxSprite{
         this.angle=90;
         this.maxVelocity.x=100;
         this.maxVelocity.y=100;
-        
+
+        if(this.mainChar==true) this.centerOffsets;
         this.loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
-        this.centerOffsets;
         this.scene.add(this);
+
         /*loadcircle */
         this.loadCircle=new FlxSprite();
         this.loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
@@ -401,7 +408,7 @@ class Character extends FlxSprite{
     override public function update():Void{
         this.move();
         this.digging();
-        this.checkPos();
+      //  this.checkPos();
         super.update();
     }
 
