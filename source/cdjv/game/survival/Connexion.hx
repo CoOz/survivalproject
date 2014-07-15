@@ -74,6 +74,4 @@ class Connexion{
         charMan = new CharManager(scene);
     }
 
-
-
 }

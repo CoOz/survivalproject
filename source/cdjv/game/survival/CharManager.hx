@@ -62,7 +62,7 @@ class CharManager{
                         }
                     }
                     tabJoueur.insert(flag, tabpaquet);
-                }
+                }   
             }
             trace("Tableau de joueurs: "+ tabJoueur);
             for (i in 0...(tabJoueur.length-1)) 
@@ -70,9 +70,10 @@ class CharManager{
     }
 
     public function creeJoueur(id:Int,pseudo:String,x:Float,y:Float){ 
-        var perso:Character;
-        perso = new Character(state, pseudo, x, y);
-        state.add(perso);
+       /* var perso:Character;
+        perso = new Character(state, pseudo, x, y, false);
+        state.add(perso);*/
+        this.state.add(new Character(state, pseudo, x, y, false));
     }
 
     public function delJoueur(id:Int){

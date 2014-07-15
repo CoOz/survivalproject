@@ -50,7 +50,7 @@ override public function create():Void
         //digm = new DigMap(this);
 
         //on crée un perso
-        perso = new Character(this,pseudo,10, 10);
+        perso = new Character(this,pseudo,10, 10, true);
         //perso.setPosition(50,50);
         this.add(perso);
 
