@@ -14,7 +14,7 @@ class DigMapManager{
 
     public function loadMap(zoneX:Int,zoneY:Int){
         var cle=zoneX+','+zoneY;
-        //digMaps.set(cle,new DigMap(this.scene,zoneX,zoneY));
+        digMaps.set(cle,new DigMap(this.scene,zoneX,zoneY));
         if(!digMaps.exists(cle)){
             trace("loadMap",zoneX,zoneY);
             //on va la chercher sur la bdd

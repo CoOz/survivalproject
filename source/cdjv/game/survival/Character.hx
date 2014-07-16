@@ -60,7 +60,7 @@ class Character extends FlxSprite{
     public var inventaire:Inventory;
 
     public function new(scene:PlayState, pseudo:String, posx:Float, posy:Float, mchar:Bool){
-        trace("creation d'un personnage :"+pseudo +" en ["+posx +", "+ posy+"]");
+        trace("creation d'un personnage : "+pseudo +" en ["+posx +", "+ posy+"]\n");
         super();
         this.pseudo=pseudo;
         this.mainChar=mchar;
@@ -76,17 +76,16 @@ class Character extends FlxSprite{
         this.setTheBasicCharPropriety();
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
-        this.registerEvents();
+        if(this.mainChar==true)                     this.registerEvents();
+        trace(this+", scene:"+this.scene);
     }
 
     public function registerEvents():Void{
-        if(this.mainChar==true)
-        {
+
             FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
             FlxG.game.stage.addEventListener(KeyboardEvent.KEY_UP,onKeyUp);
             FlxG.game.stage.addEventListener(flash.events.MouseEvent.MOUSE_DOWN,onMousseDown);
             FlxG.game.stage.addEventListener(flash.events.MouseEvent.MOUSE_UP,onMousseUP);
-        }
     }
 
     public function onKeyDown(evt:KeyboardEvent):Void{
@@ -145,30 +144,33 @@ class Character extends FlxSprite{
 
     public function digging():Void
     {
-        if(this.duringDigging && this.alive)
+        if(this.mainChar==true)
         {
-           if(this.digTime.finished)
+            if(this.duringDigging && this.alive)
             {
-                this.digTime.abort();
-                this.digTime.finished=false;
-                this.duringDigging=false;
-                this.scene.surface.digMan.creuse(this);
-                this.loadCircle.animation.destroyAnimations();
-                this.loadCircle.animation.add("clignote",[6,0],20,true);
-                this.loadCircle.animation.play("clignote");
-                this.diggingFinish=true;
-                this.digFinishTime=FlxTimer.start(dig_finish_time);
+               if(this.digTime.finished)
+                {
+                    this.digTime.abort();
+                    this.digTime.finished=false;
+                    this.duringDigging=false;
+                    this.scene.surface.digMan.creuse(this);
+                    this.loadCircle.animation.destroyAnimations();
+                    this.loadCircle.animation.add("clignote",[6,0],20,true);
+                    this.loadCircle.animation.play("clignote");
+                    this.diggingFinish=true;
+                    this.digFinishTime=FlxTimer.start(dig_finish_time);
+                }
             }
-        }
-        if(this.diggingFinish)
-        {
-            if(this.digFinishTime.finished)
+            if(this.diggingFinish)
             {
-                this.digFinishTime.abort();
-                this.digFinishTime.finished=false;
-                this.diggingFinish=false;
-                this.loadCircle.animation.destroyAnimations();
-                this.loadCircle.alpha=0;
+                if(this.digFinishTime.finished)
+                {
+                    this.digFinishTime.abort();
+                    this.digFinishTime.finished=false;
+                    this.diggingFinish=false;
+                    this.loadCircle.animation.destroyAnimations();
+                    this.loadCircle.alpha=0;
+                }
             }
         }
     }
@@ -263,22 +265,24 @@ class Character extends FlxSprite{
         }
     }
 
-/*
 
     public function checkPos():Void{
-        if(Std.int(x)!=this.prevX || Std.int(y)!=this.prevY)
+        if(this.mainChar==true)
         {
-            this.prevX=Std.int(this.x);
-            this.prevY=Std.int(this.y);
-            this.displayCoord.text="x:"+this.prevX+"\n";
-            this.displayCoord.text+="y:"+this.prevY+"\n";
-            this.displayCoord.text+="z:"+Std.int(this.z)+"\n";
-            this.displayCoord.text+=this.pseudo+" ";
-            this.displayCoord.setPosition(this.x+this.width, this.y);
+            if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
+            {
+                this.prevX=Std.int(this.x);
+                this.prevY=Std.int(this.y);
+                this.displayCoord.text="x:"+this.prevX+"\n";
+                this.displayCoord.text+="y:"+this.prevY+"\n";
+                this.displayCoord.text+="z:"+Std.int(this.z)+"\n";
+                this.displayCoord.text+=this.pseudo+" ";
+                this.displayCoord.setPosition(this.x+this.width, this.y);
 
+            }
         }
     }
-*/
+
     public function loadCirclePositionning():Void{
         if(this.mainChar==true)
         {
@@ -339,7 +343,8 @@ class Character extends FlxSprite{
         this.maxVelocity.y=100;
 
         if(this.mainChar==true) this.centerOffsets;
-        this.loadGraphic("assets/images/char2.png",true,false,63,64,true,null);
+        this.loadGraphic("assets/images/char2.png",true,false,63,64,true,null);        
+        this.animation.add("walk",[0,1,2,3,4,5,6],12,true);
         this.scene.add(this);
 
         /*loadcircle */
@@ -350,7 +355,6 @@ class Character extends FlxSprite{
         this.loadCircle.x=this.x+this.width/2;
         this.loadCircle.y=this.y+3;
 
-        this.animation.add("walk",[0,1,2,3,4,5,6],12,true);
 
         /* VIE ET BARRE DE VIE */ 
 /*
@@ -369,25 +373,32 @@ class Character extends FlxSprite{
     /* look for position of hero in the map. THIS FUNCTION IS CANCER*/
     public function checkZone():Array<Int>
     {
-        if(this.x < 0 && this.y < 0)
-            return([Std.int((this.x-800)/800), Std.int((this.y-600)/600)]);
-        if(this.x < 0  )
-            return([Std.int((this.x-800)/800), Std.int(this.y/600)]);
-        if(this.y < 0)
-            return([Std.int(this.x/800),Std.int((this.y-600)/600)]);
-        return([Std.int(this.x/800),Std.int(this.y/600)]); 
+        if(this.mainChar==true)
+        {
+            if(this.x < 0 && this.y < 0)
+                return([Std.int((this.x-800)/800), Std.int((this.y-600)/600)]);
+            if(this.x < 0  )
+                return([Std.int((this.x-800)/800), Std.int(this.y/600)]);
+            if(this.y < 0)
+                return([Std.int(this.x/800),Std.int((this.y-600)/600)]);
+            return([Std.int(this.x/800),Std.int(this.y/600)]); 
+        }
+        else return ([0]);
     }
 
     public function diggingAnimation():Void{
-        if(this.direction[0] && !this.direction[1] && !this.direction[2] && !this.direction[3] && this.duringDigging)
-            {this.animation.play("dig_Back");this.endActionFrame=0;}
-        else if(!direction[0] && direction[1] && !direction[2] && !direction[3] && this.duringDigging)
-            {this.animation.play("dig_Right");this.endActionFrame=0;}
-        else if(!this.direction[0] && !this.direction[1] && this.direction[2] && !this.direction[3] && this.duringDigging)
-            {this.animation.play("dig_Front");this.endActionFrame=0;}
-        else if(!this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3] && this.duringDigging)
-            {this.animation.play("dig_Left");this.endActionFrame=0 ;}
-       // else trace("error");
+        if(this.mainChar==true)
+        {
+            if(this.direction[0] && !this.direction[1] && !this.direction[2] && !this.direction[3] && this.duringDigging)
+                {this.animation.play("dig_Back");this.endActionFrame=0;}
+            else if(!direction[0] && direction[1] && !direction[2] && !direction[3] && this.duringDigging)
+                {this.animation.play("dig_Right");this.endActionFrame=0;}
+            else if(!this.direction[0] && !this.direction[1] && this.direction[2] && !this.direction[3] && this.duringDigging)
+                {this.animation.play("dig_Front");this.endActionFrame=0;}
+            else if(!this.direction[0] && !this.direction[1] && !this.direction[2] && this.direction[3] && this.duringDigging)
+                {this.animation.play("dig_Left");this.endActionFrame=0 ;}
+           // else trace("error");
+        }
     }  
 
     
@@ -412,10 +423,11 @@ class Character extends FlxSprite{
         super.update();
     }
 
-    public function getXCenter():Float{
+    public function getXCenter():Float{ 
         return this.x+this.width/2-4;
     }
     public function getYCenter():Float{
         return this.y+this.height/2-4;
     }
 }
+

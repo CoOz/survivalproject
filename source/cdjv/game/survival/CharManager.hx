@@ -65,8 +65,11 @@ class CharManager{
                 }   
             }
             trace("Tableau de joueurs: "+ tabJoueur);
-            for (i in 0...(tabJoueur.length-1)) 
+            for (i in 0...(tabJoueur.length-1))
+            {
+                trace("joueurs numéro " +i+ " en création");
                 creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
+            } 
     }
 
     public function creeJoueur(id:Int,pseudo:String,x:Float,y:Float){ 

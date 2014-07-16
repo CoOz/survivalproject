@@ -47,17 +47,17 @@ override public function create():Void
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
-        //digm = new DigMap(this);
+        // digm = new DigMap(this);
 
         //on crée un perso
-        perso = new Character(this,pseudo,10, 10, true);
+        perso = new Character(this,pseudo,0, 0, true);
         //perso.setPosition(50,50);
-        this.add(perso);
+         this.add(perso);
 
         zoneP = perso.checkZone().toString();
         trace(zoneP);
 
-        surface.loadForCoords(perso.x,perso.y);
+      //  surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
 
@@ -93,9 +93,9 @@ override public function destroy():Void
 */
 override public function update():Void
 {
-        zoneN = perso.zone;
-        if((zoneN.toString()) != zoneP){
-                //appele generateMap avec zoneN
+    zoneN = perso.zone;
+     if((zoneN.toString()) != zoneP){
+               //appele generateMap avec zoneN
                 surface.generateMap(zoneN);
                 zoneP = zoneN.toString();
         }
