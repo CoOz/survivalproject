@@ -45,7 +45,7 @@ class CharManager{
             while(paquet.charAt(j)=='[')
             {
                 tabpaquet = new Array<String>();
-                while(paquet.charAt(j)!=']' && j<49)
+                while(paquet.charAt(j)!=']')
                 {
                     for(i in 0...4)
                     {
@@ -66,12 +66,12 @@ class CharManager{
                     flag++;
                 }
                 j++;
-                trace("\n"+paquet.charAt(j));
+                trace("\n\n"+paquet.charAt(j)+"\n");
             }
             trace("Tableau de joueurs: "+ tabJoueur);
-            for (i in 0...(tabJoueur.length-1))
+            for (i in 1...(tabJoueur.length))
             {
-                trace("joueurs numero " +i+ " en creation");
+                trace("\nJoueurs numero " +i+ " en creation");
                 creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
             } 
     }

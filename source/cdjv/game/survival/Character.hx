@@ -60,7 +60,7 @@ class Character extends FlxSprite{
     public var inventaire:Inventory;
 
     public function new(scene:PlayState, pseudo:String, posx:Float, posy:Float, mchar:Bool){
-        trace("creation d'un personnage : "+pseudo +" en ["+posx +", "+ posy+"]\n");
+        trace("creation d'un personnage : "+pseudo +" en ["+posx +", "+ posy+"]");
         super();
         this.pseudo=pseudo;
         this.mainChar=mchar;
@@ -77,7 +77,7 @@ class Character extends FlxSprite{
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
         if(this.mainChar==true)                     this.registerEvents();
-        trace(this+", scene:"+this.scene);
+        trace(this+", scene:"+this.scene+"\n");
     }
 
     public function registerEvents():Void{
