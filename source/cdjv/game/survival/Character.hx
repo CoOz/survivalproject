@@ -77,7 +77,7 @@ class Character extends FlxSprite{
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
         if(this.mainChar==true)                     this.registerEvents();
-        trace(this+", scene:"+this.scene+"\n");
+        trace("personnage: "+pseudo+this+"\nscene:"+this.scene+"\n");
     }
 
     public function registerEvents():Void{
