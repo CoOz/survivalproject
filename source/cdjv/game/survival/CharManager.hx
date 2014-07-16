@@ -61,13 +61,17 @@ class CharManager{
                             j++;
                         }
                     }
+                    trace("LA VALEUR DU FLAG EST :" + flag);
                     tabJoueur.insert(flag, tabpaquet);
-                }   
+                    flag++;
+                }
+                j++;
+                trace("\n"+paquet.charAt(j));
             }
             trace("Tableau de joueurs: "+ tabJoueur);
             for (i in 0...(tabJoueur.length-1))
             {
-                trace("joueurs numéro " +i+ " en création");
+                trace("joueurs numero " +i+ " en creation");
                 creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
             } 
     }
