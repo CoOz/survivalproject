@@ -78,7 +78,11 @@ class Character extends FlxSprite{
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
         if(this.mainChar==true)                     this.registerEvents();    
-        if(this.mainChar==true)                     connexion.charMan.creeJoueur();
+        if(this.mainChar==true)                     
+            {
+                connexion.charMan.persoPgenere=true;
+                connexion.charMan.creeJoueur();
+            }
     }
 
     public function registerEvents():Void{

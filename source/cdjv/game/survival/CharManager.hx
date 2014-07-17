@@ -72,6 +72,8 @@ class CharManager{
                 }
                 j++;
             }
+            if(persoPgenere)
+                creeJoueur();
             trace("Tableau de joueurs: "+ tabJoueur);
             /*for(i in 1...j)
                 trace("LISTE DES PERSONNAGES AJOUTER: " + tabChar[j].pseudo);*/
@@ -116,8 +118,5 @@ class CharManager{
         if(joueurs.exists(id))
             joueurs.get(id).setPosition(x, y);
     }
-       public function setpersoP(val:Bool){
-            this.persoPgenere=val;
-    }     
 
 }
