@@ -71,7 +71,7 @@ class Connexion{
     }
     public function setPlayState(scene:PlayState){
         this.scene = scene;
-        charMan = new CharManager(scene);
+        charMan = new CharManager(scene, this);
     }
 
 }

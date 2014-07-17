@@ -22,19 +22,21 @@ public var connexion:Connexion;
 public var pseudo:String;
 public var charMan:CharManager;
 public var test:Int;
+public var id:String;
 
  function new(login: String, connex: Connexion)
  {
         pseudo=login;   
         connexion=connex;
+        id="Scene principal";
         test=12;
         connex.setPlayState(this);
-        trace("playstate");
         super();        
 }
 
 override public function create():Void
 {
+ 
         // Set a background color
         FlxG.cameras.bgColor = 0xff000000;
         // Show the mouse (in case it hasn't been disabled)
@@ -44,18 +46,20 @@ override public function create():Void
 
         //on crée un monde
         surface = new MapWorld(this);
+
+        perso = new Character(this,connexion,pseudo,0,0,true);
+        this.add(perso);
+        trace(perso.pseudo+perso+"\n"+perso.scene.id);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
         // digm = new DigMap(this);
 
         //on crée un perso
-        perso = new Character(this,pseudo,0, 0, true);
         //perso.setPosition(50,50);
-         this.add(perso);
 
         zoneP = perso.checkZone().toString();
-        trace(zoneP);
+        //trace(zoneP);
 
       //  surface.loadForCoords(perso.x,perso.y);
 
@@ -93,7 +97,7 @@ override public function destroy():Void
 */
 override public function update():Void
 {
-    zoneN = perso.zone;
+     zoneN = perso.zone;
      if((zoneN.toString()) != zoneP){
                //appele generateMap avec zoneN
                 surface.generateMap(zoneN);

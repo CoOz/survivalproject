@@ -59,29 +59,29 @@ class Character extends FlxSprite{
 
     public var inventaire:Inventory;
 
-    public function new(scene:PlayState, pseudo:String, posx:Float, posy:Float, mchar:Bool){
-        trace("creation d'un personnage : "+pseudo +" en ["+posx +", "+ posy+"]");
-        super();
+    public function new(scene:PlayState, connexion: Connexion, pseudo:String, posx:Float, posy:Float, mchar:Bool){  
+        super();      
         this.pseudo=pseudo;
         this.mainChar=mchar;
         this.x=posx;
         this.y=posy;
         this.scene=scene;
+        trace(this.scene.id);
         this.zone = [0,0];
         this.diggingFinish=false;
         this.displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
+        //this.displayCoord = new FlxText(800/4,20,80);
         this.displayCoord.alignment="left";
         this.displayCoord.color=0x00000000;
         this.scene.add(displayCoord);
         this.setTheBasicCharPropriety();
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
-        if(this.mainChar==true)                     this.registerEvents();
-        trace("personnage: "+pseudo+this+"\nscene:"+this.scene+"\n");
+        if(this.mainChar==true)                     this.registerEvents();    
+        if(this.mainChar==true)                     connexion.charMan.creeJoueur();
     }
 
     public function registerEvents():Void{
-
             FlxG.game.stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyDown);
             FlxG.game.stage.addEventListener(KeyboardEvent.KEY_UP,onKeyUp);
             FlxG.game.stage.addEventListener(flash.events.MouseEvent.MOUSE_DOWN,onMousseDown);
@@ -153,7 +153,7 @@ class Character extends FlxSprite{
                     this.digTime.abort();
                     this.digTime.finished=false;
                     this.duringDigging=false;
-                    this.scene.surface.digMan.creuse(this);
+                   // this.scene.surface.digMan.creuse(this);
                     this.loadCircle.animation.destroyAnimations();
                     this.loadCircle.animation.add("clignote",[6,0],20,true);
                     this.loadCircle.animation.play("clignote");
@@ -269,8 +269,9 @@ class Character extends FlxSprite{
     public function checkPos():Void{
         if(this.mainChar==true)
         {
-            if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
+            /*if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
             {
+                trace("dkdkdkk");
                 this.prevX=Std.int(this.x);
                 this.prevY=Std.int(this.y);
                 this.displayCoord.text="x:"+this.prevX+"\n";
@@ -278,8 +279,8 @@ class Character extends FlxSprite{
                 this.displayCoord.text+="z:"+Std.int(this.z)+"\n";
                 this.displayCoord.text+=this.pseudo+" ";
                 this.displayCoord.setPosition(this.x+this.width, this.y);
-
-            }
+               // this.displayCoord.setPosition(this.x+800, this.y);
+            }*/
         }
     }
 
@@ -352,7 +353,7 @@ class Character extends FlxSprite{
         this.loadCircle.loadGraphic("assets/images/loadcircle.png",true,false,12,12,false,null);
         this.scene.add(loadCircle);
         this.loadCircle.alpha=0;
-        this.loadCircle.x=this.x+this.width/2;
+        this.loadCircle.x=this.x+400;
         this.loadCircle.y=this.y+3;
 
 
@@ -417,17 +418,19 @@ class Character extends FlxSprite{
 
 
     override public function update():Void{
+        super.update();
         this.move();
         this.digging();
-      //  this.checkPos();
-        super.update();
+        this.checkPos();
     }
 
     public function getXCenter():Float{ 
         return this.x+this.width/2-4;
+        //return this.x+800/2-4;
     }
     public function getYCenter():Float{
         return this.y+this.height/2-4;
+        //return this.y+600/2-4;
     }
 }
 

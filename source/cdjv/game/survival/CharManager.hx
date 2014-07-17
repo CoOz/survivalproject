@@ -11,11 +11,17 @@ class CharManager{
     public var nbpass: Int;
     public var tabpaquet:Array<String>; 
     public var tabJoueur:Array<Array<String>>;
-    
-    public function new(scene:PlayState){
+    public var tabChar:Array<Character>;
+    public var connexion:Connexion;
+    public var persoPgenere:Bool;
+
+    public function new(scene:PlayState, connexion:Connexion){
         joueurs = new Map<Int,Character>();
+        persoPgenere=false;
+        this.connexion=connexion;
         tabJoueur = new Array<Array<String>>();
-        state = scene;
+        tabChar = new Array<Character>();
+        this.state = scene;
         nbpass=1;
         flag = 0;
     }
@@ -61,26 +67,28 @@ class CharManager{
                             j++;
                         }
                     }
-                    trace("LA VALEUR DU FLAG EST :" + flag);
                     tabJoueur.insert(flag, tabpaquet);
                     flag++;
                 }
                 j++;
-                trace("\n\n"+paquet.charAt(j)+"\n");
             }
             trace("Tableau de joueurs: "+ tabJoueur);
-            for (i in 1...(tabJoueur.length))
-            {
-                trace("\nJoueurs numero " +i+ " en creation");
-                creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
-            } 
+            /*for(i in 1...j)
+                trace("LISTE DES PERSONNAGES AJOUTER: " + tabChar[j].pseudo);*/
+
+
     }
 
-    public function creeJoueur(id:Int,pseudo:String,x:Float,y:Float){ 
-       /* var perso:Character;
-        perso = new Character(state, pseudo, x, y, false);
-        state.add(perso);*/
-        this.state.add(new Character(state, pseudo, x, y, false));
+    public function creeJoueur(){ 
+        j=0;
+        for (i in 1...(tabJoueur.length))
+        {
+            trace("\nJoueurs numero " +i+ " en creation");
+            tabChar[j]= new Character(this.state,this.connexion, tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]), false);
+            // creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
+            this.state.add(tabChar[j]);
+            j++;
+        }
     }
 
     public function delJoueur(id:Int){
@@ -107,8 +115,9 @@ class CharManager{
     public function setPosition(id:Int,x:Int,y:Int){
         if(joueurs.exists(id))
             joueurs.get(id).setPosition(x, y);
-
-        
-
     }
+       public function setpersoP(val:Bool){
+            this.persoPgenere=val;
+    }     
+
 }
