@@ -19,7 +19,7 @@ exports.sendToNearCoord=function(x,y,message){
 
 }
 exports.sendToNearVelocity=function(conn){
-	exports.sendToNearConn(conn,'v['+conn['user'].velox+';'+conn['user'].veloy+']');
+	exports.sendToNearConn(conn,'v['+conn['user'].id+";"+conn['user'].velox+';'+conn['user'].veloy+']');
 	exports.sendNearPlayers(conn);
 }
 exports.sendToZone=function(cle,message){
