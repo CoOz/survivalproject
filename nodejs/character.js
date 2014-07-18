@@ -23,6 +23,12 @@ character.prototype.setPos = function(x,y) {
 	this.x=x;this.y=y;
 };
 
+character.prototype.setVelocity = function(velx,vely) {
+	console.log("[char]velocity"+velx+" "+vely);
+	this.velox=velx;
+	this.veloy=vely;
+}
+
 character.prototype.getJString = function(){
 	return this.id+';'+this.pseudo+';'+this.x+';'+this.y;
 }

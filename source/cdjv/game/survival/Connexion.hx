@@ -57,6 +57,9 @@ class Connexion{
     public function sPos(x:Float,y:Float){
         send("p"+x+";"+y);
     }
+    public function sVelocity(velx:Float,vely:Float){
+        send("v"+velx+";"+vely);
+    }
     /** Reçoit les paquets depuis le serveur et les route vers les bonnes méthodes */
     public function dispatch(message:String){
         switch(message.charAt(0)){

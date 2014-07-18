@@ -8,9 +8,9 @@ var joueurs={};
 var echo = sockjs.createServer();
 echo.on('connection', function(conn) {
     console.log("+connexion");
+            console.log(conn);
     conn.on('data', function(message) {
         switch(message.charAt(0)){
-            //console.log("SURVIVAL.JS\n");
         	case 'l':
         		var login=message.substring(1);
         		if(joueurs[login]===undefined)
@@ -26,9 +26,18 @@ echo.on('connection', function(conn) {
                 if(conn['user']!==undefined){
                     conn['user'].setPos(message.substring(1).split(';')[0],message.substring(1).split(';')[1]);
                 }else{
-                    //TODO:gérer
+                    // TODO
                 }
                 break;
+            case 'v':
+                if(conn['user']!==undefined){
+                    conn['user'].setVelocity(message.substring(1).split(';')[0],message.substring(1).split(';')[1]);
+                    connManager.sendToNearVelocity(conn);
+                }
+                else{
+                    // TODO
+            }
+            break;
         	default:
         		console.log('paquet inconnu '+message);
         		break;

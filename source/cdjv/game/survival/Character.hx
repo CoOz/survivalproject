@@ -19,62 +19,66 @@ import flixel.ui.FlxBar;
 
 class Character extends FlxSprite{
 
+
+    /* TIMER */
+    static var dig_time=2;                      // TEMPS POUR CREUSER
+    static var dig_finish_time=0.5;             // TEMPS DE CLIGNOTEMENT
+
     public var pseudo:String;
+    public var id:String;
+
     public var mainChar:Bool;
     public var duringDigging:Bool;
     public var diggingFinish:Bool;
-
     public var action:Bool;
     public var run:Bool;
 
     public var prevX:Int;
     public var prevY:Int;
     public var poids:Int;
-
     public var z:Int;
-
-    /* TIMER */
-    static var dig_time=2;                      // TEMPS POUR CREUSER
-    static var dig_finish_time=0.5;             // TEMPS DE CLIGNOTEMENT
-
-
     public var endActionFrame:Int;
 
-    public var zone:Array<Int>;
+    public var prevVeloX:Float;
+    public var prevVeloY:Float;
+
     public var control:Array<Bool>;
     public var direction:Array<Bool>;
 
+    public var zone:Array<Int>;
+
     public var stuff:Array<String>;
     public var inHand:Array<String>;    // 0: left hand, 1: right hand
+
+    public var connexion:Connexion;
 
     public var loadCircle:FlxSprite;
     public var displayCoord:FlxText;
     public var digTime:FlxTimer;
     public var scene:PlayState;
     public var digFinishTime:FlxTimer;
-
     public var barre:FlxBar;
     public var life:FlxText;
     public var maxlife:FlxText;
 
-    public var inventaire:Inventory;
-
-    public function new(scene:PlayState, connexion: Connexion, pseudo:String, posx:Float, posy:Float, mchar:Bool){  
+    public function new(scene:PlayState,connexion: Connexion, pseudo:String, posx:Float, posy:Float, mchar:Bool){  
         super();      
         this.pseudo=pseudo;
         this.mainChar=mchar;
+        this.connexion=connexion;
         this.x=posx;
         this.y=posy;
         this.scene=scene;
-        trace(this.scene.id);
         this.zone = [0,0];
         this.diggingFinish=false;
         this.displayCoord=new FlxText(Std.int(FlxG.width/4),20,80);
-        //this.displayCoord = new FlxText(800/4,20,80);
         this.displayCoord.alignment="left";
         this.displayCoord.color=0x00000000;
         this.scene.add(displayCoord);
         this.setTheBasicCharPropriety();
+
+        this.prevVeloX=0;
+        this.prevVeloY=0;
         this.prevX=Std.int(this.x);
         this.prevY=Std.int(this.y);
         if(this.mainChar==true)                     this.registerEvents();    
@@ -82,6 +86,7 @@ class Character extends FlxSprite{
             {
                 connexion.charMan.persoPgenere=true;
                 connexion.charMan.creeJoueur();
+                connexion.charMan.recherchejoueur(this.id);
             }
     }
 
@@ -259,23 +264,23 @@ class Character extends FlxSprite{
                 this.velocity.x=0;
                 this.velocity.y=0;
                 //this.animation.frameIndex=0;
+                if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
+                {
+                    this.connexion.sPos(this.x,this.y);
+                }
                 this.animation.pause();
             }
-
-            if(this.animation.frameIndex!=0){
-                this.scene.connexion.sPos(x,y);
-            }            
+            if(this.prevVeloX!=this.velocity.x || this.prevVeloY!=this.velocity.y)
+                this.connexion.sVelocity(this.velocity.x,this.velocity.y);
+            this.prevVeloX=this.velocity.x;
+            this.prevVeloY=this.velocity.y;
             this.z=0;    //sceneJeu.surface.digMan.getProfondeur(this);
         }
     }
 
-
     public function checkPos():Void{
-        if(this.mainChar==true)
-        {
-            /*if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
+            if(Std.int(this.x)!=this.prevX || Std.int(this.y)!=this.prevY)
             {
-                trace("dkdkdkk");
                 this.prevX=Std.int(this.x);
                 this.prevY=Std.int(this.y);
                 this.displayCoord.text="x:"+this.prevX+"\n";
@@ -284,8 +289,7 @@ class Character extends FlxSprite{
                 this.displayCoord.text+=this.pseudo+" ";
                 this.displayCoord.setPosition(this.x+this.width, this.y);
                // this.displayCoord.setPosition(this.x+800, this.y);
-            }*/
-        }
+            }
     }
 
     public function loadCirclePositionning():Void{
@@ -435,6 +439,10 @@ class Character extends FlxSprite{
     public function getYCenter():Float{
         return this.y+this.height/2-4;
         //return this.y+600/2-4;
+    }
+
+    public function setId(id:String):Void{
+        this.id=id;
     }
 }
 

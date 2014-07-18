@@ -49,7 +49,6 @@ override public function create():Void
 
         perso = new Character(this,connexion,pseudo,0,0,true);
         this.add(perso);
-        trace(perso.pseudo+perso+"\n"+perso.scene.id);
         //modifier le param suivant la dernière position du personnage
         surface.generateMap([0,0]);
         //surface.setPosition(0,0);
@@ -64,7 +63,6 @@ override public function create():Void
       //  surface.loadForCoords(perso.x,perso.y);
 
         FlxG.camera.target = perso;
-
 
         //ajoutbot(5, 10, 10);
         super.create();

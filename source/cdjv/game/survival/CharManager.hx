@@ -75,6 +75,7 @@ class CharManager{
             if(persoPgenere)
                 creeJoueur();
             trace("Tableau de joueurs: "+ tabJoueur);
+            trace(tabJoueur);
             /*for(i in 1...j)
                 trace("LISTE DES PERSONNAGES AJOUTER: " + tabChar[j].pseudo);*/
 
@@ -87,15 +88,36 @@ class CharManager{
         {
             trace("\nJoueurs numero " +i+ " en creation");
             tabChar[j]= new Character(this.state,this.connexion, tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]), false);
-            // creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3]));
+            tabChar[j].setId(tabJoueur[i][0]);
+            // creeJoueur(Std.parseInt(tabJoueur[i][0]), tabJoueur[i][1], Std.parseFloat(tabJoueur[i][2]), Std.parseFloat(tabJoueur[i][3])); 
+            trace(tabChar[j].pseudo +" : "+ tabChar[j].id);
             this.state.add(tabChar[j]);
             j++;
         }
     }
 
-    public function delJoueur(id:Int){
-        if(joueurs.exists(id))
-            joueurs.remove(id);
+    public function tri_tabjoueur()
+    {
+
+    }
+
+    public function recherchejoueur(id:String):Int
+    {
+        for(i in 0...tabChar.length)
+        {
+            if(tabChar[i].id==id)
+            {
+                trace(i);
+                return i;
+            }
+        }
+        return 0;
+    }
+
+
+    public function setVelocity(index:Int, xvelocity:Float, yvelocity:Float)
+    {
+     //   tabJoueur[i].
     }
 
     public function traiteSetPos(paquet:String){

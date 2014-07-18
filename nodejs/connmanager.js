@@ -18,6 +18,10 @@ exports.sendToNearConn=function(conn,message){
 exports.sendToNearCoord=function(x,y,message){
 
 }
+exports.sendToNearVelocity=function(conn){
+	exports.sendToNearConn(conn,'v['+conn['user'].velox+';'+conn['user'].veloy+']');
+	exports.sendNearPlayers(conn);
+}
 exports.sendToZone=function(cle,message){
 	for(address in exports.rooms[cle]){
 		console.log(exports.rooms[cle][address]);
